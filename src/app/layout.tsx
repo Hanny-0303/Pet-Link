@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import { AppStoreProvider } from "@/components/store";
 import TabBar from "@/components/tab-bar";
+import Toaster from "@/components/toaster";
 
 export const metadata: Metadata = {
   title: "遛遛 · 同城遛狗局",
@@ -28,6 +29,7 @@ export default function RootLayout({
             {children}
           </div>
           <TabBar />
+          <Toaster />
         </AppStoreProvider>
       </body>
     </html>

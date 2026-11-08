@@ -22,7 +22,7 @@ import Avatar from "@/components/avatar";
 export default function MeetupDetailPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
-  const { joined, join, extraMeetups } = useAppStore();
+  const { joined, join, extraMeetups, showToast } = useAppStore();
 
   const meetup =
     extraMeetups.find((m) => m.id === id) ?? seedMeetups.find((m) => m.id === id);
@@ -44,6 +44,25 @@ export default function MeetupDetailPage() {
   const me = getPet("p1");
   const pct = Math.min(100, Math.round((people / meetup.capacity) * 100));
 
+  async function share() {
+    const url = `${window.location.origin}/meetups/${meetup!.id}`;
+    const title = meetup!.title;
+    if (typeof navigator !== "undefined" && navigator.share) {
+      try {
+        await navigator.share({ title, text: `${title} · 一起遛狗吗？`, url });
+        return;
+      } catch {
+        /* 用户取消，继续走复制 */
+      }
+    }
+    try {
+      await navigator.clipboard.writeText(url);
+      showToast("链接已复制，发给朋友吧");
+    } catch {
+      showToast("复制失败，可以手动复制地址栏链接");
+    }
+  }
+
   return (
     <div className="rise pb-44">
       {/* 封面 */}
@@ -60,6 +79,7 @@ export default function MeetupDetailPage() {
             <ArrowLeft size={17} strokeWidth={2.4} />
           </button>
           <button
+            onClick={share}
             aria-label="分享"
             className="grid h-9 w-9 place-items-center rounded-full bg-white/85 backdrop-blur active:scale-95"
           >

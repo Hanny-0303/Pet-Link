@@ -27,9 +27,8 @@ const FILTERS = [
 type FilterKey = (typeof FILTERS)[number]["key"];
 
 export default function HomePage() {
-  const { greeted, greet, district } = useAppStore();
+  const { greeted, greet, district, showToast, prefs } = useAppStore();
   const [filter, setFilter] = useState<FilterKey>("all");
-  const [toast, setToast] = useState<string | null>(null);
   const [locationOpen, setLocationOpen] = useState(false);
 
   const list = useMemo(() => {
@@ -49,8 +48,7 @@ export default function HomePage() {
   function handleGreet(pet: Pet) {
     const done = greeted.includes(pet.id);
     greet(pet.id);
-    setToast(done ? "已取消打招呼" : `已向 ${pet.name} 的主人发出打招呼 👋`);
-    window.setTimeout(() => setToast(null), 1800);
+    showToast(done ? "已取消打招呼" : `已向 ${pet.name} 的主人发出打招呼 👋`);
   }
 
   return (
@@ -151,10 +149,12 @@ export default function HomePage() {
                   </div>
                 </Link>
 
-                <div className="pointer-events-none absolute top-3 left-3 flex items-center gap-1 rounded-full bg-white/85 px-2 py-1 text-[10.5px] font-medium backdrop-blur">
-                  <MapPin size={10} strokeWidth={2.6} className="text-brand" />
-                  {pet.distanceKm} km
-                </div>
+                {prefs.showDistance && (
+                  <div className="pointer-events-none absolute top-3 left-3 flex items-center gap-1 rounded-full bg-white/85 px-2 py-1 text-[10.5px] font-medium backdrop-blur">
+                    <MapPin size={10} strokeWidth={2.6} className="text-brand" />
+                    {pet.distanceKm} km
+                  </div>
+                )}
 
                 <button
                   onClick={() => handleGreet(pet)}
@@ -245,12 +245,6 @@ export default function HomePage() {
       {/* 弹层放在动画容器外面，否则会被它的层叠上下文困住，盖不住底部 Tab */}
       <LocationSheet open={locationOpen} onClose={() => setLocationOpen(false)} />
 
-      {/* 轻提示 */}
-      {toast && (
-        <div className="fixed bottom-24 left-1/2 z-50 -translate-x-1/2 rounded-full bg-ink/85 px-4 py-2 text-[12px] font-medium text-cream shadow-xl backdrop-blur">
-          {toast}
-        </div>
-      )}
     </>
   );
 }

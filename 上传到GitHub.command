@@ -34,6 +34,8 @@ echo
 if "$GH" auth status --hostname github.com >/dev/null 2>&1; then
   echo "✅ 已经是登录状态，跳过登录。"
 else
+  "$GH" auth logout --hostname github.com >/dev/null 2>&1
+
   if ! "$GH" auth login --hostname github.com --git-protocol https --web; then
     echo
     echo "❌ 登录没有完成。重新双击这个脚本再试一次即可。"

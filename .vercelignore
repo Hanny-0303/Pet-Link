@@ -1,0 +1,6 @@
+node_modules
+.next
+.tooling
+docs
+*.log
+.DS_Store

@@ -1,0 +1,551 @@
+import type { Meetup, Pet, Post } from "./types";
+import { isoAt } from "./date";
+
+/* ────────────────────────────────────────────────────────────
+   种子数据（Seed Data）
+   产品冷启动阶段没有真实用户，用一批看起来真实的内容撑起体验。
+   以后接数据库时，这个文件就是初始数据来源。
+   ──────────────────────────────────────────────────────────── */
+
+type PetSeed = Omit<Pet, "id" | "vaccinated" | "neutered" | "photos"> & {
+  img: string;
+};
+
+const petSeeds: PetSeed[] = [
+  {
+    name: "豆豆", img: "dog-1", species: "dog", breed: "柯基", gender: "boy",
+    ageText: "2岁3个月", size: "small", weightKg: 11,
+    personality: ["活泼", "亲人", "吃货"],
+    bio: "见谁都摇尾巴，对球没有抵抗力。每天傍晚在小区门口等遛。",
+    ownerName: "小鹿", district: "浦东 · 花木", distanceKm: 0.8,
+  },
+  {
+    name: "奶盖", img: "dog-2", species: "dog", breed: "柴犬", gender: "girl",
+    ageText: "1岁8个月", size: "small", weightKg: 9,
+    personality: ["慢热", "黏人"],
+    bio: "第一次见面会装高冷，混熟了就躺平给你摸肚子。",
+    ownerName: "阿曼", district: "浦东 · 花木", distanceKm: 1.2,
+  },
+  {
+    name: "可乐", img: "dog-3", species: "dog", breed: "金毛", gender: "boy",
+    ageText: "3岁", size: "medium", weightKg: 28,
+    personality: ["社交达人", "爱游泳"],
+    bio: "全场最外向的狗，见到水就控制不住自己。",
+    ownerName: "老周", district: "徐汇 · 衡山路", distanceKm: 2.4,
+  },
+  {
+    name: "布丁", img: "dog-4", species: "dog", breed: "泰迪", gender: "girl",
+    ageText: "4岁", size: "small", weightKg: 5,
+    personality: ["爱叫", "护食"],
+    bio: "体型小嗓门大，需要一个能包容她的朋友。",
+    ownerName: "Yuki", district: "杨浦 · 五角场", distanceKm: 3.1,
+  },
+  {
+    name: "土豆", img: "dog-5", species: "dog", breed: "法斗", gender: "boy",
+    ageText: "2岁", size: "small", weightKg: 12,
+    personality: ["佛系", "爱睡"],
+    bio: "走三步喘五步，但我打呼噜的样子很可爱。",
+    ownerName: "大鹏", district: "长宁 · 中山公园", distanceKm: 1.9,
+  },
+  {
+    name: "麻薯", img: "dog-6", species: "dog", breed: "边牧", gender: "girl",
+    ageText: "1岁6个月", size: "medium", weightKg: 18,
+    personality: ["运动狂", "聪明"],
+    bio: "会接飞盘会绕腿，就是精力实在用不完。",
+    ownerName: "阿榆", district: "浦东 · 花木", distanceKm: 0.6,
+  },
+  {
+    name: "元宝", img: "dog-7", species: "dog", breed: "阿拉斯加", gender: "boy",
+    ageText: "4岁", size: "large", weightKg: 38,
+    personality: ["高冷", "慢性子"],
+    bio: "看着凶，其实胆子比谁都小，听到吸尘器就躲。",
+    ownerName: "老陈", district: "普陀 · 长风公园", distanceKm: 4.2,
+  },
+  {
+    name: "芝麻", img: "dog-8", species: "dog", breed: "比熊", gender: "girl",
+    ageText: "2岁", size: "small", weightKg: 4.5,
+    personality: ["黏人", "爱抱抱"],
+    bio: "只要坐下来，她三秒就会爬到腿上。",
+    ownerName: "栗子", district: "浦东 · 花木", distanceKm: 0.5,
+  },
+  {
+    name: "花卷", img: "dog-9", species: "dog", breed: "萨摩耶", gender: "boy",
+    ageText: "2岁6个月", size: "large", weightKg: 24,
+    personality: ["社交达人", "掉毛"],
+    bio: "微笑天使，但请做好抱他一整身白毛的准备。",
+    ownerName: "小满", district: "虹口 · 鲁迅公园", distanceKm: 5.0,
+  },
+  {
+    name: "拿铁", img: "dog-10", species: "dog", breed: "哈士奇", gender: "boy",
+    ageText: "3岁", size: "large", weightKg: 26,
+    personality: ["运动狂", "拆家"],
+    bio: "一天不出门就拆沙发，求一个能把他遛累的朋友。",
+    ownerName: "阿凯", district: "杨浦 · 五角场", distanceKm: 3.6,
+  },
+  {
+    name: "栗子", img: "dog-11", species: "dog", breed: "博美", gender: "girl",
+    ageText: "1岁3个月", size: "small", weightKg: 3,
+    personality: ["活泼", "胆大"],
+    bio: "三斤的狗，三十斤的胆，见谁都敢叫板。",
+    ownerName: "Momo", district: "浦东 · 花木", distanceKm: 1.1,
+  },
+  {
+    name: "旺仔", img: "dog-12", species: "dog", breed: "田园犬", gender: "boy",
+    ageText: "5岁", size: "medium", weightKg: 16,
+    personality: ["亲人", "稳重"],
+    bio: "从救助站领回来的第五年，脾气好到能带小孩。",
+    ownerName: "张阿姨", district: "普陀 · 长风公园", distanceKm: 3.8,
+  },
+  {
+    name: "阿福", img: "dog-13", species: "dog", breed: "拉布拉多", gender: "boy",
+    ageText: "3岁6个月", size: "large", weightKg: 32,
+    personality: ["亲人", "吃货"],
+    bio: "永远吃不饱，但永远愿意分你一半快乐。",
+    ownerName: "大头", district: "长宁 · 中山公园", distanceKm: 2.2,
+  },
+  {
+    name: "小七", img: "dog-14", species: "dog", breed: "柯基", gender: "girl",
+    ageText: "2岁", size: "small", weightKg: 10,
+    personality: ["活泼", "爱叫"],
+    bio: "屁股一扭一扭，走两步就要回头看你有没有跟上。",
+    ownerName: "七七", district: "徐汇 · 衡山路", distanceKm: 2.7,
+  },
+  {
+    name: "团子", img: "dog-15", species: "dog", breed: "比熊", gender: "boy",
+    ageText: "3岁", size: "small", weightKg: 5.2,
+    personality: ["慢热", "黏人"],
+    bio: "熟了之后会一直跟着你，像个小尾巴。",
+    ownerName: "小北", district: "浦东 · 花木", distanceKm: 0.9,
+  },
+  {
+    name: "雪球", img: "dog-16", species: "dog", breed: "萨摩耶", gender: "girl",
+    ageText: "1岁10个月", size: "large", weightKg: 22,
+    personality: ["活泼", "亲人"],
+    bio: "见到别的狗会直接躺下翻肚皮，社交方式很直接。",
+    ownerName: "阿桑", district: "浦东 · 世纪公园", distanceKm: 1.5,
+  },
+  {
+    name: "咖啡", img: "dog-17", species: "dog", breed: "法斗", gender: "girl",
+    ageText: "2岁2个月", size: "small", weightKg: 11.5,
+    personality: ["佛系", "怕生"],
+    bio: "需要一点时间的女孩子，别急着摸她。",
+    ownerName: "小可", district: "虹口 · 鲁迅公园", distanceKm: 4.8,
+  },
+  {
+    name: "阿黄", img: "dog-18", species: "dog", breed: "田园犬", gender: "boy",
+    ageText: "6岁", size: "medium", weightKg: 17,
+    personality: ["稳重", "护食"],
+    bio: "老伙计了，散步永远走在我左手边。",
+    ownerName: "老吴", district: "普陀 · 长风公园", distanceKm: 5.5,
+  },
+  {
+    name: "闪电", img: "dog-19", species: "dog", breed: "边牧", gender: "boy",
+    ageText: "2岁", size: "medium", weightKg: 19,
+    personality: ["运动狂", "聪明"],
+    bio: "会自己开冰箱门，冷静点说这是缺点。",
+    ownerName: "阿泽", district: "浦东 · 世纪公园", distanceKm: 1.8,
+  },
+  {
+    name: "奶球", img: "dog-20", species: "dog", breed: "泰迪", gender: "boy",
+    ageText: "1岁5个月", size: "small", weightKg: 4.8,
+    personality: ["黏人", "活泼"],
+    bio: "被剪成了小狮子，很委屈，但我不打算改。",
+    ownerName: "九九", district: "杨浦 · 五角场", distanceKm: 2.9,
+  },
+  {
+    name: "咪咪", img: "cat-1", species: "cat", breed: "英国短毛猫", gender: "girl",
+    ageText: "3岁", size: "small", weightKg: 4.2,
+    personality: ["高冷", "吃货"],
+    bio: "不主动，不拒绝，但会准时出现在饭盆前。",
+    ownerName: "阿罗", district: "浦东 · 花木", distanceKm: 0.6,
+  },
+  {
+    name: "橘子", img: "cat-2", species: "cat", breed: "橘猫", gender: "boy",
+    ageText: "2岁", size: "small", weightKg: 5.5,
+    personality: ["慢热", "贪吃"],
+    bio: "一只会开柜门的橘，家里零食已全部转移。",
+    ownerName: "汤圆", district: "徐汇 · 衡山路", distanceKm: 2.1,
+  },
+  {
+    name: "布布", img: "cat-3", species: "cat", breed: "布偶猫", gender: "girl",
+    ageText: "1岁7个月", size: "small", weightKg: 4.0,
+    personality: ["黏人", "爱抱抱"],
+    bio: "被称为「小狗猫」，会跟着你从客厅走到厨房。",
+    ownerName: "小满", district: "长宁 · 中山公园", distanceKm: 1.7,
+  },
+  {
+    name: "暹罗", img: "cat-4", species: "cat", breed: "暹罗猫", gender: "boy",
+    ageText: "4岁", size: "small", weightKg: 3.8,
+    personality: ["爱叫", "话痨"],
+    bio: "一天要跟你聊三小时，不理他就拆纸巾。",
+    ownerName: "老白", district: "杨浦 · 五角场", distanceKm: 3.3,
+  },
+  {
+    name: "芝麻糊", img: "cat-5", species: "cat", breed: "英国短毛猫", gender: "boy",
+    ageText: "2岁", size: "small", weightKg: 4.6,
+    personality: ["佛系", "高冷"],
+    bio: "一天睡二十小时，剩下四小时用来监督我工作。",
+    ownerName: "阿柚", district: "浦东 · 花木", distanceKm: 1.0,
+  },
+  {
+    name: "雪糕", img: "cat-6", species: "cat", breed: "银渐层", gender: "girl",
+    ageText: "1岁2个月", size: "small", weightKg: 3.2,
+    personality: ["怕生", "黏人"],
+    bio: "生人面前躲床底，生人走后立刻来蹭手心。",
+    ownerName: "小野", district: "浦东 · 世纪公园", distanceKm: 1.4,
+  },
+];
+
+export const pets: Pet[] = petSeeds.map((p, i) => ({
+  ...p,
+  id: `p${i + 1}`,
+  vaccinated: true,
+  neutered: i % 3 !== 0,
+  photos: [`/img/${p.img}.jpg`],
+}));
+
+export function getPet(id: string): Pet | undefined {
+  return pets.find((p) => p.id === id);
+}
+
+/* ── 活动：个人遛狗局 + 品牌活动，共用同一张表 ─────────────── */
+
+const meetupSeeds: Omit<Meetup, "id">[] = [
+  {
+    type: "personal",
+    title: "周六早晨 · 世纪公园遛狗团",
+    cover: "/img/dog-6.jpg",
+    hostName: "阿榆",
+    verified: false,
+    startAt: isoAt(2, "07:30"),
+    venueName: "世纪公园 3 号门",
+    district: "浦东 · 花木",
+    distanceKm: 1.5,
+    sizeLimit: ["medium", "large"],
+    capacity: 12,
+    participants: [
+      { name: "阿榆", petName: "麻薯" }, { name: "小鹿", petName: "豆豆" },
+      { name: "老周", petName: "可乐" }, { name: "阿桑", petName: "雪球" },
+      { name: "阿泽", petName: "闪电" }, { name: "小满", petName: "花卷" },
+      { name: "大头", petName: "阿福" }, { name: "Momo", petName: "栗子" },
+      { name: "阿北", petName: "团子" },
+    ],
+    description:
+      "固定每周六早上绕世纪公园走一圈，大概 5 公里，走完在门口咖啡摊坐一会儿。\n\n狗狗需要能和其他狗和平相处，大型犬请带好牵引绳。下雨自动取消。",
+    tags: ["免费", "固定团", "5km"],
+    fee: 0,
+  },
+  {
+    type: "personal",
+    title: "滨江夜跑遛狗小分队",
+    cover: "/img/dog-1.jpg",
+    hostName: "小鹿",
+    verified: false,
+    startAt: isoAt(1, "19:30"),
+    venueName: "徐汇滨江跑道 · 龙美术馆",
+    district: "徐汇 · 龙华",
+    distanceKm: 3.2,
+    sizeLimit: ["small", "medium"],
+    capacity: 10,
+    participants: [
+      { name: "小鹿", petName: "豆豆" }, { name: "阿曼", petName: "奶盖" },
+      { name: "七七", petName: "小七" }, { name: "Yuki", petName: "布丁" },
+      { name: "小北", petName: "团子" }, { name: "九九", petName: "奶球" },
+    ],
+    description:
+      "下班后一起沿江跑 3 公里，配速随意，快慢都有人陪。\n\n小型犬和中小型犬友好，全程戴牵引。跑完各自回家，不耽误第二天上班。",
+    tags: ["免费", "下班后", "3km"],
+    fee: 0,
+  },
+  {
+    type: "brand",
+    title: "毛球杯 · 夏日小狗泳池派对",
+    cover: "/img/dog-3.jpg",
+    hostName: "毛球 PETS",
+    verified: true,
+    startAt: isoAt(3, "15:00"),
+    venueName: "浦东宠物乐园 · 恒温泳池",
+    district: "浦东 · 康桥",
+    distanceKm: 5.6,
+    sizeLimit: ["small", "medium", "large"],
+    capacity: 30,
+    participants: [
+      { name: "老周", petName: "可乐" }, { name: "阿榆", petName: "麻薯" },
+      { name: "阿桑", petName: "雪球" }, { name: "大鹏", petName: "土豆" },
+      { name: "栗子", petName: "芝麻" }, { name: "阿曼", petName: "奶盖" },
+    ],
+    description:
+      "品牌方包场，恒温泳池 + 狗狗救生衣 + 免费洗吹。现场有摄影跟拍，照片活动后统一发群。\n\n门票 68 元含一份伴手礼，需提供一年内疫苗记录。",
+    tags: ["品牌活动", "含门票", "有摄影"],
+    fee: 68,
+  },
+  {
+    type: "personal",
+    title: "柯基专属 · 短腿见面会",
+    cover: "/img/dog-14.jpg",
+    hostName: "七七",
+    verified: false,
+    startAt: isoAt(4, "10:00"),
+    venueName: "世纪公园 · 大草坪",
+    district: "浦东 · 花木",
+    distanceKm: 1.5,
+    sizeLimit: ["small"],
+    capacity: 15,
+    participants: [
+      { name: "七七", petName: "小七" }, { name: "小鹿", petName: "豆豆" },
+      { name: "阿凯", petName: "拿铁" }, { name: "Momo", petName: "栗子" },
+    ],
+    description:
+      "只限柯基（和柯基混血）。主要是让短腿们跑一跑，顺便拍一张二十条腿的合照。\n\n主人在旁边聊天，狗在中间打架，很和谐。",
+    tags: ["免费", "品种限定", "拍照"],
+    fee: 0,
+  },
+  {
+    type: "personal",
+    title: "老狗慢走团 · 每天傍晚",
+    cover: "/img/dog-12.jpg",
+    hostName: "张阿姨",
+    verified: false,
+    startAt: isoAt(1, "18:00"),
+    venueName: "长风公园 2 号门",
+    district: "普陀 · 长风公园",
+    distanceKm: 3.8,
+    sizeLimit: ["small", "medium", "large"],
+    capacity: 8,
+    participants: [
+      { name: "张阿姨", petName: "旺仔" }, { name: "老吴", petName: "阿黄" },
+      { name: "老陈", petName: "元宝" },
+    ],
+    description:
+      "专门给 7 岁以上、关节不好的老年犬。走得很慢，20 分钟一圈，中途会休息两次。\n\n不追不跑，就是陪它们把剩下的路走舒服一点。",
+    tags: ["免费", "老年犬", "慢速"],
+    fee: 0,
+  },
+  {
+    type: "personal",
+    title: "嗅闻游戏 · 让狗狗当一次侦探",
+    cover: "/img/dog-19.jpg",
+    hostName: "阿泽",
+    verified: false,
+    startAt: isoAt(5, "09:30"),
+    venueName: "中山公园 · 北草坪",
+    district: "长宁 · 中山公园",
+    distanceKm: 2.2,
+    sizeLimit: ["small", "medium"],
+    capacity: 12,
+    participants: [
+      { name: "阿泽", petName: "闪电" }, { name: "大鹏", petName: "土豆" },
+      { name: "大头", petName: "阿福" }, { name: "小满", petName: "布布" },
+      { name: "Yuki", petName: "布丁" }, { name: "阿罗", petName: "咪咪" },
+      { name: "老白", petName: "暹罗" },
+    ],
+    description:
+      "用零食做气味搜索游戏，比跑步更累狗。适合精力旺盛但腿脚不适合剧烈运动的狗。\n\n现场会分小队，胆小的狗可以最后单独玩。",
+    tags: ["免费", "动脑", "适合胆小"],
+    fee: 0,
+  },
+  {
+    type: "brand",
+    title: "鲜食厨房 · 新品试吃会",
+    cover: "/img/dog-4.jpg",
+    hostName: "每日鲜食",
+    verified: true,
+    startAt: isoAt(6, "14:00"),
+    venueName: "静安嘉里中心 B1 中庭",
+    district: "静安 · 南京西路",
+    distanceKm: 4.4,
+    sizeLimit: ["small", "medium", "large"],
+    capacity: 40,
+    participants: [
+      { name: "Yuki", petName: "布丁" }, { name: "小可", petName: "咖啡" },
+      { name: "汤圆", petName: "橘子" }, { name: "阿柚", petName: "芝麻糊" },
+      { name: "小野", petName: "雪糕" },
+    ],
+    description:
+      "三款新口味免费试吃，现场有营养师答疑，可以带狗狗一起来。\n\n室内场地，需全程牵引或使用推车。每人限领一份试吃装。",
+    tags: ["品牌活动", "免费", "室内"],
+    fee: 0,
+  },
+  {
+    type: "personal",
+    title: "哈士奇拆家联盟 · 见面会",
+    cover: "/img/dog-10.jpg",
+    hostName: "阿凯",
+    verified: false,
+    startAt: isoAt(2, "16:00"),
+    venueName: "鲁迅公园 · 东门",
+    district: "虹口 · 鲁迅公园",
+    distanceKm: 5.0,
+    sizeLimit: ["large"],
+    capacity: 10,
+    participants: [
+      { name: "阿凯", petName: "拿铁" }, { name: "老陈", petName: "元宝" },
+      { name: "小满", petName: "花卷" }, { name: "阿桑", petName: "雪球" },
+    ],
+    description:
+      "大型犬专场，让它们跑个够。主人交流一下谁家沙发被拆得最惨。\n\n需要狗子有基本的召回，场地不封闭，请自行评估。",
+    tags: ["免费", "大型犬", "需要召回"],
+    fee: 0,
+  },
+];
+
+export const meetups: Meetup[] = meetupSeeds.map((m, i) => ({
+  ...m,
+  id: `m${i + 1}`,
+}));
+
+export function getMeetup(id: string): Meetup | undefined {
+  return meetups.find((m) => m.id === id);
+}
+
+/* ── 圈子动态 ────────────────────────────────────────────── */
+
+export const posts: Post[] = [
+  {
+    id: "post1",
+    authorName: "阿榆",
+    petName: "麻薯",
+    tint: "#ffb4a2",
+    images: ["/img/dog-6.jpg", "/img/dog-19.jpg"],
+    content:
+      "今天世纪公园的草坪太适合奔跑了。麻薯和闪电追了四十分钟，回家直接在电梯里睡着。\n\n下次周六还是七点半，来的朋友记得带水。",
+    meetupId: "m1",
+    likes: 42,
+    comments: 8,
+    timeText: "2小时前",
+  },
+  {
+    id: "post2",
+    authorName: "小鹿",
+    petName: "豆豆",
+    tint: "#ffd6a5",
+    images: ["/img/dog-1.jpg"],
+    content: "豆豆今天第一次下水，表情从「我不要」变成「再来一次」，中间只用了三秒。",
+    meetupId: "m3",
+    likes: 128,
+    comments: 21,
+    timeText: "5小时前",
+  },
+  {
+    id: "post3",
+    authorName: "张阿姨",
+    petName: "旺仔",
+    tint: "#b8e0d2",
+    images: ["/img/dog-12.jpg"],
+    content:
+      "慢走团第三周了。旺仔走完全程没有停下来喘，比上个月好太多。\n\n老年犬真的需要同伴，它们互相看着就不会偷懒。",
+    meetupId: "m5",
+    likes: 96,
+    comments: 15,
+    timeText: "昨天",
+  },
+  {
+    id: "post4",
+    authorName: "Momo",
+    petName: "栗子",
+    tint: "#fdffb6",
+    images: ["/img/dog-11.jpg"],
+    content: "三斤的狗在草坪上对着三十斤的阿拉斯加叫了整整两分钟。它赢了，对方走了。",
+    likes: 233,
+    comments: 47,
+    timeText: "昨天",
+  },
+  {
+    id: "post5",
+    authorName: "小满",
+    petName: "布布",
+    tint: "#caffbf",
+    images: ["/img/cat-3.jpg"],
+    content:
+      "布布是猫，但它坚持要参加狗的活动。今天在中山公园的嗅闻游戏里，它找零食的速度比所有狗都快。",
+    meetupId: "m6",
+    likes: 187,
+    comments: 33,
+    timeText: "2天前",
+  },
+  {
+    id: "post6",
+    authorName: "阿凯",
+    petName: "拿铁",
+    tint: "#9bf6ff",
+    images: ["/img/dog-10.jpg", "/img/dog-7.jpg"],
+    content:
+      "拆家联盟第一次聚会，四条哈士奇在草坪上疯跑，场面一度失控但很快乐。\n\n顺便交流了一下修复沙发的经验，收获很大。",
+    meetupId: "m8",
+    likes: 76,
+    comments: 12,
+    timeText: "2天前",
+  },
+  {
+    id: "post7",
+    authorName: "小野",
+    petName: "雪糕",
+    tint: "#a0c4ff",
+    content:
+      "带雪糕去看了一场宠物友好市集，全程躲在我怀里，只有看到罐头的时候探出头。\n\n社交这个事真的急不来。",
+    images: ["/img/cat-6.jpg"],
+    likes: 64,
+    comments: 9,
+    timeText: "3天前",
+  },
+  {
+    id: "post8",
+    authorName: "老周",
+    petName: "可乐",
+    tint: "#ffadad",
+    images: ["/img/dog-3.jpg"],
+    content:
+      "金毛的社交能力是天赋。今天在泳池边认识了三个新朋友，其中一个还分了他半根火腿肠。\n\n他交朋友比我还快。",
+    meetupId: "m3",
+    likes: 152,
+    comments: 18,
+    timeText: "3天前",
+  },
+  {
+    id: "post9",
+    authorName: "大鹏",
+    petName: "土豆",
+    tint: "#ffd6a5",
+    images: ["/img/dog-5.jpg"],
+    content: "土豆的社交方式是原地躺下，等别人来闻他。有效率。",
+    likes: 89,
+    comments: 6,
+    timeText: "4天前",
+  },
+  {
+    id: "post10",
+    authorName: "阿泽",
+    petName: "闪电",
+    tint: "#caffbf",
+    images: ["/img/dog-19.jpg"],
+    content:
+      "给闪电报了个飞盘体验课，教练说他的问题不是不会，是太想赢。\n\n和我一样。",
+    likes: 71,
+    comments: 11,
+    timeText: "5天前",
+  },
+  {
+    id: "post11",
+    authorName: "阿罗",
+    petName: "咪咪",
+    tint: "#bdb2ff",
+    images: ["/img/cat-1.jpg"],
+    content: "带猫参加狗的活动，被发现后全程被围观。咪咪很配合，一动不动地当了一小时雕塑。",
+    meetupId: "m6",
+    likes: 118,
+    comments: 25,
+    timeText: "6天前",
+  },
+  {
+    id: "post12",
+    authorName: "小北",
+    petName: "团子",
+    tint: "#b8e0d2",
+    images: ["/img/dog-15.jpg"],
+    content:
+      "团子以前见到别的狗就躲，今天主动去闻了一只柯基。\n\n对别人来说很小的一步，对我来说等了大半年。",
+    likes: 204,
+    comments: 38,
+    timeText: "1周前",
+  },
+];

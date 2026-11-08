@@ -1,0 +1,28 @@
+# 依赖
+node_modules/
+
+# Next.js 构建产物
+.next/
+out/
+build/
+next-env.d.ts
+
+# 本地便携版 Node（体积几百 MB，不进仓库）
+.tooling/
+
+# Vercel
+.vercel/
+
+# 系统 / 编辑器
+.DS_Store
+*.pem
+*.log
+.idea/
+.vscode/
+
+# 环境变量
+.env*
+!.env.example
+
+# TypeScript
+*.tsbuildinfo

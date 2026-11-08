@@ -8,7 +8,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import type { Meetup } from "@/lib/types";
+import type { Meetup, Species } from "@/lib/types";
 
 /**
  * 极简"全局状态"。
@@ -35,6 +35,8 @@ type Store = {
   extraMeetups: Meetup[];
   /** 当前选中的区域，null 表示全部区域 */
   district: string | null;
+  /** 当前选中的物种，all 表示全部 */
+  species: Species | "all";
   profile: Profile;
   prefs: Prefs;
   toast: string | null;
@@ -44,6 +46,7 @@ type Store = {
   like: (id: string) => void;
   addMeetup: (m: Meetup) => void;
   setDistrict: (d: string | null) => void;
+  setSpecies: (s: Species | "all") => void;
   setProfile: (p: Profile) => void;
   togglePref: (k: keyof Prefs) => void;
   resetAll: () => void;
@@ -74,6 +77,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
   const [liked, setLiked] = useState<string[]>([]);
   const [extraMeetups, setExtraMeetups] = useState<Meetup[]>([]);
   const [district, setDistrict] = useState<string | null>(null);
+  const [species, setSpecies] = useState<Species | "all">("all");
   const [profile, setProfile] = useState<Profile>(DEFAULT_PROFILE);
   const [prefs, setPrefs] = useState<Prefs>(DEFAULT_PREFS);
   const [toast, setToast] = useState<string | null>(null);
@@ -91,6 +95,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
     setLiked([]);
     setExtraMeetups([]);
     setDistrict(null);
+    setSpecies("all");
     setProfile(DEFAULT_PROFILE);
     setPrefs(DEFAULT_PREFS);
     showToast("演示数据已重置");
@@ -104,10 +109,12 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
         liked,
         extraMeetups,
         district,
+        species,
         profile,
         prefs,
         toast,
         setDistrict,
+        setSpecies,
         setProfile,
         resetAll,
         showToast,

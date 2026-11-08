@@ -5,8 +5,8 @@ import TabBar from "@/components/tab-bar";
 import Toaster from "@/components/toaster";
 
 export const metadata: Metadata = {
-  title: "遛遛 · 同城遛狗局",
-  description: "给城市里独自遛狗的年轻人，找一个今晚就能一起遛狗的邻居。",
+  title: "遛遛 · 养宠人的聚集地",
+  description: "狗找搭子，猫找人吸，异宠找懂的人。养宠人的聚集地。",
 };
 
 export const viewport: Viewport = {

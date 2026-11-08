@@ -4,45 +4,54 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { Heart, MessageCircle, Sparkles } from "lucide-react";
 import { getMeetup, posts } from "@/lib/data";
+import { TOPIC_EMOJI, TOPIC_LABEL, type Topic } from "@/lib/types";
 import { useAppStore } from "@/components/store";
 import Avatar from "@/components/avatar";
 
-const TABS = ["推荐", "关注", "附近"] as const;
+const TOPICS: (Topic | "all")[] = ["all", "daily", "care", "medical", "adopt", "recap"];
 
 export default function FeedPage() {
   const { liked, like } = useAppStore();
-  const [tab, setTab] = useState<(typeof TABS)[number]>("推荐");
+  const [topic, setTopic] = useState<Topic | "all">("all");
 
-  const list = useMemo(() => {
-    if (tab === "附近") {
-      return posts.filter((p) => p.meetupId).slice(0, 6);
-    }
-    return posts;
-  }, [tab]);
+  const list = useMemo(
+    () => (topic === "all" ? posts : posts.filter((p) => p.topic === topic)),
+    [topic]
+  );
 
   return (
     <div className="rise">
       <header className="px-5 pt-7">
         <h1 className="text-[26px] font-bold tracking-tight">圈子</h1>
         <p className="mt-1 text-[12.5px] text-ink-mute">
-          狗狗们的线下见面，都发生在这里
+          养宠人的经验、求助和日常，都在这里
         </p>
       </header>
 
       <div className="no-scrollbar mt-4 flex gap-2 overflow-x-auto px-5">
-        {TABS.map((t) => (
-          <button
-            key={t}
-            onClick={() => setTab(t)}
-            className={`shrink-0 rounded-full px-3.5 py-[7px] text-[12.5px] font-medium transition ${
-              tab === t
-                ? "bg-ink text-cream"
-                : "bg-white text-ink-soft shadow-[0_1px_6px_rgba(80,60,40,0.06)]"
-            }`}
-          >
-            {t}
-          </button>
-        ))}
+        {TOPICS.map((t) => {
+          const active = topic === t;
+          const label = t === "all" ? "全部" : TOPIC_LABEL[t];
+          const count =
+            t === "all" ? posts.length : posts.filter((p) => p.topic === t).length;
+          return (
+            <button
+              key={t}
+              onClick={() => setTopic(t)}
+              className={`shrink-0 rounded-full px-3.5 py-[7px] text-[12.5px] font-medium transition ${
+                active
+                  ? "bg-ink text-cream"
+                  : "bg-white text-ink-soft shadow-[0_1px_6px_rgba(80,60,40,0.06)]"
+              }`}
+            >
+              {t !== "all" && <span className="mr-0.5">{TOPIC_EMOJI[t]}</span>}
+              {label}
+              <span className={active ? "ml-1 text-cream/55" : "ml-1 text-ink-mute"}>
+                {count}
+              </span>
+            </button>
+          );
+        })}
       </div>
 
       <div className="mt-4 space-y-3 px-5">
@@ -61,6 +70,11 @@ export default function FeedPage() {
                   <p className="text-[13px] font-semibold">{post.authorName}</p>
                   <p className="text-[10.5px] text-ink-mute">
                     {post.petName}的主人 · {post.timeText}
+                    {post.topic !== "daily" && !meetup && (
+                      <span className="ml-1.5 rounded-full bg-cream px-1.5 py-[1px] text-[9.5px] font-medium text-ink-soft">
+                        {TOPIC_LABEL[post.topic]}
+                      </span>
+                    )}
                   </p>
                 </div>
                 {meetup && (

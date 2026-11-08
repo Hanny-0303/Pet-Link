@@ -1,8 +1,16 @@
-export type Species = "dog" | "cat" | "rabbit" | "smallpet";
+export type Species =
+  | "dog"
+  | "cat"
+  | "rabbit"
+  | "smallpet"
+  | "bird"
+  | "reptile"
+  | "exotic";
 export type Size = "small" | "medium" | "large";
 export type Gender = "boy" | "girl";
 export type AgeBand = "baby" | "adult" | "senior";
 export type MeetupKind = "walk" | "market" | "cafe" | "adopt" | "indoor";
+export type Topic = "daily" | "care" | "medical" | "adopt" | "recap";
 
 export interface Pet {
   id: string;
@@ -60,6 +68,7 @@ export interface Post {
   likes: number;
   comments: number;
   timeText: string;
+  topic: Topic;
 }
 
 /* ── 中文标签 ─────────────────────────────────────────────── */
@@ -75,6 +84,9 @@ export const SPECIES_LABEL: Record<Species, string> = {
   cat: "猫猫",
   rabbit: "兔子",
   smallpet: "小宠",
+  bird: "鸟类",
+  reptile: "爬宠",
+  exotic: "异宠",
 };
 
 export const SPECIES_EMOJI: Record<Species, string> = {
@@ -82,6 +94,33 @@ export const SPECIES_EMOJI: Record<Species, string> = {
   cat: "🐈",
   rabbit: "🐇",
   smallpet: "🐹",
+  bird: "🦜",
+  reptile: "🦎",
+  exotic: "🦔",
+};
+
+/** 异宠分组：这一组的需求和猫狗完全不同——他们要的是"懂的人"，不是"一起遛" */
+export const EXOTIC_SPECIES: Species[] = ["bird", "reptile", "exotic"];
+export const COMMON_SPECIES: Species[] = ["dog", "cat", "rabbit", "smallpet"];
+
+export function isExotic(s: Species): boolean {
+  return EXOTIC_SPECIES.includes(s);
+}
+
+export const TOPIC_LABEL: Record<Topic, string> = {
+  daily: "日常",
+  care: "饲养经验",
+  medical: "就医经历",
+  adopt: "领养",
+  recap: "活动回顾",
+};
+
+export const TOPIC_EMOJI: Record<Topic, string> = {
+  daily: "☀️",
+  care: "📖",
+  medical: "🩺",
+  adopt: "🏠",
+  recap: "📸",
 };
 
 export const AGE_LABEL: Record<AgeBand, string> = {

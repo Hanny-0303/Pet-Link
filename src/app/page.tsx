@@ -13,24 +13,24 @@ import {
   Users,
 } from "lucide-react";
 import { meetups, pets } from "@/lib/data";
-import { SIZE_LABEL, SPECIES_LABEL, type Pet, type Species } from "@/lib/types";
+import {
+  COMMON_SPECIES,
+  SIZE_LABEL,
+  SPECIES_LABEL,
+  isExotic,
+  type Pet,
+  type Species,
+} from "@/lib/types";
 import { fmtMeetupShort } from "@/lib/date";
 import { useAppStore } from "@/components/store";
 import LocationSheet from "@/components/location-sheet";
 import FilterSheet from "@/components/filter-sheet";
 import { EMPTY_FILTERS, countActive, type Filters } from "@/lib/filters";
 
-const SPECIES_TABS: { key: Species | "all"; label: string }[] = [
-  { key: "all", label: "全部" },
-  { key: "dog", label: SPECIES_LABEL.dog },
-  { key: "cat", label: SPECIES_LABEL.cat },
-  { key: "rabbit", label: SPECIES_LABEL.rabbit },
-  { key: "smallpet", label: SPECIES_LABEL.smallpet },
-];
+const QUICK_SPECIES: (Species | "all")[] = ["all", ...COMMON_SPECIES];
 
 export default function HomePage() {
-  const { greeted, greet, district, showToast, prefs } = useAppStore();
-  const [species, setSpecies] = useState<Species | "all">("all");
+  const { greeted, greet, district, showToast, prefs, species, setSpecies } = useAppStore();
   const [filters, setFilters] = useState<Filters>(EMPTY_FILTERS);
   const [filterOpen, setFilterOpen] = useState(false);
   const [locationOpen, setLocationOpen] = useState(false);
@@ -102,9 +102,9 @@ export default function HomePage() {
         </div>
 
         <h1 className="mt-4 text-[27px] leading-[1.25] font-bold tracking-tight">
-          今天想和谁
+          今天想认识
           <br />
-          一起遛弯？
+          哪个小家伙？
         </h1>
         <p className="mt-1.5 text-[12.5px] text-ink-mute">
           {district
@@ -115,29 +115,39 @@ export default function HomePage() {
 
       {/* 物种分类 */}
       <div className="no-scrollbar mt-4 flex gap-2 overflow-x-auto px-5 pb-1">
-        {SPECIES_TABS.map((t) => {
-          const active = species === t.key;
+        {QUICK_SPECIES.map((t) => {
+          const active = species === t;
           const count =
-            t.key === "all"
-              ? pets.length
-              : pets.filter((p) => p.species === t.key).length;
+            t === "all" ? pets.length : pets.filter((p) => p.species === t).length;
           return (
             <button
-              key={t.key}
-              onClick={() => setSpecies(t.key)}
+              key={t}
+              onClick={() => setSpecies(t)}
               className={`flex shrink-0 items-center gap-1 rounded-full px-3.5 py-[7px] text-[12.5px] font-medium transition ${
                 active
                   ? "bg-ink text-cream"
                   : "bg-white text-ink-soft shadow-[0_1px_6px_rgba(80,60,40,0.06)]"
               }`}
             >
-              {t.label}
+              {t === "all" ? "全部" : SPECIES_LABEL[t as Species]}
               <span className={active ? "text-cream/55" : "text-ink-mute"}>
                 {count}
               </span>
             </button>
           );
         })}
+
+        <Link
+          href="/species"
+          className={`flex shrink-0 items-center gap-1 rounded-full px-3.5 py-[7px] text-[12.5px] font-medium transition ${
+            isExotic(species as Species)
+              ? "bg-ink text-cream"
+              : "bg-white text-ink-soft shadow-[0_1px_6px_rgba(80,60,40,0.06)]"
+          }`}
+        >
+          {isExotic(species as Species) ? SPECIES_LABEL[species as Species] : "更多"}
+          <ChevronDown size={12} strokeWidth={2.6} />
+        </Link>
 
       </div>
 

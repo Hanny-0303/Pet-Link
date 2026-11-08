@@ -232,6 +232,49 @@ const petSeeds: PetSeed[] = [
     bio: "一天洗三次沙浴，洗完还要抖你一身沙。",
     ownerName: "小野", district: "长宁 · 中山公园", distanceKm: 1.9,
   },
+  {
+    name: "啾啾", img: "bird-1", species: "bird", breed: "虎皮鹦鹉", gender: "boy",
+    ageText: "1岁", size: "small", weightKg: 0.04,
+    personality: ["话多", "亲人"],
+    bio: "会学门铃声和微波炉响，就是不肯学说话。",
+    ownerName: "阿柚", district: "浦东 · 花木", distanceKm: 1.3,
+  },
+  {
+    name: "桃桃", img: "bird-2", species: "bird", breed: "玄凤鹦鹉", gender: "girl",
+    ageText: "2岁", size: "small", weightKg: 0.09,
+    personality: ["黏人", "会吹口哨"],
+    bio: "会吹《小星星》的前两句，第三句永远跑调。",
+    ownerName: "老K", district: "徐汇 · 衡山路", distanceKm: 2.8,
+  },
+  {
+    name: "大福", img: "reptile-1", species: "reptile", breed: "鬃狮蜥", gender: "boy",
+    ageText: "3岁", size: "small", weightKg: 0.45,
+    personality: ["佛系", "爱晒太阳"],
+    bio: "一天有十个小时在灯下摊成一张饼，剩下的时间在等杜比亚。",
+    ownerName: "小林", district: "杨浦 · 五角场", distanceKm: 3.4,
+  },
+  {
+    name: "面条", img: "reptile-2", species: "reptile", breed: "玉米蛇", gender: "girl",
+    ageText: "4岁", size: "small", weightKg: 0.9,
+    personality: ["安静", "夜行"],
+    bio: "一周吃一次，其余时间在躲避穴里思考人生。很好养，但请先说服家人。",
+    ownerName: "阿树", district: "长宁 · 中山公园", distanceKm: 2.0,
+  },
+  {
+    name: "煤球", img: "exotic-1", species: "exotic", breed: "蜜袋鼯", gender: "boy",
+    ageText: "1岁6个月", size: "small", weightKg: 0.12,
+    personality: ["黏人", "夜猫子"],
+    bio: "必须两只一起养，单独一只会抑郁。晚上八点准时在笼子里开演唱会。",
+    ownerName: "小满", district: "静安 · 南京西路", distanceKm: 4.1,
+  },
+  {
+    name: "刺球", img: "exotic-2", species: "exotic", breed: "非洲迷你刺猬", gender: "girl",
+    ageText: "1岁", size: "small", weightKg: 0.35,
+    personality: ["胆小", "爱打洞"],
+    bio: "刚到家时会炸刺，熟了之后会把肚子翻给你。冬天要开加热垫。",
+    ownerName: "阿豆", district: "虹口 · 鲁迅公园", distanceKm: 4.6,
+  },
+
 ];
 
 export const pets: Pet[] = petSeeds.map((p, i) => ({
@@ -517,6 +560,7 @@ export function getMeetup(id: string): Meetup | undefined {
 export const posts: Post[] = [
   {
     id: "post1",
+    topic: "recap",
     authorName: "阿榆",
     petName: "麻薯",
     tint: "#ffb4a2",
@@ -530,6 +574,7 @@ export const posts: Post[] = [
   },
   {
     id: "post2",
+    topic: "daily",
     authorName: "小鹿",
     petName: "豆豆",
     tint: "#ffd6a5",
@@ -542,6 +587,7 @@ export const posts: Post[] = [
   },
   {
     id: "post3",
+    topic: "recap",
     authorName: "张阿姨",
     petName: "旺仔",
     tint: "#b8e0d2",
@@ -555,6 +601,7 @@ export const posts: Post[] = [
   },
   {
     id: "post4",
+    topic: "daily",
     authorName: "Momo",
     petName: "栗子",
     tint: "#fdffb6",
@@ -566,6 +613,7 @@ export const posts: Post[] = [
   },
   {
     id: "post5",
+    topic: "recap",
     authorName: "小满",
     petName: "布布",
     tint: "#caffbf",
@@ -579,6 +627,7 @@ export const posts: Post[] = [
   },
   {
     id: "post6",
+    topic: "recap",
     authorName: "阿凯",
     petName: "拿铁",
     tint: "#9bf6ff",
@@ -592,6 +641,7 @@ export const posts: Post[] = [
   },
   {
     id: "post7",
+    topic: "daily",
     authorName: "小野",
     petName: "雪糕",
     tint: "#a0c4ff",
@@ -604,6 +654,7 @@ export const posts: Post[] = [
   },
   {
     id: "post8",
+    topic: "recap",
     authorName: "老周",
     petName: "可乐",
     tint: "#ffadad",
@@ -617,6 +668,7 @@ export const posts: Post[] = [
   },
   {
     id: "post9",
+    topic: "daily",
     authorName: "大鹏",
     petName: "土豆",
     tint: "#ffd6a5",
@@ -628,6 +680,7 @@ export const posts: Post[] = [
   },
   {
     id: "post10",
+    topic: "daily",
     authorName: "阿泽",
     petName: "闪电",
     tint: "#caffbf",
@@ -640,6 +693,7 @@ export const posts: Post[] = [
   },
   {
     id: "post11",
+    topic: "recap",
     authorName: "阿罗",
     petName: "咪咪",
     tint: "#bdb2ff",
@@ -652,6 +706,7 @@ export const posts: Post[] = [
   },
   {
     id: "post12",
+    topic: "daily",
     authorName: "小北",
     petName: "团子",
     tint: "#b8e0d2",
@@ -662,4 +717,83 @@ export const posts: Post[] = [
     comments: 38,
     timeText: "1周前",
   },
+  {
+    id: "post13",
+    topic: "medical",
+    authorName: "小鹿",
+    petName: "豆豆",
+    tint: "#ffd6a5",
+    images: ["/img/dog-1.jpg"],
+    content:
+      "记一次胰腺炎，给同样养柯基的人提个醒。\n\n上周三豆豆突然不吃东西，趴着不动，摸肚子会躲。我以为是吃撑了，拖了一天。第二天开始吐黄水，去医院查血，淀粉酶和脂肪酶都超标，确诊胰腺炎，直接住院输液三天。\n\n医生问了饮食，问题出在我每周给它加的那顿水煮鸡胸——高蛋白 + 突然加量。柯基这个体型特别容易中招。\n\n现在的规矩：低脂粮，零食只在训练时给，绝不加餐。它现在恢复得挺好，但那一周的住院费够我买半年狗粮了。",
+    likes: 412,
+    comments: 87,
+    timeText: "3天前",
+  },
+  {
+    id: "post14",
+    topic: "medical",
+    authorName: "阿梨",
+    petName: "雪团",
+    images: ["/img/rabbit-1.jpg"],
+    tint: "#fdffb6",
+    content:
+      "兔子不拉屎超过 12 小时，请立刻去医院，不要等。\n\n兔子的肠胃是停不得的，一旦停止蠕动（胃肠停滞），24 小时内就可能没救。表现是不吃不喝、缩在角落、便便变小或完全没有。\n\n我那次是凌晨发现的，送去急诊打了促胃肠动力针 + 皮下补液，第二天才拉出第一颗。\n\n预防比治疗重要：无限量提摩西草、每天换水、少喂水果。别信「兔子只吃胡萝卜」这种话。",
+    likes: 356,
+    comments: 64,
+    timeText: "5天前",
+  },
+  {
+    id: "post15",
+    topic: "care",
+    authorName: "小林",
+    petName: "大福",
+    tint: "#caffbf",
+    images: ["/img/reptile-1.jpg"],
+    content:
+      "养鬃狮蜥一年，踩过的 5 个坑。\n\n1. 只喂面包虫 —— 脂肪太高，会脂肪肝。主食应该是杜比亚或蟋蟀，虫子要裹钙粉。\n2. 不装 UVB 灯 —— 缺 D3 就不吸收钙，会软骨、站不起来。这个最致命。\n3. 用沙子垫材 —— 幼体误食会肠梗阻，用厨房纸最安全。\n4. 冬天不加温 —— 温度低于 30℃ 就不消化，食物会在胃里烂掉。\n5. 天天上手 —— 它是观赏动物，不是猫，逼着玩只会应激。\n\n现在大福三岁，体检一切正常。爬宠不是「放那儿不管」，是「环境对了它就没事」。",
+    likes: 289,
+    comments: 73,
+    timeText: "1周前",
+  },
+  {
+    id: "post16",
+    topic: "care",
+    authorName: "小满",
+    petName: "煤球",
+    tint: "#9bf6ff",
+    images: ["/img/exotic-1.jpg"],
+    content:
+      "很多人不知道：蜜袋鼯不能单独养。\n\n它们是高度社会化的动物，野外都是成群活动的。单独一只会自残——咬自己的尾巴、拔毛、甚至绝食。这不是「心情不好」，是抑郁。\n\n要么养两只以上，要么每天至少花两小时陪它。而且它们晚上活跃，白天基本在睡，和上班族的作息是反的。\n\n所以每次有人问「蜜袋鼯可爱吗好不好养」，我都会先说这三件事：要一对、要夜陪、能活 12 年。",
+    likes: 508,
+    comments: 112,
+    timeText: "1周前",
+  },
+  {
+    id: "post17",
+    topic: "adopt",
+    authorName: "老K",
+    petName: "桃桃",
+    tint: "#ffadad",
+    images: ["/img/bird-2.jpg"],
+    content:
+      "桃桃是去年在领养日遇到的。前主人搬家，把它连笼子一起放在了小区门口。\n\n刚来的时候它一句话不说，见到手就咬。我用了三个月，每天在笼子边上坐着看手机，让它习惯我的存在。\n\n现在它会吹《小星星》，会在我回家的时候叫两声。\n\n领养不是捡便宜，是接手别人不要的责任。想清楚再养。",
+    likes: 673,
+    comments: 145,
+    timeText: "2周前",
+  },
+  {
+    id: "post18",
+    topic: "daily",
+    authorName: "阿豆",
+    petName: "刺球",
+    tint: "#b8e0d2",
+    images: ["/img/exotic-2.jpg"],
+    content:
+      "很多人以为刺猬摸起来扎手，其实它的刺是可以放下来的。\n\n刚到家那两周它一碰就炸成一个球，我只能在旁边放件旧 T 恤让它熟悉气味。现在熟了，它会先把刺放平，再把肚子翻给我。\n\n不过还是得戴手套摸——它偶尔会突然想起来自己是只刺猬。",
+    likes: 234,
+    comments: 41,
+    timeText: "2周前",
+  },
+
 ];

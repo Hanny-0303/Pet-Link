@@ -11,8 +11,13 @@
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?logo=tailwindcss&logoColor=white)
 ![License](https://img.shields.io/badge/license-MIT-green)
+![Vercel](https://img.shields.io/badge/deployed_on-Vercel-000000?logo=vercel&logoColor=white)
 
-[产品方案](docs/产品方案.md) · [部署指南](docs/部署指南.md) · [在线演示](#)
+### [🔗 在线体验 →](https://pet-link-kohl.vercel.app)
+
+<sub>建议用手机打开，或把浏览器窗口缩窄到手机宽度</sub>
+
+[产品方案](docs/产品方案.md) · [部署指南](docs/部署指南.md)
 
 </div>
 
@@ -140,7 +145,8 @@ npm run build && npm start
 - [ ] 地图找局：高德 JS API，按距离排序活动
 - [ ] 报名后解锁群聊，替代现在的"报名后加联系方式"
 - [ ] 品牌方后台：商家自己发活动、看报名数据
-- [ ] 部署到 Vercel 并绑定域名
+- [x] 部署到 Vercel —— [pet-link-kohl.vercel.app](https://pet-link-kohl.vercel.app)
+- [ ] 绑定自定义域名
 
 ## 几个技术上的坑
 

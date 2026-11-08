@@ -214,7 +214,7 @@ const meetupSeeds: Omit<Meetup, "id">[] = [
   {
     type: "personal",
     title: "周六早晨 · 世纪公园遛狗团",
-    cover: "/img/dog-6.jpg",
+    cover: "/img/cover-1.jpg",
     hostName: "阿榆",
     verified: false,
     startAt: isoAt(2, "07:30"),
@@ -238,7 +238,7 @@ const meetupSeeds: Omit<Meetup, "id">[] = [
   {
     type: "personal",
     title: "滨江夜跑遛狗小分队",
-    cover: "/img/dog-1.jpg",
+    cover: "/img/cover-2.jpg",
     hostName: "小鹿",
     verified: false,
     startAt: isoAt(1, "19:30"),
@@ -260,7 +260,7 @@ const meetupSeeds: Omit<Meetup, "id">[] = [
   {
     type: "brand",
     title: "毛球杯 · 夏日小狗泳池派对",
-    cover: "/img/dog-3.jpg",
+    cover: "/img/cover-3.jpg",
     hostName: "毛球 PETS",
     verified: true,
     startAt: isoAt(3, "15:00"),
@@ -282,7 +282,7 @@ const meetupSeeds: Omit<Meetup, "id">[] = [
   {
     type: "personal",
     title: "柯基专属 · 短腿见面会",
-    cover: "/img/dog-14.jpg",
+    cover: "/img/cover-4.jpg",
     hostName: "七七",
     verified: false,
     startAt: isoAt(4, "10:00"),
@@ -303,7 +303,7 @@ const meetupSeeds: Omit<Meetup, "id">[] = [
   {
     type: "personal",
     title: "老狗慢走团 · 每天傍晚",
-    cover: "/img/dog-12.jpg",
+    cover: "/img/cover-5.jpg",
     hostName: "张阿姨",
     verified: false,
     startAt: isoAt(1, "18:00"),
@@ -324,7 +324,7 @@ const meetupSeeds: Omit<Meetup, "id">[] = [
   {
     type: "personal",
     title: "嗅闻游戏 · 让狗狗当一次侦探",
-    cover: "/img/dog-19.jpg",
+    cover: "/img/cover-6.jpg",
     hostName: "阿泽",
     verified: false,
     startAt: isoAt(5, "09:30"),
@@ -347,7 +347,7 @@ const meetupSeeds: Omit<Meetup, "id">[] = [
   {
     type: "brand",
     title: "鲜食厨房 · 新品试吃会",
-    cover: "/img/dog-4.jpg",
+    cover: "/img/cover-7.jpg",
     hostName: "每日鲜食",
     verified: true,
     startAt: isoAt(6, "14:00"),
@@ -369,7 +369,7 @@ const meetupSeeds: Omit<Meetup, "id">[] = [
   {
     type: "personal",
     title: "哈士奇拆家联盟 · 见面会",
-    cover: "/img/dog-10.jpg",
+    cover: "/img/cover-8.jpg",
     hostName: "阿凯",
     verified: false,
     startAt: isoAt(2, "16:00"),

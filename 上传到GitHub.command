@@ -32,9 +32,11 @@ echo "（屏幕上不会显示任何字符，这是正常的，不是卡住了�
 read -rsp "Token: " GH_TOKEN
 echo
 echo
+echo "已收到 Token（${#GH_TOKEN} 个字符）。classic token 正常是 40 个字符。"
+echo
 
 if [ -z "$GH_TOKEN" ]; then
-  echo "❌ 没有输入 Token，已取消。"
+  echo "❌ 没有输入 Token（粘贴可能没成功），已取消。"
   read -r -p "按回车关闭…" _
   exit 1
 fi
@@ -56,7 +58,7 @@ export GH_USER GH_TOKEN
 echo "正在上传…"
 echo
 
-git push -u origin main 2>&1 | sed -E "s/${GH_TOKEN}/***/g"
+git -c credential.helper= push -u origin main 2>&1 | sed -E "s/${GH_TOKEN}/***/g"
 STATUS=${PIPESTATUS[0]}
 rm -f "$ASKPASS"
 
@@ -88,7 +90,8 @@ else
   echo "常见原因："
   echo "  · Token 复制不完整（多半是少了开头或结尾几位）"
   echo "  · Token 没有勾选 repo 权限"
-  echo "  · Token 已经过期"
+  echo "  · Token 已经过期，或者粘贴时少了字符"
+  echo "  · 看到 403 / Invalid username or password，基本就是这个原因"
   echo
   echo "重新生成一个 Token 再跑一次这个脚本就行。"
   echo "=================================================="

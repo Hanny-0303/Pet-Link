@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { useAppStore } from "@/components/store";
 import { todayInSH } from "@/lib/date";
-import { SIZE_LABEL, type Size } from "@/lib/types";
+import { KIND_LABEL, SIZE_LABEL, type MeetupKind, type Size } from "@/lib/types";
 
 const COVERS = ["/img/dog-6.jpg", "/img/dog-1.jpg", "/img/dog-16.jpg", "/img/dog-14.jpg"];
 
@@ -14,6 +14,7 @@ export default function NewMeetupPage() {
   const { addMeetup } = useAppStore();
 
   const [title, setTitle] = useState("");
+  const [kind, setKind] = useState<MeetupKind>("walk");
   const [date, setDate] = useState(todayInSH(1));
   const [time, setTime] = useState("19:00");
   const [venue, setVenue] = useState("");
@@ -38,6 +39,7 @@ export default function NewMeetupPage() {
     addMeetup({
       id,
       type: "personal",
+      kind,
       title: title.trim(),
       cover: COVERS[Math.floor(Math.random() * COVERS.length)],
       hostName: "小鹿",
@@ -74,6 +76,31 @@ export default function NewMeetupPage() {
       </p>
 
       <div className="mt-5 space-y-4 px-5">
+        <div>
+          <label className="mb-2 block text-[12px] font-medium text-ink-soft">
+            活动类型
+          </label>
+          <div className="no-scrollbar flex gap-2 overflow-x-auto pb-1">
+            {(["walk", "market", "cafe", "adopt", "indoor"] as const).map((k) => {
+              const on = kind === k;
+              return (
+                <button
+                  key={k}
+                  type="button"
+                  onClick={() => setKind(k)}
+                  className={`shrink-0 rounded-full px-3.5 py-2 text-[12px] font-medium transition ${
+                    on
+                      ? "bg-brand text-white"
+                      : "bg-white text-ink-soft shadow-[0_1px_6px_rgba(80,60,40,0.06)]"
+                  }`}
+                >
+                  {KIND_LABEL[k]}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
         <Field label="活动名称">
           <input
             value={title}

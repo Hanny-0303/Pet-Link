@@ -9,36 +9,47 @@ import {
   MapPin,
   PawPrint,
   Search,
+  SlidersHorizontal,
   Users,
 } from "lucide-react";
 import { meetups, pets } from "@/lib/data";
-import { SIZE_LABEL, type Pet } from "@/lib/types";
+import { SIZE_LABEL, SPECIES_LABEL, type Pet, type Species } from "@/lib/types";
 import { fmtMeetupShort } from "@/lib/date";
 import { useAppStore } from "@/components/store";
 import LocationSheet from "@/components/location-sheet";
+import FilterSheet from "@/components/filter-sheet";
+import { EMPTY_FILTERS, countActive, type Filters } from "@/lib/filters";
 
-const FILTERS = [
+const SPECIES_TABS: { key: Species | "all"; label: string }[] = [
   { key: "all", label: "全部" },
-  { key: "dog", label: "狗狗" },
-  { key: "cat", label: "猫猫" },
-  { key: "near", label: "3km 内" },
-] as const;
-
-type FilterKey = (typeof FILTERS)[number]["key"];
+  { key: "dog", label: SPECIES_LABEL.dog },
+  { key: "cat", label: SPECIES_LABEL.cat },
+  { key: "rabbit", label: SPECIES_LABEL.rabbit },
+  { key: "smallpet", label: SPECIES_LABEL.smallpet },
+];
 
 export default function HomePage() {
   const { greeted, greet, district, showToast, prefs } = useAppStore();
-  const [filter, setFilter] = useState<FilterKey>("all");
+  const [species, setSpecies] = useState<Species | "all">("all");
+  const [filters, setFilters] = useState<Filters>(EMPTY_FILTERS);
+  const [filterOpen, setFilterOpen] = useState(false);
   const [locationOpen, setLocationOpen] = useState(false);
 
   const list = useMemo(() => {
     return pets.filter((p) => {
       if (district && p.district !== district) return false;
-      if (filter === "dog" || filter === "cat") return p.species === filter;
-      if (filter === "near") return p.distanceKm <= 3;
+      if (species !== "all" && p.species !== species) return false;
+      if (filters.sizes.length && !filters.sizes.includes(p.size)) return false;
+      if (filters.ages.length && !filters.ages.includes(p.ageBand)) return false;
+      if (filters.maxKm !== null && p.distanceKm > filters.maxKm) return false;
+      if (
+        filters.traits.length &&
+        !filters.traits.some((t) => p.personality.includes(t))
+      )
+        return false;
       return true;
     });
-  }, [filter, district]);
+  }, [species, district, filters]);
 
   const upcoming = useMemo(
     () => meetups.slice().sort((a, b) => a.startAt.localeCompare(b.startAt)).slice(0, 4),
@@ -65,13 +76,29 @@ export default function HomePage() {
             上海 · {district ?? "全部区域"}
             <ChevronDown size={13} strokeWidth={2.4} />
           </button>
-          <Link
-            href="/search"
-            aria-label="搜索"
-            className="grid h-9 w-9 place-items-center rounded-full bg-white shadow-[0_2px_10px_rgba(80,60,40,0.08)] active:scale-95"
-          >
-            <Search size={16} strokeWidth={2.2} />
-          </Link>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={() => setFilterOpen(true)}
+              aria-label="筛选"
+              className={`relative grid h-9 w-9 place-items-center rounded-full shadow-[0_2px_10px_rgba(80,60,40,0.08)] active:scale-95 ${
+                countActive(filters) > 0 ? "bg-brand text-white" : "bg-white"
+              }`}
+            >
+              <SlidersHorizontal size={16} strokeWidth={2.2} />
+              {countActive(filters) > 0 && (
+                <span className="absolute -top-1 -right-1 grid h-4 min-w-4 place-items-center rounded-full bg-white px-1 text-[9px] font-bold text-brand shadow">
+                  {countActive(filters)}
+                </span>
+              )}
+            </button>
+            <Link
+              href="/search"
+              aria-label="搜索"
+              className="grid h-9 w-9 place-items-center rounded-full bg-white shadow-[0_2px_10px_rgba(80,60,40,0.08)] active:scale-95"
+            >
+              <Search size={16} strokeWidth={2.2} />
+            </Link>
+          </div>
         </div>
 
         <h1 className="mt-4 text-[27px] leading-[1.25] font-bold tracking-tight">
@@ -86,24 +113,32 @@ export default function HomePage() {
         </p>
       </header>
 
-      {/* 筛选 */}
+      {/* 物种分类 */}
       <div className="no-scrollbar mt-4 flex gap-2 overflow-x-auto px-5 pb-1">
-        {FILTERS.map((f) => {
-          const active = filter === f.key;
+        {SPECIES_TABS.map((t) => {
+          const active = species === t.key;
+          const count =
+            t.key === "all"
+              ? pets.length
+              : pets.filter((p) => p.species === t.key).length;
           return (
             <button
-              key={f.key}
-              onClick={() => setFilter(f.key)}
-              className={`shrink-0 rounded-full px-3.5 py-[7px] text-[12.5px] font-medium transition ${
+              key={t.key}
+              onClick={() => setSpecies(t.key)}
+              className={`flex shrink-0 items-center gap-1 rounded-full px-3.5 py-[7px] text-[12.5px] font-medium transition ${
                 active
                   ? "bg-ink text-cream"
                   : "bg-white text-ink-soft shadow-[0_1px_6px_rgba(80,60,40,0.06)]"
               }`}
             >
-              {f.label}
+              {t.label}
+              <span className={active ? "text-cream/55" : "text-ink-mute"}>
+                {count}
+              </span>
             </button>
           );
         })}
+
       </div>
 
       {/* 宠物卡片横滑 */}
@@ -244,6 +279,12 @@ export default function HomePage() {
 
       {/* 弹层放在动画容器外面，否则会被它的层叠上下文困住，盖不住底部 Tab */}
       <LocationSheet open={locationOpen} onClose={() => setLocationOpen(false)} />
+      <FilterSheet
+        open={filterOpen}
+        value={filters}
+        onApply={setFilters}
+        onClose={() => setFilterOpen(false)}
+      />
 
     </>
   );

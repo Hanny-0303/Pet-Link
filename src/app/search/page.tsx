@@ -6,9 +6,9 @@ import { useRouter } from "next/navigation";
 import { ArrowLeft, ChevronRight, MapPin, PawPrint, Search, X } from "lucide-react";
 import { meetups, pets } from "@/lib/data";
 import { fmtMeetupShort } from "@/lib/date";
-import { SIZE_LABEL } from "@/lib/types";
+import { AGE_LABEL, KIND_LABEL, SIZE_LABEL, SPECIES_LABEL } from "@/lib/types";
 
-const HOT = ["柯基", "金毛", "活泼", "世纪公园", "免费", "边牧"];
+const HOT = ["柯基", "兔子", "猫猫", "市集", "活泼", "世纪公园"];
 
 export default function SearchPage() {
   const router = useRouter();
@@ -29,7 +29,8 @@ export default function SearchPage() {
   const petHits = useMemo(() => {
     if (!q) return [];
     return pets.filter((p) =>
-      [p.name, p.breed, p.ownerName, p.bio, SIZE_LABEL[p.size], ...p.personality]
+      [p.name, p.breed, p.ownerName, p.bio, SPECIES_LABEL[p.species],
+       SIZE_LABEL[p.size], AGE_LABEL[p.ageBand], ...p.personality]
         .join(" ")
         .toLowerCase()
         .includes(q)
@@ -39,7 +40,7 @@ export default function SearchPage() {
   const meetupHits = useMemo(() => {
     if (!q) return [];
     return meetups.filter((m) =>
-      [m.title, m.venueName, m.district, m.hostName, ...m.tags]
+      [m.title, m.venueName, m.district, m.hostName, KIND_LABEL[m.kind], ...m.tags]
         .join(" ")
         .toLowerCase()
         .includes(q)

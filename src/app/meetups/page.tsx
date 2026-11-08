@@ -6,18 +6,25 @@ import { BadgeCheck, Clock, MapPin, Plus, Users } from "lucide-react";
 import { meetups as seedMeetups } from "@/lib/data";
 import { fmtMeetup } from "@/lib/date";
 import { useAppStore } from "@/components/store";
+import { KIND_LABEL, type MeetupKind } from "@/lib/types";
 
-const TABS = [
+const KIND_TABS: { key: MeetupKind | "all"; label: string }[] = [
   { key: "all", label: "全部" },
-  { key: "personal", label: "遛狗局" },
-  { key: "brand", label: "品牌活动" },
-] as const;
+  { key: "walk", label: KIND_LABEL.walk },
+  { key: "market", label: KIND_LABEL.market },
+  { key: "cafe", label: KIND_LABEL.cafe },
+  { key: "adopt", label: KIND_LABEL.adopt },
+  { key: "indoor", label: KIND_LABEL.indoor },
+];
 
-type TabKey = (typeof TABS)[number]["key"];
+const WEEK_MS = 7 * 86_400_000;
 
 export default function MeetupsPage() {
   const { joined, extraMeetups } = useAppStore();
-  const [tab, setTab] = useState<TabKey>("all");
+  const [kind, setKind] = useState<MeetupKind | "all">("all");
+  const [freeOnly, setFreeOnly] = useState(false);
+  const [brandOnly, setBrandOnly] = useState(false);
+  const [thisWeek, setThisWeek] = useState(false);
 
   const all = useMemo(
     () =>
@@ -27,7 +34,13 @@ export default function MeetupsPage() {
     [extraMeetups]
   );
 
-  const list = all.filter((m) => (tab === "all" ? true : m.type === tab));
+  const list = all.filter((m) => {
+    if (kind !== "all" && m.kind !== kind) return false;
+    if (freeOnly && m.fee > 0) return false;
+    if (brandOnly && m.type !== "brand") return false;
+    if (thisWeek && new Date(m.startAt).getTime() > Date.now() + WEEK_MS) return false;
+    return true;
+  });
 
   return (
     <div className="rise">
@@ -48,16 +61,16 @@ export default function MeetupsPage() {
       </header>
 
       <div className="no-scrollbar mt-4 flex gap-2 overflow-x-auto px-5">
-        {TABS.map((t) => {
-          const active = tab === t.key;
+        {KIND_TABS.map((t) => {
+          const active = kind === t.key;
           const count =
             t.key === "all"
               ? all.length
-              : all.filter((m) => m.type === t.key).length;
+              : all.filter((m) => m.kind === t.key).length;
           return (
             <button
               key={t.key}
-              onClick={() => setTab(t.key)}
+              onClick={() => setKind(t.key)}
               className={`shrink-0 rounded-full px-3.5 py-[7px] text-[12.5px] font-medium transition ${
                 active
                   ? "bg-ink text-cream"
@@ -71,6 +84,27 @@ export default function MeetupsPage() {
             </button>
           );
         })}
+      </div>
+
+      {/* 快捷筛选 */}
+      <div className="mt-2 flex gap-2 px-5">
+        {[
+          { on: freeOnly, set: setFreeOnly, label: "免费" },
+          { on: thisWeek, set: setThisWeek, label: "本周" },
+          { on: brandOnly, set: setBrandOnly, label: "品牌主办" },
+        ].map((f) => (
+          <button
+            key={f.label}
+            onClick={() => f.set(!f.on)}
+            className={`rounded-full border px-3 py-[5px] text-[11px] font-medium transition ${
+              f.on
+                ? "border-brand bg-brand-soft text-brand"
+                : "border-line bg-transparent text-ink-soft"
+            }`}
+          >
+            {f.label}
+          </button>
+        ))}
       </div>
 
       <div className="mt-4 space-y-3.5 px-5">
@@ -93,16 +127,12 @@ export default function MeetupsPage() {
                   className="h-full w-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                {m.type === "brand" ? (
-                  <span className="absolute top-2.5 left-2.5 flex items-center gap-1 rounded-full bg-ink/80 px-2 py-[3px] text-[9.5px] font-medium text-white backdrop-blur">
-                    <BadgeCheck size={10} strokeWidth={2.6} />
-                    品牌活动
-                  </span>
-                ) : (
-                  <span className="absolute top-2.5 left-2.5 rounded-full bg-white/85 px-2 py-[3px] text-[9.5px] font-medium backdrop-blur">
-                    遛狗局
-                  </span>
-                )}
+                <span className="absolute top-2.5 left-2.5 flex items-center gap-1 rounded-full bg-white/88 px-2 py-[3px] text-[9.5px] font-medium backdrop-blur">
+                  {KIND_LABEL[m.kind]}
+                  {m.type === "brand" && (
+                    <BadgeCheck size={10} strokeWidth={2.6} className="text-mint" />
+                  )}
+                </span>
                 <span className="absolute right-2.5 bottom-2.5 rounded-full bg-white/90 px-2 py-[3px] text-[9.5px] font-semibold backdrop-blur">
                   {m.fee > 0 ? `¥${m.fee}` : "免费"}
                 </span>

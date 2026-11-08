@@ -1,4 +1,4 @@
-import type { Meetup, Pet, Post } from "./types";
+import type { AgeBand, Meetup, Pet, Post } from "./types";
 import { isoAt } from "./date";
 
 /* ────────────────────────────────────────────────────────────
@@ -7,9 +7,19 @@ import { isoAt } from "./date";
    以后接数据库时，这个文件就是初始数据来源。
    ──────────────────────────────────────────────────────────── */
 
-type PetSeed = Omit<Pet, "id" | "vaccinated" | "neutered" | "photos"> & {
+type PetSeed = Omit<Pet, "id" | "vaccinated" | "neutered" | "photos" | "ageBand"> & {
   img: string;
 };
+
+/** 从 "2岁3个月" 这类文案推出年龄分段：小于 1 岁半算幼年，6 岁以上算老年 */
+function bandOf(ageText: string): AgeBand {
+  const y = ageText.match(/(\d+)\s*岁/);
+  const mo = ageText.match(/(\d+)\s*个月/);
+  const months = (y ? Number(y[1]) * 12 : 0) + (mo ? Number(mo[1]) : 0);
+  if (months < 18) return "baby";
+  if (months >= 72) return "senior";
+  return "adult";
+}
 
 const petSeeds: PetSeed[] = [
   {
@@ -194,11 +204,40 @@ const petSeeds: PetSeed[] = [
     bio: "生人面前躲床底，生人走后立刻来蹭手心。",
     ownerName: "小野", district: "浦东 · 世纪公园", distanceKm: 1.4,
   },
+  {
+    name: "雪团", img: "rabbit-1", species: "rabbit", breed: "垂耳兔", gender: "girl",
+    ageText: "1岁4个月", size: "small", weightKg: 2.1,
+    personality: ["温顺", "安静"],
+    bio: "会自己跳到沙发上要摸头，被摸的时候会磨牙表示舒服。",
+    ownerName: "阿梨", district: "浦东 · 花木", distanceKm: 1.1,
+  },
+  {
+    name: "灰灰", img: "rabbit-2", species: "rabbit", breed: "侏儒兔", gender: "boy",
+    ageText: "2岁", size: "small", weightKg: 1.4,
+    personality: ["胆小", "好奇"],
+    bio: "听到塑料袋就冲过来，但伸手摸他又立刻跑掉。",
+    ownerName: "小满", district: "徐汇 · 衡山路", distanceKm: 2.6,
+  },
+  {
+    name: "汤圆", img: "hamster-1", species: "smallpet", breed: "金丝熊仓鼠", gender: "girl",
+    ageText: "8个月", size: "small", weightKg: 0.12,
+    personality: ["夜猫子", "贪吃"],
+    bio: "凌晨三点在跑轮上跑步，白天怎么叫都不醒。",
+    ownerName: "阿豆", district: "杨浦 · 五角场", distanceKm: 3.0,
+  },
+  {
+    name: "毛球", img: "chinchilla-1", species: "smallpet", breed: "龙猫", gender: "boy",
+    ageText: "2岁", size: "small", weightKg: 0.6,
+    personality: ["高冷", "爱洗澡"],
+    bio: "一天洗三次沙浴，洗完还要抖你一身沙。",
+    ownerName: "小野", district: "长宁 · 中山公园", distanceKm: 1.9,
+  },
 ];
 
 export const pets: Pet[] = petSeeds.map((p, i) => ({
   ...p,
   id: `p${i + 1}`,
+  ageBand: bandOf(p.ageText),
   vaccinated: true,
   neutered: i % 3 !== 0,
   photos: [`/img/${p.img}.jpg`],
@@ -213,6 +252,7 @@ export function getPet(id: string): Pet | undefined {
 const meetupSeeds: Omit<Meetup, "id">[] = [
   {
     type: "personal",
+    kind: "walk",
     title: "周六早晨 · 世纪公园遛狗团",
     cover: "/img/cover-1.jpg",
     hostName: "阿榆",
@@ -237,6 +277,7 @@ const meetupSeeds: Omit<Meetup, "id">[] = [
   },
   {
     type: "personal",
+    kind: "walk",
     title: "滨江夜跑遛狗小分队",
     cover: "/img/cover-2.jpg",
     hostName: "小鹿",
@@ -259,6 +300,7 @@ const meetupSeeds: Omit<Meetup, "id">[] = [
   },
   {
     type: "brand",
+    kind: "market",
     title: "毛球杯 · 夏日小狗泳池派对",
     cover: "/img/cover-3.jpg",
     hostName: "毛球 PETS",
@@ -281,6 +323,7 @@ const meetupSeeds: Omit<Meetup, "id">[] = [
   },
   {
     type: "personal",
+    kind: "walk",
     title: "柯基专属 · 短腿见面会",
     cover: "/img/cover-4.jpg",
     hostName: "七七",
@@ -302,6 +345,7 @@ const meetupSeeds: Omit<Meetup, "id">[] = [
   },
   {
     type: "personal",
+    kind: "walk",
     title: "老狗慢走团 · 每天傍晚",
     cover: "/img/cover-5.jpg",
     hostName: "张阿姨",
@@ -323,6 +367,7 @@ const meetupSeeds: Omit<Meetup, "id">[] = [
   },
   {
     type: "personal",
+    kind: "walk",
     title: "嗅闻游戏 · 让狗狗当一次侦探",
     cover: "/img/cover-6.jpg",
     hostName: "阿泽",
@@ -346,6 +391,7 @@ const meetupSeeds: Omit<Meetup, "id">[] = [
   },
   {
     type: "brand",
+    kind: "market",
     title: "鲜食厨房 · 新品试吃会",
     cover: "/img/cover-7.jpg",
     hostName: "每日鲜食",
@@ -368,6 +414,7 @@ const meetupSeeds: Omit<Meetup, "id">[] = [
   },
   {
     type: "personal",
+    kind: "walk",
     title: "哈士奇拆家联盟 · 见面会",
     cover: "/img/cover-8.jpg",
     hostName: "阿凯",
@@ -386,6 +433,73 @@ const meetupSeeds: Omit<Meetup, "id">[] = [
       "大型犬专场，让它们跑个够。主人交流一下谁家沙发被拆得最惨。\n\n需要狗子有基本的召回，场地不封闭，请自行评估。",
     tags: ["免费", "大型犬", "需要召回"],
     fee: 0,
+  },
+  {
+    type: "personal",
+    kind: "cafe",
+    title: "宠物友好咖啡 · 周日早午餐",
+    cover: "/img/cover-9.jpg",
+    hostName: "阿梨",
+    verified: false,
+    startAt: isoAt(3, "11:00"),
+    venueName: "安福路 · 一只猫咖啡馆",
+    district: "徐汇 · 衡山路",
+    distanceKm: 2.9,
+    sizeLimit: ["small", "medium"],
+    capacity: 16,
+    participants: [
+      { name: "阿梨", petName: "雪团" }, { name: "小满", petName: "灰灰" },
+      { name: "阿罗", petName: "咪咪" }, { name: "汤圆", petName: "橘子" },
+      { name: "小野", petName: "雪糕" },
+    ],
+    description:
+      "室内场，猫、兔、小型犬都可以来。店里有围栏区，不怕跑丢。\n\n点单自理，人均 40 左右。人多的时候请把宠物抱在怀里或放推车。",
+    tags: ["免费", "室内", "可带猫"],
+    fee: 0,
+  },
+  {
+    type: "brand",
+    kind: "adopt",
+    title: "周六领养日 · 给它们一个家",
+    cover: "/img/cover-10.jpg",
+    hostName: "城市流浪动物之家",
+    verified: true,
+    startAt: isoAt(5, "13:00"),
+    venueName: "康桥绿地 · 中心广场",
+    district: "浦东 · 康桥",
+    distanceKm: 6.2,
+    sizeLimit: ["small", "medium", "large"],
+    capacity: 50,
+    participants: [
+      { name: "张阿姨", petName: "旺仔" }, { name: "老吴", petName: "阿黄" },
+      { name: "小北", petName: "团子" },
+    ],
+    description:
+      "12 只待领养的猫狗现场见面，全部已驱虫、已绝育、疫苗齐全。\n\n领养需要面谈 + 家访，不收费，但请确认自己能负责十几年。不带宠物也可以来看看。",
+    tags: ["公益", "免费", "可空手来"],
+    fee: 0,
+  },
+  {
+    type: "personal",
+    kind: "indoor",
+    title: "雨天室内场 · 嗅闻与社交",
+    cover: "/img/cover-11.jpg",
+    hostName: "阿泽",
+    verified: false,
+    startAt: isoAt(4, "14:30"),
+    venueName: "衡山路 · 宠物活动室",
+    district: "徐汇 · 衡山路",
+    distanceKm: 2.9,
+    sizeLimit: ["small", "medium"],
+    capacity: 14,
+    participants: [
+      { name: "阿泽", petName: "闪电" }, { name: "阿曼", petName: "奶盖" },
+      { name: "小可", petName: "咖啡" }, { name: "阿豆", petName: "汤圆" },
+    ],
+    description:
+      "下雨也有地方去。室内铺了软垫，做气味游戏和小范围社交，胆小的宠物有单独隔间。\n\n场地费 40 元/次，含清洁。猫和小宠需要自备航空箱。",
+    tags: ["室内", "含场地费", "雨天照常"],
+    fee: 40,
   },
 ];
 

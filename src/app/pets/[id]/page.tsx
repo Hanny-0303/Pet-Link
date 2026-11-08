@@ -11,7 +11,7 @@ import {
   Syringe,
 } from "lucide-react";
 import { getPet, meetups, posts } from "@/lib/data";
-import { SIZE_LABEL } from "@/lib/types";
+import { AGE_LABEL, SIZE_LABEL, SPECIES_LABEL, canWalk } from "@/lib/types";
 import { fmtMeetupShort } from "@/lib/date";
 import { useAppStore } from "@/components/store";
 import Avatar from "@/components/avatar";
@@ -61,7 +61,7 @@ export default function PetDetailPage() {
             </span>
           </div>
           <p className="mt-0.5 text-[13px] text-white/85">
-            {pet.breed} · {pet.ageText} · {SIZE_LABEL[pet.size]}犬 · {pet.weightKg}kg
+            {pet.breed} · {pet.ageText} · {SIZE_LABEL[pet.size]} · {pet.weightKg}kg
           </p>
           <div className="mt-2 flex items-center gap-1 text-[11.5px] text-white/75">
             <MapPin size={11} strokeWidth={2.4} />
@@ -124,7 +124,8 @@ export default function PetDetailPage() {
               </>
             ) : (
               <>
-                <PawPrint size={14} strokeWidth={2.4} /> 约它遛弯
+                <PawPrint size={14} strokeWidth={2.4} />{" "}
+                {canWalk(pet.species) ? "约它遛弯" : "打个招呼"}
               </>
             )}
           </button>

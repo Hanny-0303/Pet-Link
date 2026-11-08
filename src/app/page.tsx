@@ -15,6 +15,7 @@ import { meetups, pets } from "@/lib/data";
 import { SIZE_LABEL, type Pet } from "@/lib/types";
 import { fmtMeetupShort } from "@/lib/date";
 import { useAppStore } from "@/components/store";
+import LocationSheet from "@/components/location-sheet";
 
 const FILTERS = [
   { key: "all", label: "全部" },
@@ -26,17 +27,19 @@ const FILTERS = [
 type FilterKey = (typeof FILTERS)[number]["key"];
 
 export default function HomePage() {
-  const { greeted, greet } = useAppStore();
+  const { greeted, greet, district } = useAppStore();
   const [filter, setFilter] = useState<FilterKey>("all");
   const [toast, setToast] = useState<string | null>(null);
+  const [locationOpen, setLocationOpen] = useState(false);
 
   const list = useMemo(() => {
     return pets.filter((p) => {
+      if (district && p.district !== district) return false;
       if (filter === "dog" || filter === "cat") return p.species === filter;
       if (filter === "near") return p.distanceKm <= 3;
       return true;
     });
-  }, [filter]);
+  }, [filter, district]);
 
   const upcoming = useMemo(
     () => meetups.slice().sort((a, b) => a.startAt.localeCompare(b.startAt)).slice(0, 4),
@@ -51,18 +54,26 @@ export default function HomePage() {
   }
 
   return (
-    <div className="rise">
+    <>
+      <div className="rise">
       {/* 顶部 */}
       <header className="px-5 pt-7">
         <div className="flex items-center justify-between">
-          <button className="flex items-center gap-1 text-[13px] font-medium text-ink-soft">
+          <button
+            onClick={() => setLocationOpen(true)}
+            className="flex items-center gap-1 text-[13px] font-medium text-ink-soft active:opacity-60"
+          >
             <MapPin size={13} strokeWidth={2.4} className="text-brand" />
-            上海 · 浦东花木
+            上海 · {district ?? "全部区域"}
             <ChevronDown size={13} strokeWidth={2.4} />
           </button>
-          <button className="grid h-9 w-9 place-items-center rounded-full bg-white shadow-[0_2px_10px_rgba(80,60,40,0.08)]">
+          <Link
+            href="/search"
+            aria-label="搜索"
+            className="grid h-9 w-9 place-items-center rounded-full bg-white shadow-[0_2px_10px_rgba(80,60,40,0.08)] active:scale-95"
+          >
             <Search size={16} strokeWidth={2.2} />
-          </button>
+          </Link>
         </div>
 
         <h1 className="mt-4 text-[27px] leading-[1.25] font-bold tracking-tight">
@@ -71,7 +82,9 @@ export default function HomePage() {
           一起遛弯？
         </h1>
         <p className="mt-1.5 text-[12.5px] text-ink-mute">
-          附近有 {pets.length} 只小伙伴在等你
+          {district
+            ? `这个区域有 ${list.length} 只小伙伴`
+            : `附近有 ${list.length} 只小伙伴在等你`}
         </p>
       </header>
 
@@ -227,6 +240,10 @@ export default function HomePage() {
 
       {/* 底部留白 */}
       <div className="h-6" />
+      </div>
+
+      {/* 弹层放在动画容器外面，否则会被它的层叠上下文困住，盖不住底部 Tab */}
+      <LocationSheet open={locationOpen} onClose={() => setLocationOpen(false)} />
 
       {/* 轻提示 */}
       {toast && (
@@ -234,6 +251,6 @@ export default function HomePage() {
           {toast}
         </div>
       )}
-    </div>
+    </>
   );
 }

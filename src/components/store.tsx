@@ -14,10 +14,13 @@ type Store = {
   greeted: string[];
   liked: string[];
   extraMeetups: Meetup[];
+  /** 当前选中的区域，null 表示全部区域 */
+  district: string | null;
   join: (id: string) => void;
   greet: (id: string) => void;
   like: (id: string) => void;
   addMeetup: (m: Meetup) => void;
+  setDistrict: (d: string | null) => void;
 };
 
 const Ctx = createContext<Store | null>(null);
@@ -31,6 +34,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
   const [greeted, setGreeted] = useState<string[]>([]);
   const [liked, setLiked] = useState<string[]>([]);
   const [extraMeetups, setExtraMeetups] = useState<Meetup[]>([]);
+  const [district, setDistrict] = useState<string | null>(null);
 
   return (
     <Ctx.Provider
@@ -39,6 +43,8 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
         greeted,
         liked,
         extraMeetups,
+        district,
+        setDistrict,
         join: (id) => setJoined((s) => toggle(s, id)),
         greet: (id) => setGreeted((s) => toggle(s, id)),
         like: (id) => setLiked((s) => toggle(s, id)),

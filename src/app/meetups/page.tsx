@@ -25,6 +25,7 @@ export default function MeetupsPage() {
   const [freeOnly, setFreeOnly] = useState(false);
   const [brandOnly, setBrandOnly] = useState(false);
   const [thisWeek, setThisWeek] = useState(false);
+  const [todayOnly, setTodayOnly] = useState(false);
 
   const all = useMemo(
     () =>
@@ -39,6 +40,10 @@ export default function MeetupsPage() {
     if (freeOnly && m.fee > 0) return false;
     if (brandOnly && m.type !== "brand") return false;
     if (thisWeek && new Date(m.startAt).getTime() > Date.now() + WEEK_MS) return false;
+    if (todayOnly) {
+      const start = new Date(m.startAt).getTime();
+      if (start > Date.now() + 86_400_000) return false;
+    }
     return true;
   });
 
@@ -89,6 +94,7 @@ export default function MeetupsPage() {
       {/* 快捷筛选 */}
       <div className="mt-2 flex gap-2 px-5">
         {[
+          { on: todayOnly, set: setTodayOnly, label: "今天" },
           { on: freeOnly, set: setFreeOnly, label: "免费" },
           { on: thisWeek, set: setThisWeek, label: "本周" },
           { on: brandOnly, set: setBrandOnly, label: "品牌主办" },

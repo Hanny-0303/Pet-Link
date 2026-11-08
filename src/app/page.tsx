@@ -3,17 +3,17 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import {
-  ArrowRight,
   Check,
   ChevronDown,
+  GalleryVerticalEnd,
+  LayoutGrid,
   MapPin,
   PawPrint,
   Search,
   SlidersHorizontal,
   Sparkles,
-  Users,
 } from "lucide-react";
-import { getPet, meetups, pets } from "@/lib/data";
+import { getPet, pets } from "@/lib/data";
 import {
   COMMON_SPECIES,
   SIZE_LABEL,
@@ -22,7 +22,6 @@ import {
   type Pet,
   type Species,
 } from "@/lib/types";
-import { fmtMeetupShort } from "@/lib/date";
 import { useAppStore } from "@/components/store";
 import LocationSheet from "@/components/location-sheet";
 import FilterSheet from "@/components/filter-sheet";
@@ -31,11 +30,16 @@ import { buildRecommendations } from "@/lib/pet";
 
 const QUICK_SPECIES: (Species | "all")[] = ["all", ...COMMON_SPECIES];
 
+type ViewMode = "swipe" | "grid";
+
 export default function HomePage() {
-  const { greeted, greet, district, showToast, prefs, species, setSpecies } = useAppStore();
+  const { greeted, greet, district, showToast, prefs, species, setSpecies } =
+    useAppStore();
+
   const [filters, setFilters] = useState<Filters>(EMPTY_FILTERS);
   const [filterOpen, setFilterOpen] = useState(false);
   const [locationOpen, setLocationOpen] = useState(false);
+  const [mode, setMode] = useState<ViewMode>("swipe");
 
   // 基于「我的宠物豆豆」算出的推荐名单：id -> 推荐理由
   const me = getPet("p1");
@@ -64,11 +68,6 @@ export default function HomePage() {
     });
   }, [species, district, filters, recommendations]);
 
-  const upcoming = useMemo(
-    () => meetups.slice().sort((a, b) => a.startAt.localeCompare(b.startAt)).slice(0, 4),
-    []
-  );
-
   function handleGreet(pet: Pet) {
     const done = greeted.includes(pet.id);
     greet(pet.id);
@@ -77,242 +76,164 @@ export default function HomePage() {
 
   return (
     <>
-      <div className="rise">
-      {/* 顶部 */}
-      <header className="px-5 pt-7">
-        <div className="flex items-center justify-between">
-          <button
-            onClick={() => setLocationOpen(true)}
-            className="flex items-center gap-1 text-[13px] font-medium text-ink-soft active:opacity-60"
-          >
-            <MapPin size={13} strokeWidth={2.4} className="text-brand" />
-            上海 · {district ?? "全部区域"}
-            <ChevronDown size={13} strokeWidth={2.4} />
-          </button>
-          <div className="flex items-center gap-2">
+      <div className="flex h-[calc(100dvh-5rem)] flex-col overflow-hidden">
+        {/* 顶栏 */}
+        <header className="shrink-0 px-5 pt-6">
+          <div className="flex items-center justify-between">
             <button
-              onClick={() => setFilterOpen(true)}
-              aria-label="筛选"
-              className={`relative grid h-9 w-9 place-items-center rounded-full shadow-[0_2px_10px_rgba(80,60,40,0.08)] active:scale-95 ${
-                countActive(filters) > 0 ? "bg-brand text-white" : "bg-white"
-              }`}
+              onClick={() => setLocationOpen(true)}
+              className="flex items-center gap-1 text-[13px] font-medium text-ink-soft active:opacity-60"
             >
-              <SlidersHorizontal size={16} strokeWidth={2.2} />
-              {countActive(filters) > 0 && (
-                <span className="absolute -top-1 -right-1 grid h-4 min-w-4 place-items-center rounded-full bg-white px-1 text-[9px] font-bold text-brand shadow">
-                  {countActive(filters)}
-                </span>
-              )}
+              <MapPin size={13} strokeWidth={2.4} className="text-brand" />
+              {district ?? "全国"}
+              <ChevronDown size={13} strokeWidth={2.4} />
             </button>
-            <Link
-              href="/search"
-              aria-label="搜索"
-              className="grid h-9 w-9 place-items-center rounded-full bg-white shadow-[0_2px_10px_rgba(80,60,40,0.08)] active:scale-95"
-            >
-              <Search size={16} strokeWidth={2.2} />
-            </Link>
+
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => setMode(mode === "swipe" ? "grid" : "swipe")}
+                aria-label={mode === "swipe" ? "切换到网格" : "切换到单张"}
+                className="grid h-9 w-9 place-items-center rounded-full bg-white shadow-[0_2px_10px_rgba(80,60,40,0.08)] active:scale-95"
+              >
+                {mode === "swipe" ? (
+                  <LayoutGrid size={16} strokeWidth={2.2} />
+                ) : (
+                  <GalleryVerticalEnd size={16} strokeWidth={2.2} />
+                )}
+              </button>
+              <button
+                onClick={() => setFilterOpen(true)}
+                aria-label="筛选"
+                className={`relative grid h-9 w-9 place-items-center rounded-full shadow-[0_2px_10px_rgba(80,60,40,0.08)] active:scale-95 ${
+                  countActive(filters) > 0 ? "bg-brand text-white" : "bg-white"
+                }`}
+              >
+                <SlidersHorizontal size={16} strokeWidth={2.2} />
+                {countActive(filters) > 0 && (
+                  <span className="absolute -top-1 -right-1 grid h-4 min-w-4 place-items-center rounded-full bg-white px-1 text-[9px] font-bold text-brand shadow">
+                    {countActive(filters)}
+                  </span>
+                )}
+              </button>
+              <Link
+                href="/search"
+                aria-label="搜索"
+                className="grid h-9 w-9 place-items-center rounded-full bg-white shadow-[0_2px_10px_rgba(80,60,40,0.08)] active:scale-95"
+              >
+                <Search size={16} strokeWidth={2.2} />
+              </Link>
+            </div>
           </div>
+
+          {mode === "grid" && (
+            <div className="mt-4">
+              <h1 className="text-[24px] leading-tight font-bold tracking-tight">
+                今天想认识
+                <br />
+                哪个小家伙？
+              </h1>
+              <p className="mt-1 text-[12px] text-ink-mute">
+                {district ? `这个区域有 ${list.length} 只小伙伴` : `附近有 ${list.length} 只小伙伴`}
+              </p>
+            </div>
+          )}
+        </header>
+
+        {/* 物种分类 */}
+        <div className="no-scrollbar mt-3 flex shrink-0 gap-2 overflow-x-auto px-5 pb-2">
+          {QUICK_SPECIES.map((t) => {
+            const active = species === t;
+            const count =
+              t === "all" ? pets.length : pets.filter((p) => p.species === t).length;
+            return (
+              <button
+                key={t}
+                onClick={() => setSpecies(t)}
+                className={`flex shrink-0 items-center gap-1 rounded-full px-3.5 py-[7px] text-[12.5px] font-medium transition ${
+                  active
+                    ? "bg-ink text-cream"
+                    : "bg-white text-ink-soft shadow-[0_1px_6px_rgba(80,60,40,0.06)]"
+                }`}
+              >
+                {t === "all" ? "全部" : SPECIES_LABEL[t as Species]}
+                <span className={active ? "text-cream/55" : "text-ink-mute"}>{count}</span>
+              </button>
+            );
+          })}
+          <Link
+            href="/species"
+            className={`flex shrink-0 items-center gap-1 rounded-full px-3.5 py-[7px] text-[12.5px] font-medium transition ${
+              isExotic(species as Species)
+                ? "bg-ink text-cream"
+                : "bg-white text-ink-soft shadow-[0_1px_6px_rgba(80,60,40,0.06)]"
+            }`}
+          >
+            {isExotic(species as Species) ? SPECIES_LABEL[species as Species] : "更多"}
+            <ChevronDown size={12} strokeWidth={2.6} />
+          </Link>
         </div>
 
-        <h1 className="mt-4 text-[27px] leading-[1.25] font-bold tracking-tight">
-          今天想认识
-          <br />
-          哪个小家伙？
-        </h1>
-        <p className="mt-1.5 text-[12.5px] text-ink-mute">
-          {district
-            ? `这个区域有 ${list.length} 只小伙伴`
-            : `附近有 ${list.length} 只小伙伴在等你`}
-        </p>
-      </header>
-
-      {/* 物种分类 */}
-      <div className="no-scrollbar mt-4 flex gap-2 overflow-x-auto px-5 pb-1">
-        {QUICK_SPECIES.map((t) => {
-          const active = species === t;
-          const count =
-            t === "all" ? pets.length : pets.filter((p) => p.species === t).length;
-          return (
+        {/* 内容 */}
+        {list.length === 0 ? (
+          <div className="flex flex-1 flex-col items-center justify-center px-8 text-center">
+            <PawPrint size={26} strokeWidth={1.6} className="text-ink-mute/70" />
+            <p className="mt-3 text-[13.5px] font-medium text-ink-soft">
+              这个条件下还没有小伙伴
+            </p>
             <button
-              key={t}
-              onClick={() => setSpecies(t)}
-              className={`flex shrink-0 items-center gap-1 rounded-full px-3.5 py-[7px] text-[12.5px] font-medium transition ${
-                active
-                  ? "bg-ink text-cream"
-                  : "bg-white text-ink-soft shadow-[0_1px_6px_rgba(80,60,40,0.06)]"
-              }`}
+              onClick={() => setFilters(EMPTY_FILTERS)}
+              className="mt-4 rounded-full bg-white px-4 py-2 text-[12px] font-medium text-ink-soft shadow-[0_2px_10px_rgba(80,60,40,0.06)]"
             >
-              {t === "all" ? "全部" : SPECIES_LABEL[t as Species]}
-              <span className={active ? "text-cream/55" : "text-ink-mute"}>
-                {count}
-              </span>
+              清空筛选
             </button>
-          );
-        })}
-
-        <Link
-          href="/species"
-          className={`flex shrink-0 items-center gap-1 rounded-full px-3.5 py-[7px] text-[12.5px] font-medium transition ${
-            isExotic(species as Species)
-              ? "bg-ink text-cream"
-              : "bg-white text-ink-soft shadow-[0_1px_6px_rgba(80,60,40,0.06)]"
-          }`}
-        >
-          {isExotic(species as Species) ? SPECIES_LABEL[species as Species] : "更多"}
-          <ChevronDown size={12} strokeWidth={2.6} />
-        </Link>
-
-      </div>
-
-      {/* 宠物卡片横滑 */}
-      <div className="no-scrollbar mt-4 flex snap-x snap-mandatory gap-3 overflow-x-auto px-5 pb-2">
-        {list.map((pet) => {
-          const done = greeted.includes(pet.id);
-          return (
-            <div
-              key={pet.id}
-              className="relative w-[74vw] max-w-[300px] shrink-0 snap-center"
-            >
-              <div className="relative aspect-[3/4] overflow-hidden rounded-[26px] bg-line">
-                <Link href={`/pets/${pet.id}`} className="block h-full w-full">
+          </div>
+        ) : mode === "swipe" ? (
+          <div className="no-scrollbar min-h-0 flex-1 snap-y snap-mandatory overflow-y-auto">
+            {list.map((pet) => (
+              <PetSlide
+                key={pet.id}
+                pet={pet}
+                reason={recommendations[pet.id]}
+                greeted={greeted.includes(pet.id)}
+                showDistance={prefs.showDistance}
+                onGreet={() => handleGreet(pet)}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="flex min-h-0 flex-1 flex-wrap content-start gap-1.5 overflow-y-auto px-3 pb-4">
+            {list.map((pet) => (
+              <div
+                key={pet.id}
+                className="relative overflow-hidden rounded-[12px] bg-line"
+                style={{
+                  width: "calc((100% - 12px) / 3)",
+                  paddingBottom: "calc((100% - 12px) / 3)",
+                }}
+              >
+                <Link href={`/pets/${pet.id}`} className="absolute inset-0">
                   <img
                     src={pet.photos[0]}
                     alt={pet.name}
                     className="h-full w-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-black/5" />
-
-                  <div className="absolute inset-x-0 bottom-0 p-4">
-                    <div className="flex items-center gap-1.5">
-                      <h3 className="text-[22px] font-semibold text-white">
-                        {pet.name}
-                      </h3>
-                      <span className="text-[13px] text-white/60">
-                        {pet.gender === "boy" ? "♂" : "♀"}
-                      </span>
-                    </div>
-                    <p className="mt-0.5 text-[12.5px] text-white/85">
-                      {pet.breed} · {pet.ageText} · {SIZE_LABEL[pet.size]}
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent px-1.5 pt-6 pb-1.5">
+                    <p className="truncate text-[11px] font-semibold text-white">
+                      {pet.name}
                     </p>
-                    {recommendations[pet.id] && (
-                      <p className="mt-1 text-[10.5px] text-white/60">
-                        {recommendations[pet.id]}
-                      </p>
-                    )}
-                    <div className="mt-2 flex flex-wrap gap-1.5 pr-14">
-                      {pet.personality.slice(0, 3).map((t) => (
-                        <span
-                          key={t}
-                          className="rounded-full bg-white/20 px-2 py-[3px] text-[10.5px] text-white backdrop-blur-sm"
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
                   </div>
-                </Link>
-
-                {prefs.showDistance && (
-                  <div className="pointer-events-none absolute top-3 left-3 flex items-center gap-1 rounded-full bg-white/85 px-2 py-1 text-[10.5px] font-medium backdrop-blur">
-                    <MapPin size={10} strokeWidth={2.6} className="text-brand" />
-                    {pet.distanceKm} km
-                  </div>
-                )}
-
-                {recommendations[pet.id] && (
-                  <div className="pointer-events-none absolute top-3 right-3 flex items-center gap-1 rounded-full bg-brand px-2 py-1 text-[10px] font-semibold text-white shadow-lg">
-                    <Sparkles size={10} strokeWidth={2.8} />
-                    推荐
-                  </div>
-                )}
-
-                <button
-                  onClick={() => handleGreet(pet)}
-                  aria-label="打招呼"
-                  className={`absolute right-3 bottom-4 grid h-11 w-11 place-items-center rounded-full shadow-lg transition active:scale-90 ${
-                    done ? "bg-white text-ink-mute" : "bg-brand text-white"
-                  }`}
-                >
-                  {done ? (
-                    <Check size={18} strokeWidth={2.6} />
-                  ) : (
-                    <PawPrint size={18} strokeWidth={2.2} />
+                  {recommendations[pet.id] && (
+                    <span className="absolute top-1.5 right-1.5 grid h-4 w-4 place-items-center rounded-full bg-brand text-white shadow">
+                      <Sparkles size={9} strokeWidth={3} />
+                    </span>
                   )}
-                </button>
+                </Link>
               </div>
-            </div>
-          );
-        })}
-        {list.length === 0 && (
-          <p className="py-10 pl-1 text-[13px] text-ink-mute">
-            这个范围暂时还没有小伙伴，换个筛选试试。
-          </p>
+            ))}
+          </div>
         )}
       </div>
 
-      {/* 附近的活动 */}
-      <section className="mt-6">
-        <div className="flex items-end justify-between px-5">
-          <div>
-            <h2 className="text-[17px] font-semibold tracking-tight">
-              今晚附近的局
-            </h2>
-            <p className="mt-0.5 text-[11.5px] text-ink-mute">
-              报名就能去，不用先聊天
-            </p>
-          </div>
-          <Link
-            href="/meetups"
-            className="flex items-center gap-0.5 text-[12px] font-medium text-brand"
-          >
-            全部 <ArrowRight size={13} strokeWidth={2.4} />
-          </Link>
-        </div>
-
-        <div className="no-scrollbar mt-3 flex gap-3 overflow-x-auto px-5 pb-2">
-          {upcoming.map((m) => (
-            <Link
-              key={m.id}
-              href={`/meetups/${m.id}`}
-              className="w-[210px] shrink-0 overflow-hidden rounded-[20px] bg-white shadow-[0_2px_12px_rgba(80,60,40,0.07)]"
-            >
-              <div className="relative aspect-[16/10] overflow-hidden">
-                <img
-                  src={m.cover}
-                  alt={m.title}
-                  className="h-full w-full object-cover"
-                />
-                {m.type === "brand" && (
-                  <span className="absolute top-2 left-2 rounded-full bg-ink/80 px-2 py-[3px] text-[9.5px] font-medium text-white backdrop-blur">
-                    品牌活动
-                  </span>
-                )}
-              </div>
-              <div className="p-3">
-                <p className="text-[11px] font-semibold text-brand">
-                  {fmtMeetupShort(m.startAt)}
-                </p>
-                <h3 className="mt-1 line-clamp-1 text-[13.5px] font-semibold">
-                  {m.title}
-                </h3>
-                <div className="mt-1.5 flex items-center justify-between text-[10.5px] text-ink-mute">
-                  <span className="line-clamp-1">{m.venueName}</span>
-                  <span className="flex shrink-0 items-center gap-0.5">
-                    <Users size={10} strokeWidth={2.4} />
-                    {m.participants.length}/{m.capacity}
-                  </span>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
-
-      {/* 底部留白 */}
-      <div className="h-6" />
-      </div>
-
-      {/* 弹层放在动画容器外面，否则会被它的层叠上下文困住，盖不住底部 Tab */}
       <LocationSheet open={locationOpen} onClose={() => setLocationOpen(false)} />
       <FilterSheet
         open={filterOpen}
@@ -321,7 +242,121 @@ export default function HomePage() {
         onApply={setFilters}
         onClose={() => setFilterOpen(false)}
       />
-
     </>
+  );
+}
+
+function PetSlide({
+  pet,
+  reason,
+  greeted,
+  showDistance,
+  onGreet,
+}: {
+  pet: Pet;
+  reason?: string;
+  greeted: boolean;
+  showDistance: boolean;
+  onGreet: () => void;
+}) {
+  const [idx, setIdx] = useState(0);
+
+  return (
+    <article className="h-full w-full snap-start px-4 pb-2">
+      <div className="relative h-full overflow-hidden rounded-[26px] bg-line">
+        {/* 横向图集 */}
+        <div
+          className="no-scrollbar flex h-full w-full snap-x snap-mandatory overflow-x-auto"
+          onScroll={(e) => {
+            const el = e.currentTarget;
+            const i = Math.round(el.scrollLeft / el.clientWidth);
+            if (i !== idx) setIdx(i);
+          }}
+        >
+          {pet.photos.map((src, i) => (
+            <div key={i} className="h-full w-full shrink-0 snap-center">
+              <img
+                src={src}
+                alt={`${pet.name} 照片 ${i + 1}`}
+                className="h-full w-full object-cover"
+                draggable={false}
+              />
+            </div>
+          ))}
+        </div>
+
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-black/10" />
+
+        {/* 顶部：距离 / 推荐 / 图集指示点 */}
+        {showDistance && (
+          <div className="pointer-events-none absolute top-3 left-3 flex items-center gap-1 rounded-full bg-white/85 px-2 py-1 text-[10.5px] font-medium backdrop-blur">
+            <MapPin size={10} strokeWidth={2.6} className="text-brand" />
+            {pet.distanceKm} km
+          </div>
+        )}
+
+        {reason && (
+          <div className="pointer-events-none absolute top-3 right-3 flex items-center gap-1 rounded-full bg-brand px-2 py-1 text-[10px] font-semibold text-white shadow-lg">
+            <Sparkles size={10} strokeWidth={2.8} />
+            推荐
+          </div>
+        )}
+
+        {pet.photos.length > 1 && (
+          <div className="pointer-events-none absolute inset-x-0 top-4 flex justify-center gap-1.5">
+            {pet.photos.map((_, i) => (
+              <span
+                key={i}
+                className={`h-[5px] rounded-full transition-all ${
+                  i === idx ? "w-4 bg-white" : "w-[5px] bg-white/50"
+                }`}
+              />
+            ))}
+          </div>
+        )}
+
+        {/* 底部信息 */}
+        <div className="absolute inset-x-0 bottom-0 p-5">
+          <Link href={`/pets/${pet.id}`} className="block">
+            <div className="flex items-center gap-1.5">
+              <h2 className="text-[26px] font-bold text-white">{pet.name}</h2>
+              <span className="text-[14px] text-white/60">
+                {pet.gender === "boy" ? "♂" : "♀"}
+              </span>
+            </div>
+            <p className="mt-1 text-[13px] text-white/85">
+              {pet.breed} · {pet.ageText} · {SIZE_LABEL[pet.size]}
+            </p>
+            {reason && (
+              <p className="mt-1 text-[11px] text-white/60">{reason}</p>
+            )}
+            <div className="mt-2.5 flex flex-wrap gap-1.5 pr-16">
+              {pet.personality.slice(0, 3).map((t) => (
+                <span
+                  key={t}
+                  className="rounded-full bg-white/20 px-2 py-[3px] text-[10.5px] text-white backdrop-blur-sm"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+          </Link>
+
+          <button
+            onClick={onGreet}
+            aria-label="打招呼"
+            className={`absolute right-5 bottom-5 grid h-12 w-12 place-items-center rounded-full shadow-lg transition active:scale-90 ${
+              greeted ? "bg-white text-ink-mute" : "bg-brand text-white"
+            }`}
+          >
+            {greeted ? (
+              <Check size={19} strokeWidth={2.6} />
+            ) : (
+              <PawPrint size={19} strokeWidth={2.2} />
+            )}
+          </button>
+        </div>
+      </div>
+    </article>
   );
 }

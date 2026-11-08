@@ -360,7 +360,7 @@ export const pets: Pet[] = petSeeds.map((p, i) => ({
   personality: [SOCIAL_LABEL[p.social], ENERGY_LABEL[p.energy], ...p.traits],
   vaccinated: true,
   neutered: i % 3 !== 0,
-  photos: [`/img/${p.img}.jpg`],
+  photos: [`/img/${p.img}.jpg`, `/img/${p.img}-b.jpg`],
 }));
 
 export function getPet(id: string): Pet | undefined {

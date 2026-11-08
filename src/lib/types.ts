@@ -9,6 +9,9 @@ export type Species =
 export type Size = "small" | "medium" | "large";
 export type Gender = "boy" | "girl";
 export type AgeBand = "baby" | "adult" | "senior";
+/** 互斥维度：只能二选一 */
+export type Sociability = "friendly" | "reserved";
+export type Energy = "active" | "calm";
 export type MeetupKind = "walk" | "market" | "cafe" | "adopt" | "indoor";
 export type Topic = "daily" | "care" | "medical" | "adopt" | "recap";
 
@@ -22,6 +25,13 @@ export interface Pet {
   ageBand: AgeBand;
   size: Size;
   weightKg: number;
+  /** 互斥维度：亲人 / 慢热 —— 用户只能选一边 */
+  social: Sociability;
+  /** 互斥维度：活泼 / 安静 */
+  energy: Energy;
+  /** 自由标签：吃货、运动狂、爱游泳… 可以多选 */
+  traits: string[];
+  /** 展示用：由上面三项拼出来的标签串（如 ["亲人","活泼","吃货"]） */
   personality: string[];
   vaccinated: boolean;
   neutered: boolean;
@@ -127,6 +137,16 @@ export const AGE_LABEL: Record<AgeBand, string> = {
   baby: "幼年",
   adult: "成年",
   senior: "老年",
+};
+
+export const SOCIAL_LABEL: Record<Sociability, string> = {
+  friendly: "亲人",
+  reserved: "慢热",
+};
+
+export const ENERGY_LABEL: Record<Energy, string> = {
+  active: "活泼",
+  calm: "安静",
 };
 
 export const KIND_LABEL: Record<MeetupKind, string> = {

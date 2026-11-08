@@ -11,10 +11,24 @@ import {
   Syringe,
 } from "lucide-react";
 import { getPet, meetups, posts } from "@/lib/data";
-import { AGE_LABEL, SIZE_LABEL, SPECIES_LABEL, canWalk } from "@/lib/types";
+import {
+  ENERGY_LABEL,
+  SIZE_LABEL,
+  SOCIAL_LABEL,
+  canWalk,
+} from "@/lib/types";
 import { fmtMeetupShort } from "@/lib/date";
 import { useAppStore } from "@/components/store";
 import Avatar from "@/components/avatar";
+
+function DimPill({ label, value }: { label: string; value: string }) {
+  return (
+    <span className="flex items-center gap-1.5 rounded-full bg-brand-soft px-2.5 py-1">
+      <span className="text-[9.5px] text-brand/60">{label}</span>
+      <span className="text-[11px] font-semibold text-brand">{value}</span>
+    </span>
+  );
+}
 
 export default function PetDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -71,16 +85,24 @@ export default function PetDetailPage() {
       </div>
 
       <div className="-mt-5 rounded-t-[26px] bg-cream px-5 pt-5">
-        {/* 性格 */}
-        <div className="flex flex-wrap gap-1.5">
-          {pet.personality.map((t) => (
-            <span
-              key={t}
-              className="rounded-full bg-brand-soft px-2.5 py-1 text-[11px] font-medium text-brand"
-            >
-              {t}
-            </span>
-          ))}
+        {/* 性格：两个互斥维度 + 自由标签 */}
+        <div className="space-y-2">
+          <div className="flex gap-2">
+            <DimPill label="亲人度" value={SOCIAL_LABEL[pet.social]} />
+            <DimPill label="活力" value={ENERGY_LABEL[pet.energy]} />
+          </div>
+          {pet.traits.length > 0 && (
+            <div className="flex flex-wrap gap-1.5">
+              {pet.traits.map((t) => (
+                <span
+                  key={t}
+                  className="rounded-full bg-white px-2.5 py-1 text-[11px] font-medium text-ink-soft shadow-[0_1px_6px_rgba(80,60,40,0.05)]"
+                >
+                  {t}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
 
         <p className="mt-3.5 text-[13.5px] leading-[1.85] text-ink-soft">{pet.bio}</p>

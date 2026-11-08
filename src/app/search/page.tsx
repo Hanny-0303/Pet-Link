@@ -6,7 +6,14 @@ import { useRouter } from "next/navigation";
 import { ArrowLeft, ChevronRight, MapPin, PawPrint, Search, X } from "lucide-react";
 import { meetups, pets } from "@/lib/data";
 import { fmtMeetupShort } from "@/lib/date";
-import { AGE_LABEL, KIND_LABEL, SIZE_LABEL, SPECIES_LABEL } from "@/lib/types";
+import {
+  AGE_LABEL,
+  ENERGY_LABEL,
+  KIND_LABEL,
+  SIZE_LABEL,
+  SOCIAL_LABEL,
+  SPECIES_LABEL,
+} from "@/lib/types";
 
 const HOT = ["柯基", "兔子", "猫猫", "市集", "活泼", "世纪公园"];
 
@@ -30,7 +37,8 @@ export default function SearchPage() {
     if (!q) return [];
     return pets.filter((p) =>
       [p.name, p.breed, p.ownerName, p.bio, SPECIES_LABEL[p.species],
-       SIZE_LABEL[p.size], AGE_LABEL[p.ageBand], ...p.personality]
+       SIZE_LABEL[p.size], AGE_LABEL[p.ageBand], SOCIAL_LABEL[p.social],
+       ENERGY_LABEL[p.energy], ...p.traits]
         .join(" ")
         .toLowerCase()
         .includes(q)

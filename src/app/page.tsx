@@ -10,9 +10,10 @@ import {
   PawPrint,
   Search,
   SlidersHorizontal,
+  Sparkles,
   Users,
 } from "lucide-react";
-import { meetups, pets } from "@/lib/data";
+import { getPet, meetups, pets } from "@/lib/data";
 import {
   COMMON_SPECIES,
   SIZE_LABEL,
@@ -26,6 +27,7 @@ import { useAppStore } from "@/components/store";
 import LocationSheet from "@/components/location-sheet";
 import FilterSheet from "@/components/filter-sheet";
 import { EMPTY_FILTERS, countActive, type Filters } from "@/lib/filters";
+import { buildRecommendations } from "@/lib/pet";
 
 const QUICK_SPECIES: (Species | "all")[] = ["all", ...COMMON_SPECIES];
 
@@ -35,21 +37,32 @@ export default function HomePage() {
   const [filterOpen, setFilterOpen] = useState(false);
   const [locationOpen, setLocationOpen] = useState(false);
 
+  // 基于「我的宠物豆豆」算出的推荐名单：id -> 推荐理由
+  const me = getPet("p1");
+  const recommendations = useMemo(
+    () => (me ? buildRecommendations(me) : {}),
+    [me]
+  );
+
   const list = useMemo(() => {
     return pets.filter((p) => {
       if (district && p.district !== district) return false;
       if (species !== "all" && p.species !== species) return false;
       if (filters.sizes.length && !filters.sizes.includes(p.size)) return false;
       if (filters.ages.length && !filters.ages.includes(p.ageBand)) return false;
-      if (filters.maxKm !== null && p.distanceKm > filters.maxKm) return false;
-      if (
-        filters.traits.length &&
-        !filters.traits.some((t) => p.personality.includes(t))
-      )
+      if (filters.breeds.length && !filters.breeds.includes(p.breed)) return false;
+      if (filters.gender !== "all" && p.gender !== filters.gender) return false;
+      if (filters.neutered !== "all" && (filters.neutered === "yes") !== p.neutered)
         return false;
+      if (filters.social !== "all" && p.social !== filters.social) return false;
+      if (filters.energy !== "all" && p.energy !== filters.energy) return false;
+      if (filters.maxKm !== null && p.distanceKm > filters.maxKm) return false;
+      if (filters.traits.length && !filters.traits.some((t) => p.traits.includes(t)))
+        return false;
+      if (filters.onlyRecommended && !(p.id in recommendations)) return false;
       return true;
     });
-  }, [species, district, filters]);
+  }, [species, district, filters, recommendations]);
 
   const upcoming = useMemo(
     () => meetups.slice().sort((a, b) => a.startAt.localeCompare(b.startAt)).slice(0, 4),
@@ -181,6 +194,11 @@ export default function HomePage() {
                     <p className="mt-0.5 text-[12.5px] text-white/85">
                       {pet.breed} · {pet.ageText} · {SIZE_LABEL[pet.size]}
                     </p>
+                    {recommendations[pet.id] && (
+                      <p className="mt-1 text-[10.5px] text-white/60">
+                        {recommendations[pet.id]}
+                      </p>
+                    )}
                     <div className="mt-2 flex flex-wrap gap-1.5 pr-14">
                       {pet.personality.slice(0, 3).map((t) => (
                         <span
@@ -198,6 +216,13 @@ export default function HomePage() {
                   <div className="pointer-events-none absolute top-3 left-3 flex items-center gap-1 rounded-full bg-white/85 px-2 py-1 text-[10.5px] font-medium backdrop-blur">
                     <MapPin size={10} strokeWidth={2.6} className="text-brand" />
                     {pet.distanceKm} km
+                  </div>
+                )}
+
+                {recommendations[pet.id] && (
+                  <div className="pointer-events-none absolute top-3 right-3 flex items-center gap-1 rounded-full bg-brand px-2 py-1 text-[10px] font-semibold text-white shadow-lg">
+                    <Sparkles size={10} strokeWidth={2.8} />
+                    推荐
                   </div>
                 )}
 
@@ -291,6 +316,7 @@ export default function HomePage() {
       <LocationSheet open={locationOpen} onClose={() => setLocationOpen(false)} />
       <FilterSheet
         open={filterOpen}
+        species={species}
         value={filters}
         onApply={setFilters}
         onClose={() => setFilterOpen(false)}

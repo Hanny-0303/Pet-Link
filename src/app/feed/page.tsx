@@ -6,6 +6,8 @@ import { Heart, MessageCircle, Sparkles } from "lucide-react";
 import { getMeetup, posts } from "@/lib/data";
 import { TOPIC_EMOJI, TOPIC_LABEL, type Topic } from "@/lib/types";
 import { useAppStore } from "@/components/store";
+import PickerSheet from "@/components/picker-sheet";
+import { ChevronDown } from "lucide-react";
 import Avatar from "@/components/avatar";
 
 const TOPICS: (Topic | "all")[] = ["all", "daily", "care", "medical", "adopt", "recap"];
@@ -13,6 +15,7 @@ const TOPICS: (Topic | "all")[] = ["all", "daily", "care", "medical", "adopt", "
 export default function FeedPage() {
   const { liked, like } = useAppStore();
   const [topic, setTopic] = useState<Topic | "all">("all");
+  const [pickerOpen, setPickerOpen] = useState(false);
 
   const list = useMemo(
     () => (topic === "all" ? posts : posts.filter((p) => p.topic === topic)),
@@ -20,6 +23,7 @@ export default function FeedPage() {
   );
 
   return (
+    <>
     <div className="rise">
       <header className="px-5 pt-7">
         <h1 className="text-[26px] font-bold tracking-tight">圈子</h1>
@@ -28,30 +32,17 @@ export default function FeedPage() {
         </p>
       </header>
 
-      <div className="no-scrollbar mt-4 flex gap-2 overflow-x-auto px-5">
-        {TOPICS.map((t) => {
-          const active = topic === t;
-          const label = t === "all" ? "全部" : TOPIC_LABEL[t];
-          const count =
-            t === "all" ? posts.length : posts.filter((p) => p.topic === t).length;
-          return (
-            <button
-              key={t}
-              onClick={() => setTopic(t)}
-              className={`shrink-0 rounded-full px-3.5 py-[7px] text-[12.5px] font-medium transition ${
-                active
-                  ? "bg-ink text-cream"
-                  : "bg-white text-ink-soft shadow-[0_1px_6px_rgba(80,60,40,0.06)]"
-              }`}
-            >
-              {t !== "all" && <span className="mr-0.5">{TOPIC_EMOJI[t]}</span>}
-              {label}
-              <span className={active ? "ml-1 text-cream/55" : "ml-1 text-ink-mute"}>
-                {count}
-              </span>
-            </button>
-          );
-        })}
+      <div className="mt-4 px-5">
+        <button
+          onClick={() => setPickerOpen(true)}
+          className="flex items-center gap-1.5 rounded-full bg-white px-3.5 py-2 text-[13px] font-medium shadow-[0_1px_6px_rgba(80,60,40,0.06)] active:scale-95"
+        >
+          {topic === "all" ? "全部话题" : TOPIC_LABEL[topic]}
+          <span className="text-[11px] text-ink-mute">
+            {topic === "all" ? posts.length : posts.filter((p) => p.topic === topic).length}
+          </span>
+          <ChevronDown size={13} strokeWidth={2.6} className="text-ink-mute" />
+        </button>
       </div>
 
       <div className="mt-4 space-y-3 px-5">
@@ -156,6 +147,24 @@ export default function FeedPage() {
       </div>
 
       <div className="h-6" />
-    </div>
+      </div>
+
+      <PickerSheet
+        open={pickerOpen}
+        title="话题"
+        subtitle="选一个方向，看相关的经验"
+        value={topic}
+        onPick={(k) => setTopic(k as Topic | "all")}
+        onClose={() => setPickerOpen(false)}
+        options={[
+          { key: "all", label: "全部话题", count: posts.length },
+          ...(["daily", "care", "medical", "adopt", "recap"] as const).map((t) => ({
+            key: t,
+            label: TOPIC_LABEL[t],
+            count: posts.filter((p) => p.topic === t).length,
+          })),
+        ]}
+      />
+    </>
   );
 }

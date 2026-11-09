@@ -7,6 +7,7 @@ import {
   Check,
   ChevronDown,
   GalleryVerticalEnd,
+  Heart,
   LayoutGrid,
   MapPin,
   PawPrint,
@@ -26,16 +27,23 @@ import {
 import { useAppStore } from "@/components/store";
 import FilterSheet from "@/components/filter-sheet";
 import { EMPTY_FILTERS, countActive, type Filters } from "@/lib/filters";
-import { buildRecommendations } from "@/lib/pet";
+import { buildRecommendations, likeCount } from "@/lib/pet";
 import { locationLabel } from "@/lib/location";
-
-const QUICK_SPECIES: (Species | "all")[] = ["all", ...COMMON_SPECIES];
 
 type ViewMode = "swipe" | "grid";
 
 export default function HomePage() {
-  const { greeted, greet, location, showToast, prefs, species, setSpecies } =
-    useAppStore();
+  const {
+    greeted,
+    greet,
+    location,
+    showToast,
+    prefs,
+    species,
+    setSpecies,
+    likedPets,
+    likePet,
+  } = useAppStore();
 
   const [filters, setFilters] = useState<Filters>(EMPTY_FILTERS);
   const [filterOpen, setFilterOpen] = useState(false);
@@ -148,39 +156,18 @@ export default function HomePage() {
           )}
         </header>
 
-        {/* 物种分类 */}
-        <div className="no-scrollbar mt-3 flex shrink-0 gap-2 overflow-x-auto px-5 pb-2">
-          {QUICK_SPECIES.map((t) => {
-            const active = species === t;
-            const count =
-              t === "all" ? pets.length : pets.filter((p) => p.species === t).length;
-            return (
-              <button
-                key={t}
-                onClick={() => setSpecies(t)}
-                className={`flex shrink-0 items-center gap-1 rounded-full px-3.5 py-[7px] text-[12.5px] font-medium transition ${
-                  active
-                    ? "bg-ink text-cream"
-                    : "bg-white text-ink-soft shadow-[0_1px_6px_rgba(80,60,40,0.06)]"
-                }`}
-              >
-                {t === "all" ? "全部" : SPECIES_LABEL[t as Species]}
-                <span className={active ? "text-cream/55" : "text-ink-mute"}>{count}</span>
-              </button>
-            );
-          })}
-          <Link
-            href="/species"
-            className={`flex shrink-0 items-center gap-1 rounded-full px-3.5 py-[7px] text-[12.5px] font-medium transition ${
-              isExotic(species as Species)
-                ? "bg-ink text-cream"
-                : "bg-white text-ink-soft shadow-[0_1px_6px_rgba(80,60,40,0.06)]"
-            }`}
-          >
-            {isExotic(species as Species) ? SPECIES_LABEL[species as Species] : "更多"}
-            <ChevronDown size={12} strokeWidth={2.6} />
-          </Link>
-        </div>
+        {/* 分类：收进一个入口，点开再选 */}
+      <div className="mt-3 flex shrink-0 items-center px-5 pb-2">
+        <Link
+          href="/species"
+          className="flex items-center gap-1.5 rounded-full bg-white px-3.5 py-2 text-[13px] font-medium shadow-[0_2px_10px_rgba(80,60,40,0.06)] active:scale-95"
+        >
+          <PawPrint size={13} strokeWidth={2.2} className="text-brand" />
+          {species === "all" ? "全部宠物" : SPECIES_LABEL[species as Species]}
+          <span className="text-[11px] text-ink-mute">{list.length}</span>
+          <ChevronDown size={13} strokeWidth={2.6} className="text-ink-mute" />
+        </Link>
+      </div>
 
         {/* 内容 */}
         {list.length === 0 ? (
@@ -219,8 +206,11 @@ export default function HomePage() {
                 pet={pet}
                 reason={recommendations[pet.id]}
                 greeted={greeted.includes(pet.id)}
+                liked={likedPets.includes(pet.id)}
+                likes={likeCount(pet) + (likedPets.includes(pet.id) ? 1 : 0)}
                 showDistance={prefs.showDistance}
                 onGreet={() => handleGreet(pet)}
+                onLike={() => likePet(pet.id)}
               />
             ))}
           </div>
@@ -228,55 +218,15 @@ export default function HomePage() {
           <div className="no-scrollbar min-h-0 flex-1 overflow-y-auto px-3 pb-4">
           <div className="columns-2 gap-2">
             {list.map((pet) => (
-              <Link
+              <PetTile
                 key={pet.id}
-                href={`/pets/${pet.id}`}
-                className="mb-2 block break-inside-avoid overflow-hidden rounded-[16px] bg-white shadow-[0_2px_12px_rgba(80,60,40,0.06)]"
-              >
-                <div className="relative w-full" style={{ paddingBottom: "118%" }}>
-                  <img
-                    src={pet.photos[0]}
-                    alt={pet.name}
-                    className="absolute inset-0 h-full w-full object-cover"
-                  />
-                  {recommendations[pet.id] && (
-                    <span className="absolute top-2 left-2 flex items-center gap-0.5 rounded-full bg-brand px-1.5 py-[3px] text-[9px] font-semibold text-white shadow">
-                      <Sparkles size={8} strokeWidth={3} /> 推荐
-                    </span>
-                  )}
-                  {prefs.showDistance && (
-                    <span className="absolute right-2 bottom-2 rounded-full bg-black/45 px-1.5 py-[2px] text-[9px] text-white backdrop-blur">
-                      {pet.distanceKm}km
-                    </span>
-                  )}
-                </div>
-                <div className="px-2.5 py-2">
-                  <div className="flex items-center gap-1">
-                    <p className="truncate text-[13px] font-semibold">{pet.name}</p>
-                    <span className="text-[10px] text-ink-mute">
-                      {pet.gender === "boy" ? "♂" : "♀"}
-                    </span>
-                  </div>
-                  <p className="mt-0.5 truncate text-[10.5px] text-ink-mute">
-                    {pet.breed} · {pet.ageText} · {SIZE_LABEL[pet.size]}
-                  </p>
-                  <div className="mt-1.5 flex flex-wrap gap-1">
-                    {pet.personality.slice(0, 2).map((t) => (
-                      <span
-                        key={t}
-                        className="rounded-full bg-cream px-1.5 py-[2px] text-[9.5px] text-ink-soft"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                  {recommendations[pet.id] && (
-                    <p className="mt-1 truncate text-[9.5px] text-brand">
-                      {recommendations[pet.id]}
-                    </p>
-                  )}
-                </div>
-              </Link>
+                pet={pet}
+                reason={recommendations[pet.id]}
+                liked={likedPets.includes(pet.id)}
+                likes={likeCount(pet) + (likedPets.includes(pet.id) ? 1 : 0)}
+                showDistance={prefs.showDistance}
+                onLike={() => likePet(pet.id)}
+              />
             ))}
           </div>
           </div>
@@ -298,18 +248,42 @@ function PetSlide({
   pet,
   reason,
   greeted,
+  liked,
+  likes,
   showDistance,
   onGreet,
+  onLike,
 }: {
   pet: Pet;
   reason?: string;
   greeted: boolean;
+  liked: boolean;
+  likes: number;
   showDistance: boolean;
   onGreet: () => void;
+  onLike: () => void;
 }) {
   const [idx, setIdx] = useState(0);
+  const [burst, setBurst] = useState(false);
   const router = useRouter();
   const tap = useRef({ x: 0, y: 0 });
+  const clickTimer = useRef<number | null>(null);
+
+  // 单击进主页，双击点赞（等 280ms 判断是不是第二下）
+  function onTap() {
+    if (clickTimer.current !== null) {
+      window.clearTimeout(clickTimer.current);
+      clickTimer.current = null;
+      if (!liked) onLike();
+      setBurst(true);
+      window.setTimeout(() => setBurst(false), 700);
+      return;
+    }
+    clickTimer.current = window.setTimeout(() => {
+      clickTimer.current = null;
+      router.push(`/pets/${pet.id}`);
+    }, 280);
+  }
 
   return (
     <article className="h-full w-full snap-start px-4 pb-2">
@@ -326,10 +300,10 @@ function PetSlide({
             tap.current = { x: e.clientX, y: e.clientY };
           }}
           onPointerUp={(e) => {
-            // 轻点图片进主页；横向拖动翻照片时不触发
+            // 轻点：进主页 / 双击：点赞；横向拖动翻照片时不触发
             const dx = Math.abs(e.clientX - tap.current.x);
             const dy = Math.abs(e.clientY - tap.current.y);
-            if (dx < 8 && dy < 8) router.push(`/pets/${pet.id}`);
+            if (dx < 8 && dy < 8) onTap();
           }}
         >
           {pet.photos.map((src, i) => (
@@ -345,6 +319,16 @@ function PetSlide({
         </div>
 
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-black/10" />
+
+        {burst && (
+          <div className="pointer-events-none absolute inset-0 grid place-items-center">
+            <Heart
+              size={110}
+              strokeWidth={0}
+              className="fill-white/90 text-white/90 [animation:pop_0.7s_ease-out]"
+            />
+          </div>
+        )}
 
         {/* 顶部：距离 / 推荐 / 图集指示点 */}
         {showDistance && (
@@ -386,9 +370,15 @@ function PetSlide({
             <p className="mt-1 text-[13px] text-white/85">
               {pet.breed} · {pet.ageText} · {SIZE_LABEL[pet.size]}
             </p>
-            {reason && (
-              <p className="mt-1 text-[11px] text-white/60">{reason}</p>
-            )}
+            <p className="mt-1 flex items-center gap-1 text-[11px] text-white/70">
+              <Heart
+                size={11}
+                strokeWidth={2.4}
+                className={liked ? "fill-white text-white" : ""}
+              />
+              {likes} 人喜欢
+              {reason && <span className="text-white/45">· {reason}</span>}
+            </p>
             <div className="mt-2.5 flex flex-wrap gap-1.5 pr-16">
               {pet.personality.slice(0, 3).map((t) => (
                 <span
@@ -417,5 +407,104 @@ function PetSlide({
         </div>
       </div>
     </article>
+  );
+}
+
+function PetTile({
+  pet,
+  reason,
+  liked,
+  likes,
+  showDistance,
+  onLike,
+}: {
+  pet: Pet;
+  reason?: string;
+  liked: boolean;
+  likes: number;
+  showDistance: boolean;
+  onLike: () => void;
+}) {
+  const router = useRouter();
+  const timer = useRef<number | null>(null);
+  const [burst, setBurst] = useState(false);
+
+  function onTap() {
+    if (timer.current !== null) {
+      window.clearTimeout(timer.current);
+      timer.current = null;
+      if (!liked) onLike();
+      setBurst(true);
+      window.setTimeout(() => setBurst(false), 700);
+      return;
+    }
+    timer.current = window.setTimeout(() => {
+      timer.current = null;
+      router.push(`/pets/${pet.id}`);
+    }, 280);
+  }
+
+  return (
+    <div
+      onClick={onTap}
+      className="mb-2 block cursor-pointer break-inside-avoid overflow-hidden rounded-[16px] bg-white shadow-[0_2px_12px_rgba(80,60,40,0.06)] active:opacity-95"
+    >
+      <div className="relative w-full" style={{ paddingBottom: "118%" }}>
+        <img
+          src={pet.photos[0]}
+          alt={pet.name}
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+        {burst && (
+          <div className="pointer-events-none absolute inset-0 grid place-items-center">
+            <Heart
+              size={64}
+              strokeWidth={0}
+              className="fill-white/90 text-white/90 [animation:pop_0.7s_ease-out]"
+            />
+          </div>
+        )}
+        {reason && (
+          <span className="absolute top-2 left-2 flex items-center gap-0.5 rounded-full bg-brand px-1.5 py-[3px] text-[9px] font-semibold text-white shadow">
+            <Sparkles size={8} strokeWidth={3} /> 推荐
+          </span>
+        )}
+        {showDistance && (
+          <span className="absolute right-2 bottom-2 rounded-full bg-black/45 px-1.5 py-[2px] text-[9px] text-white backdrop-blur">
+            {pet.distanceKm}km
+          </span>
+        )}
+      </div>
+      <div className="px-2.5 py-2">
+        <div className="flex items-center gap-1">
+          <p className="truncate text-[13px] font-semibold">{pet.name}</p>
+          <span className="text-[10px] text-ink-mute">
+            {pet.gender === "boy" ? "♂" : "♀"}
+          </span>
+        </div>
+        <p className="mt-0.5 truncate text-[10.5px] text-ink-mute">
+          {pet.breed} · {pet.ageText} · {SIZE_LABEL[pet.size]}
+        </p>
+        <div className="mt-1.5 flex items-center gap-1">
+          <Heart
+            size={9}
+            strokeWidth={2.6}
+            className={liked ? "fill-brand text-brand" : "text-ink-mute"}
+          />
+          <span className="text-[9.5px] text-ink-mute">{likes}</span>
+          {pet.personality.slice(0, 1).map((t) => (
+            <span
+              key={t}
+              className="ml-1 rounded-full bg-cream px-1.5 py-[2px] text-[9.5px] text-ink-soft"
+            >
+              {t}
+            </span>
+          ))}
+        </div>
+        {reason && (
+          <p className="mt-1 truncate text-[9.5px] text-brand">{reason}</p>
+        )}
+      </div>
+    </div>
   );
 }

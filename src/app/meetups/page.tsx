@@ -6,6 +6,7 @@ import { BadgeCheck, ChevronDown, Clock, MapPin, Plus, Users, X } from "lucide-r
 import { meetups as seedMeetups } from "@/lib/data";
 import { fmtMeetup } from "@/lib/date";
 import { useAppStore } from "@/components/store";
+import PickerSheet from "@/components/picker-sheet";
 import { Check } from "lucide-react";
 import { KIND_LABEL, type MeetupKind } from "@/lib/types";
 
@@ -69,48 +70,16 @@ export default function MeetupsPage() {
       </header>
 
       <div className="no-scrollbar mt-4 flex gap-2 overflow-x-auto px-5">
-        {KIND_TABS.slice(0, 3).map((t) => {
-          const active = kind === t.key;
-          const count =
-            t.key === "all"
-              ? all.length
-              : all.filter((m) => m.kind === t.key).length;
-          return (
-            <button
-              key={t.key}
-              onClick={() => setKind(t.key)}
-              className={`shrink-0 rounded-full px-3.5 py-[7px] text-[12.5px] font-medium transition ${
-                active
-                  ? "bg-ink text-cream"
-                  : "bg-white text-ink-soft shadow-[0_1px_6px_rgba(80,60,40,0.06)]"
-              }`}
-            >
-              {t.label}
-              <span className={active ? "ml-1 text-cream/60" : "ml-1 text-ink-mute"}>
-                {count}
-              </span>
-            </button>
-          );
-        })}
-
-        {/* 其余分类收进「更多」，不再一排铺满 */}
-        {(() => {
-          const extra = KIND_TABS.slice(3);
-          const picked = extra.find((t) => t.key === kind);
-          return (
-            <button
-              onClick={() => setCatOpen(true)}
-              className={`flex shrink-0 items-center gap-1 rounded-full px-3.5 py-[7px] text-[12.5px] font-medium transition ${
-                picked
-                  ? "bg-ink text-cream"
-                  : "bg-white text-ink-soft shadow-[0_1px_6px_rgba(80,60,40,0.06)]"
-              }`}
-            >
-              {picked ? picked.label : "更多"}
-              <ChevronDown size={12} strokeWidth={2.6} />
-            </button>
-          );
-        })()}
+        <button
+          onClick={() => setCatOpen(true)}
+          className="flex items-center gap-1.5 rounded-full bg-white px-3.5 py-[7px] text-[12.5px] font-medium shadow-[0_1px_6px_rgba(80,60,40,0.06)] active:scale-95"
+        >
+          {kind === "all" ? "全部分类" : KIND_LABEL[kind]}
+          <span className="text-[11px] text-ink-mute">
+            {kind === "all" ? all.length : all.filter((m) => m.kind === kind).length}
+          </span>
+          <ChevronDown size={12} strokeWidth={2.6} className="text-ink-mute" />
+        </button>
       </div>
 
       {/* 快捷筛选 */}
@@ -221,64 +190,20 @@ export default function MeetupsPage() {
       <div className="h-6" />
       </div>
 
-      {/* 全部分类面板 */}
-      {catOpen && (
-        <div className="fixed inset-0 z-[60]">
-          <div
-            className="absolute inset-0 bg-ink/35 backdrop-blur-[2px]"
-            onClick={() => setCatOpen(false)}
-          />
-          <div className="absolute inset-x-0 bottom-0 mx-auto max-w-[430px] rounded-t-[26px] bg-cream pb-[env(safe-area-inset-bottom)] shadow-[0_-8px_40px_rgba(0,0,0,0.15)]">
-            <div className="flex items-center justify-between px-5 pt-5 pb-3">
-              <div>
-                <h2 className="text-[17px] font-semibold tracking-tight">活动分类</h2>
-                <p className="mt-0.5 text-[11.5px] text-ink-mute">
-                  选一个类型，看看附近有没有
-                </p>
-              </div>
-              <button
-                onClick={() => setCatOpen(false)}
-                aria-label="关闭"
-                className="grid h-8 w-8 place-items-center rounded-full bg-white shadow-[0_2px_8px_rgba(80,60,40,0.08)]"
-              >
-                <X size={15} strokeWidth={2.4} />
-              </button>
-            </div>
-
-            <div className="px-3 pb-5">
-              {KIND_TABS.map((t) => {
-                const on = kind === t.key;
-                const count =
-                  t.key === "all"
-                    ? all.length
-                    : all.filter((m) => m.kind === t.key).length;
-                return (
-                  <button
-                    key={t.key}
-                    onClick={() => {
-                      setKind(t.key);
-                      setCatOpen(false);
-                    }}
-                    className={`flex w-full items-center gap-2.5 rounded-[14px] px-3 py-3 text-left ${
-                      on ? "bg-brand-soft" : "active:bg-white/70"
-                    }`}
-                  >
-                    <span
-                      className={`flex-1 text-[13.5px] ${
-                        on ? "font-semibold text-brand" : "text-ink"
-                      }`}
-                    >
-                      {t.label}
-                    </span>
-                    <span className="text-[11px] text-ink-mute">{count}</span>
-                    {on && <Check size={15} strokeWidth={2.8} className="text-brand" />}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        </div>
-      )}
+      <PickerSheet
+        open={catOpen}
+        title="活动分类"
+        subtitle="选一个类型，看看附近有没有"
+        value={kind}
+        onPick={(k) => setKind(k as MeetupKind | "all")}
+        onClose={() => setCatOpen(false)}
+        options={KIND_TABS.map((t) => ({
+          key: t.key,
+          label: t.label,
+          count:
+            t.key === "all" ? all.length : all.filter((m) => m.kind === t.key).length,
+        }))}
+      />
     </>
   );
 }

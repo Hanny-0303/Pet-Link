@@ -11,24 +11,19 @@ import {
   Syringe,
 } from "lucide-react";
 import { getPet, meetups, posts } from "@/lib/data";
-import {
-  ENERGY_LABEL,
-  SIZE_LABEL,
-  SOCIAL_LABEL,
-  canWalk,
-} from "@/lib/types";
+import { DIMENSIONS, SIZE_LABEL, canWalk } from "@/lib/types";
+
+/** 每个维度里「左边那个值」是什么 */
+const LEFT_VALUE: Record<string, string> = {
+  social: "friendly",
+  peer: "social",
+  energy: "active",
+  bold: "bold",
+  obey: "trained",
+};
 import { fmtMeetupShort } from "@/lib/date";
 import { useAppStore } from "@/components/store";
 import Avatar from "@/components/avatar";
-
-function DimPill({ label, value }: { label: string; value: string }) {
-  return (
-    <span className="flex items-center gap-1.5 rounded-full bg-brand-soft px-2.5 py-1">
-      <span className="text-[9.5px] text-brand/60">{label}</span>
-      <span className="text-[11px] font-semibold text-brand">{value}</span>
-    </span>
-  );
-}
 
 export default function PetDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -85,23 +80,64 @@ export default function PetDetailPage() {
       </div>
 
       <div className="-mt-5 rounded-t-[26px] bg-cream px-5 pt-5">
-        {/* 性格：两个互斥维度 + 自由标签 */}
-        <div className="space-y-2">
-          <div className="flex gap-2">
-            <DimPill label="亲人度" value={SOCIAL_LABEL[pet.social]} />
-            <DimPill label="活力" value={ENERGY_LABEL[pet.energy]} />
+        {/* 性格图谱：五个互斥维度，一眼看出偏哪边 */}
+        <div className="rounded-[18px] bg-white p-4 shadow-[0_2px_12px_rgba(80,60,40,0.05)]">
+          <div className="flex items-baseline justify-between">
+            <h2 className="text-[13px] font-semibold">性格图谱</h2>
+            <span className="text-[9.5px] text-ink-mute">每项二选一</span>
           </div>
+
+          <div className="mt-3 space-y-3">
+            {DIMENSIONS.map((d) => {
+              const value = (pet as unknown as Record<string, string>)[d.key];
+              const leftActive = value === LEFT_VALUE[d.key];
+              return (
+                <div key={d.key} className="flex items-center gap-2">
+                  <span className="w-9 shrink-0 text-[10px] text-ink-mute">
+                    {d.label}
+                  </span>
+                  <span
+                    className={`w-8 shrink-0 text-right text-[11px] ${
+                      leftActive ? "font-semibold text-ink" : "text-ink-mute"
+                    }`}
+                  >
+                    {d.left}
+                  </span>
+                  <span className="relative h-[3px] flex-1 rounded-full bg-line">
+                    <span
+                      className={`absolute top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-brand ${
+                        leftActive ? "left-0" : "right-0"
+                      }`}
+                    />
+                  </span>
+                  <span
+                    className={`w-8 shrink-0 text-[11px] ${
+                      !leftActive ? "font-semibold text-ink" : "text-ink-mute"
+                    }`}
+                  >
+                    {d.right}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+
           {pet.traits.length > 0 && (
-            <div className="flex flex-wrap gap-1.5">
-              {pet.traits.map((t) => (
-                <span
-                  key={t}
-                  className="rounded-full bg-white px-2.5 py-1 text-[11px] font-medium text-ink-soft shadow-[0_1px_6px_rgba(80,60,40,0.05)]"
-                >
-                  {t}
-                </span>
-              ))}
-            </div>
+            <>
+              <p className="mt-4 mb-1.5 text-[10px] text-ink-mute">
+                其他特点 · 可叠加
+              </p>
+              <div className="flex flex-wrap gap-1.5">
+                {pet.traits.map((t) => (
+                  <span
+                    key={t}
+                    className="rounded-full bg-cream px-2.5 py-1 text-[11px] font-medium text-ink-soft"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </>
           )}
         </div>
 

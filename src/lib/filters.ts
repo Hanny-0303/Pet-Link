@@ -1,4 +1,13 @@
-import type { AgeBand, Energy, Gender, Size, Sociability } from "./types";
+import type {
+  AgeBand,
+  Boldness,
+  Energy,
+  Gender,
+  Obedience,
+  Peer,
+  Size,
+  Sociability,
+} from "./types";
 
 export type Filters = {
   sizes: Size[];
@@ -11,6 +20,9 @@ export type Filters = {
   neutered: "all" | "yes" | "no";
   social: Sociability | "all";
   energy: Energy | "all";
+  peer: Peer | "all";
+  bold: Boldness | "all";
+  obey: Obedience | "all";
   /** 自由标签，可多选 */
   traits: string[];
   /** 只看为我推荐的 */
@@ -26,6 +38,9 @@ export const EMPTY_FILTERS: Filters = {
   neutered: "all",
   social: "all",
   energy: "all",
+  peer: "all",
+  bold: "all",
+  obey: "all",
   traits: [],
   onlyRecommended: false,
 };
@@ -42,6 +57,9 @@ export function countActive(f: Filters): number {
     (f.neutered !== "all" ? 1 : 0) +
     (f.social !== "all" ? 1 : 0) +
     (f.energy !== "all" ? 1 : 0) +
+    (f.peer !== "all" ? 1 : 0) +
+    (f.bold !== "all" ? 1 : 0) +
+    (f.obey !== "all" ? 1 : 0) +
     (f.onlyRecommended ? 1 : 0)
   );
 }

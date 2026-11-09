@@ -12,6 +12,10 @@ export type AgeBand = "baby" | "adult" | "senior";
 /** 互斥维度：只能二选一 */
 export type Sociability = "friendly" | "reserved";
 export type Energy = "active" | "calm";
+/** 对其他宠物的态度 —— 一起玩的关键指标 */
+export type Peer = "social" | "guarded";
+export type Boldness = "bold" | "timid";
+export type Obedience = "trained" | "free";
 export type MeetupKind = "walk" | "market" | "cafe" | "adopt" | "indoor";
 export type Topic = "daily" | "care" | "medical" | "adopt" | "recap";
 
@@ -29,6 +33,12 @@ export interface Pet {
   social: Sociability;
   /** 互斥维度：活泼 / 安静 */
   energy: Energy;
+  /** 互斥维度：对同类友好 / 戒备 */
+  peer: Peer;
+  /** 互斥维度：胆大 / 胆小 */
+  bold: Boldness;
+  /** 互斥维度：听话 / 随性 */
+  obey: Obedience;
   /** 自由标签：吃货、运动狂、爱游泳… 可以多选 */
   traits: string[];
   /** 展示用：由上面三项拼出来的标签串（如 ["亲人","活泼","吃货"]） */
@@ -153,6 +163,30 @@ export const ENERGY_LABEL: Record<Energy, string> = {
   active: "活泼",
   calm: "安静",
 };
+
+export const PEER_LABEL: Record<Peer, string> = {
+  social: "友好",
+  guarded: "戒备",
+};
+
+export const BOLD_LABEL: Record<Boldness, string> = {
+  bold: "胆大",
+  timid: "胆小",
+};
+
+export const OBEY_LABEL: Record<Obedience, string> = {
+  trained: "听话",
+  free: "随性",
+};
+
+/** 五个互斥维度，顺序固定，用于筛选面板和性格图谱 */
+export const DIMENSIONS = [
+  { key: "social", label: "对人", left: "亲人", right: "慢热" },
+  { key: "peer", label: "对同类", left: "友好", right: "戒备" },
+  { key: "energy", label: "活力", left: "活泼", right: "安静" },
+  { key: "bold", label: "胆子", left: "胆大", right: "胆小" },
+  { key: "obey", label: "服从", left: "听话", right: "随性" },
+] as const;
 
 export const KIND_LABEL: Record<MeetupKind, string> = {
   walk: "遛弯局",

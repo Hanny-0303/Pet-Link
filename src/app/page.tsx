@@ -1,7 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import {
   Check,
   ChevronDown,
@@ -65,6 +66,9 @@ export default function HomePage() {
         return false;
       if (filters.social !== "all" && p.social !== filters.social) return false;
       if (filters.energy !== "all" && p.energy !== filters.energy) return false;
+      if (filters.peer !== "all" && p.peer !== filters.peer) return false;
+      if (filters.bold !== "all" && p.bold !== filters.bold) return false;
+      if (filters.obey !== "all" && p.obey !== filters.obey) return false;
       if (filters.maxKm !== null && p.distanceKm > filters.maxKm) return false;
       if (filters.traits.length && !filters.traits.some((t) => p.traits.includes(t)))
         return false;
@@ -221,35 +225,60 @@ export default function HomePage() {
             ))}
           </div>
         ) : (
-          <div className="flex min-h-0 flex-1 flex-wrap content-start gap-1.5 overflow-y-auto px-3 pb-4">
+          <div className="no-scrollbar min-h-0 flex-1 overflow-y-auto px-3 pb-4">
+          <div className="columns-2 gap-2">
             {list.map((pet) => (
-              <div
+              <Link
                 key={pet.id}
-                className="relative overflow-hidden rounded-[12px] bg-line"
-                style={{
-                  width: "calc((100% - 12px) / 3)",
-                  paddingBottom: "calc((100% - 12px) / 3)",
-                }}
+                href={`/pets/${pet.id}`}
+                className="mb-2 block break-inside-avoid overflow-hidden rounded-[16px] bg-white shadow-[0_2px_12px_rgba(80,60,40,0.06)]"
               >
-                <Link href={`/pets/${pet.id}`} className="absolute inset-0">
+                <div className="relative w-full" style={{ paddingBottom: "118%" }}>
                   <img
                     src={pet.photos[0]}
                     alt={pet.name}
-                    className="h-full w-full object-cover"
+                    className="absolute inset-0 h-full w-full object-cover"
                   />
-                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/75 via-black/20 to-transparent px-1.5 pt-6 pb-1.5">
-                    <p className="truncate text-[11px] font-semibold text-white">
-                      {pet.name}
-                    </p>
-                  </div>
                   {recommendations[pet.id] && (
-                    <span className="absolute top-1.5 right-1.5 grid h-4 w-4 place-items-center rounded-full bg-brand text-white shadow">
-                      <Sparkles size={9} strokeWidth={3} />
+                    <span className="absolute top-2 left-2 flex items-center gap-0.5 rounded-full bg-brand px-1.5 py-[3px] text-[9px] font-semibold text-white shadow">
+                      <Sparkles size={8} strokeWidth={3} /> 推荐
                     </span>
                   )}
-                </Link>
-              </div>
+                  {prefs.showDistance && (
+                    <span className="absolute right-2 bottom-2 rounded-full bg-black/45 px-1.5 py-[2px] text-[9px] text-white backdrop-blur">
+                      {pet.distanceKm}km
+                    </span>
+                  )}
+                </div>
+                <div className="px-2.5 py-2">
+                  <div className="flex items-center gap-1">
+                    <p className="truncate text-[13px] font-semibold">{pet.name}</p>
+                    <span className="text-[10px] text-ink-mute">
+                      {pet.gender === "boy" ? "♂" : "♀"}
+                    </span>
+                  </div>
+                  <p className="mt-0.5 truncate text-[10.5px] text-ink-mute">
+                    {pet.breed} · {pet.ageText} · {SIZE_LABEL[pet.size]}
+                  </p>
+                  <div className="mt-1.5 flex flex-wrap gap-1">
+                    {pet.personality.slice(0, 2).map((t) => (
+                      <span
+                        key={t}
+                        className="rounded-full bg-cream px-1.5 py-[2px] text-[9.5px] text-ink-soft"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                  {recommendations[pet.id] && (
+                    <p className="mt-1 truncate text-[9.5px] text-brand">
+                      {recommendations[pet.id]}
+                    </p>
+                  )}
+                </div>
+              </Link>
             ))}
+          </div>
           </div>
         )}
       </div>
@@ -279,6 +308,8 @@ function PetSlide({
   onGreet: () => void;
 }) {
   const [idx, setIdx] = useState(0);
+  const router = useRouter();
+  const tap = useRef({ x: 0, y: 0 });
 
   return (
     <article className="h-full w-full snap-start px-4 pb-2">
@@ -290,6 +321,15 @@ function PetSlide({
             const el = e.currentTarget;
             const i = Math.round(el.scrollLeft / el.clientWidth);
             if (i !== idx) setIdx(i);
+          }}
+          onPointerDown={(e) => {
+            tap.current = { x: e.clientX, y: e.clientY };
+          }}
+          onPointerUp={(e) => {
+            // 轻点图片进主页；横向拖动翻照片时不触发
+            const dx = Math.abs(e.clientX - tap.current.x);
+            const dy = Math.abs(e.clientY - tap.current.y);
+            if (dx < 8 && dy < 8) router.push(`/pets/${pet.id}`);
           }}
         >
           {pet.photos.map((src, i) => (

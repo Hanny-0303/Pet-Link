@@ -1,16 +1,23 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Check, X, Sparkles } from "lucide-react";
 import { pets } from "@/lib/data";
 import {
   AGE_LABEL,
+  BOLD_LABEL,
   ENERGY_LABEL,
+  OBEY_LABEL,
+  PEER_LABEL,
   SIZE_LABEL,
   SOCIAL_LABEL,
+  SPECIES_LABEL,
   type AgeBand,
+  type Boldness,
   type Energy,
   type Gender,
+  type Obedience,
+  type Peer,
   type Size,
   type Species,
   type Sociability,
@@ -23,6 +30,35 @@ const TRAITS = (() => {
   for (const p of pets) for (const t of p.traits) c.set(t, (c.get(t) ?? 0) + 1);
   return [...c.entries()].sort((a, b) => b[1] - a[1]).slice(0, 12).map(([t]) => t);
 })();
+
+/** 品种首字母，用于按拼音分组 */
+const BREED_LETTER: Record<string, string> = {
+  阿拉斯加: "A",
+  边牧: "B", 比熊: "B", 博美: "B", 布偶猫: "B",
+  垂耳兔: "C", 柴犬: "C",
+  法斗: "F", 非洲迷你刺猬: "F",
+  哈士奇: "H", 虎皮鹦鹉: "H",
+  金毛: "J", 金丝熊仓鼠: "J", 橘猫: "J",
+  柯基: "K",
+  拉布拉多: "L", 龙猫: "L",
+  蜜袋鼯: "M",
+  萨摩耶: "S",
+  泰迪: "T", 田园犬: "T",
+  暹罗猫: "X", 玄凤鹦鹉: "X",
+  银渐层: "Y", 英国短毛猫: "Y", 玉米蛇: "Y",
+  鬃狮蜥: "Z", 侏儒兔: "Z",
+};
+
+const SCOPE: (Species | "all")[] = [
+  "all",
+  "dog",
+  "cat",
+  "rabbit",
+  "smallpet",
+  "bird",
+  "reptile",
+  "exotic",
+];
 
 export default function FilterSheet({
   open,
@@ -39,20 +75,36 @@ export default function FilterSheet({
 }) {
   const [draft, setDraft] = useState<Filters>(value);
   const [lastOpen, setLastOpen] = useState(open);
-  const [showAllBreeds, setShowAllBreeds] = useState(false);
+  const [scope, setScope] = useState<Species | "all">(species);
 
   if (open !== lastOpen) {
     setLastOpen(open);
-    if (open) setDraft(value);
+    if (open) {
+      setDraft(value);
+      setScope(species);
+    }
   }
   if (!open) return null;
 
-  // 品种候选：跟着当前物种走
-  const scoped = species === "all" ? pets : pets.filter((p) => p.species === species);
-  const breedCount = new Map<string, number>();
-  for (const p of scoped) breedCount.set(p.breed, (breedCount.get(p.breed) ?? 0) + 1);
-  const allBreeds = [...breedCount.entries()].sort((a, b) => b[1] - a[1]);
-  const breeds = showAllBreeds ? allBreeds : allBreeds.slice(0, 8);
+  // 先大类，再小类：品种列表跟着 scope 走
+  const scoped = scope === "all" ? pets : pets.filter((p) => p.species === scope);
+
+  const breedGroups = useMemo(() => {
+    const count = new Map<string, number>();
+    for (const p of scoped) count.set(p.breed, (count.get(p.breed) ?? 0) + 1);
+    const byLetter = new Map<string, { breed: string; n: number }[]>();
+    for (const [breed, n] of count) {
+      const letter = BREED_LETTER[breed] ?? "#";
+      if (!byLetter.has(letter)) byLetter.set(letter, []);
+      byLetter.get(letter)!.push({ breed, n });
+    }
+    return [...byLetter.entries()]
+      .sort((a, b) => a[0].localeCompare(b[0]))
+      .map(([letter, items]) => ({
+        letter,
+        items: items.sort((a, b) => a.breed.localeCompare(b.breed, "zh")),
+      }));
+  }, [scoped]);
 
   function toggleIn<T extends string>(list: T[], v: T): T[] {
     return list.includes(v) ? list.filter((x) => x !== v) : [...list, v];
@@ -85,11 +137,8 @@ export default function FilterSheet({
         </div>
 
         <div className="flex-1 overflow-y-auto px-5 pb-3">
-          {/* 推荐开关 */}
           <button
-            onClick={() =>
-              setDraft({ ...draft, onlyRecommended: !draft.onlyRecommended })
-            }
+            onClick={() => setDraft({ ...draft, onlyRecommended: !draft.onlyRecommended })}
             className={`mt-2 flex w-full items-center gap-2.5 rounded-[16px] px-3.5 py-3 text-left transition ${
               draft.onlyRecommended
                 ? "bg-brand-soft ring-1 ring-brand/30"
@@ -126,30 +175,52 @@ export default function FilterSheet({
             </span>
           </button>
 
-          {allBreeds.length > 1 && (
-            <Section title="品种">
-              {breeds.map(([b, n]) => (
-                <Chip
-                  key={b}
-                  on={draft.breeds.includes(b)}
-                  onClick={() =>
-                    setDraft({ ...draft, breeds: toggleIn(draft.breeds, b) })
-                  }
-                >
-                  {b}
-                  <span className="text-[10px] opacity-60">{n}</span>
-                </Chip>
-              ))}
-              {allBreeds.length > 8 && (
-                <button
-                  onClick={() => setShowAllBreeds((v) => !v)}
-                  className="rounded-full px-2 py-[7px] text-[11.5px] font-medium text-brand"
-                >
-                  {showAllBreeds ? "收起" : `+${allBreeds.length - 8} 个`}
-                </button>
-              )}
-            </Section>
-          )}
+          {/* 品种：先大类，再按首字母排的小类 */}
+          <div className="mt-4">
+            <div className="mb-2 flex items-baseline gap-1.5">
+              <h3 className="text-[12px] font-semibold text-ink-soft">品种</h3>
+              <span className="text-[10px] text-ink-mute">先选大类，再选品种</span>
+            </div>
+
+            <div className="no-scrollbar -mx-1 flex gap-1.5 overflow-x-auto px-1 pb-2">
+              {SCOPE.map((s) => {
+                const on = scope === s;
+                return (
+                  <button
+                    key={s}
+                    onClick={() => setScope(s)}
+                    className={`shrink-0 rounded-full px-2.5 py-[5px] text-[11px] font-medium transition ${
+                      on ? "bg-ink text-cream" : "bg-white text-ink-soft"
+                    }`}
+                  >
+                    {s === "all" ? "全部" : SPECIES_LABEL[s]}
+                  </button>
+                );
+              })}
+            </div>
+
+            {breedGroups.map((g) => (
+              <div key={g.letter} className="mb-2">
+                <p className="mb-1 px-0.5 text-[10px] font-semibold text-ink-mute">
+                  {g.letter}
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {g.items.map(({ breed, n }) => (
+                    <Chip
+                      key={breed}
+                      on={draft.breeds.includes(breed)}
+                      onClick={() =>
+                        setDraft({ ...draft, breeds: toggleIn(draft.breeds, breed) })
+                      }
+                    >
+                      {breed}
+                      <span className="text-[10px] opacity-60">{n}</span>
+                    </Chip>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
 
           <Section title="体型">
             {(["small", "medium", "large"] as const).map((s) => (
@@ -195,13 +266,11 @@ export default function FilterSheet({
                 { v: "no", label: "未绝育" },
               ]}
               value={draft.neutered}
-              onChange={(v) =>
-                setDraft({ ...draft, neutered: v as "all" | "yes" | "no" })
-              }
+              onChange={(v) => setDraft({ ...draft, neutered: v as "all" | "yes" | "no" })}
             />
           </Section>
 
-          <Section title="亲人度" hint="必选其一，不会同时成立">
+          <Section title="对人" hint="二选一">
             <SingleChips
               options={[
                 { v: "all", label: "不限" },
@@ -209,13 +278,23 @@ export default function FilterSheet({
                 { v: "reserved", label: SOCIAL_LABEL.reserved },
               ]}
               value={draft.social}
-              onChange={(v) =>
-                setDraft({ ...draft, social: v as Sociability | "all" })
-              }
+              onChange={(v) => setDraft({ ...draft, social: v as Sociability | "all" })}
             />
           </Section>
 
-          <Section title="活力" hint="必选其一，不会同时成立">
+          <Section title="对同类" hint="一起玩最关键的一项">
+            <SingleChips
+              options={[
+                { v: "all", label: "不限" },
+                { v: "social", label: PEER_LABEL.social },
+                { v: "guarded", label: PEER_LABEL.guarded },
+              ]}
+              value={draft.peer}
+              onChange={(v) => setDraft({ ...draft, peer: v as Peer | "all" })}
+            />
+          </Section>
+
+          <Section title="活力">
             <SingleChips
               options={[
                 { v: "all", label: "不限" },
@@ -224,6 +303,30 @@ export default function FilterSheet({
               ]}
               value={draft.energy}
               onChange={(v) => setDraft({ ...draft, energy: v as Energy | "all" })}
+            />
+          </Section>
+
+          <Section title="胆子">
+            <SingleChips
+              options={[
+                { v: "all", label: "不限" },
+                { v: "bold", label: BOLD_LABEL.bold },
+                { v: "timid", label: BOLD_LABEL.timid },
+              ]}
+              value={draft.bold}
+              onChange={(v) => setDraft({ ...draft, bold: v as Boldness | "all" })}
+            />
+          </Section>
+
+          <Section title="服从">
+            <SingleChips
+              options={[
+                { v: "all", label: "不限" },
+                { v: "trained", label: OBEY_LABEL.trained },
+                { v: "free", label: OBEY_LABEL.free },
+              ]}
+              value={draft.obey}
+              onChange={(v) => setDraft({ ...draft, obey: v as Obedience | "all" })}
             />
           </Section>
 
@@ -239,7 +342,7 @@ export default function FilterSheet({
             ))}
           </Section>
 
-          <Section title="特点" hint="可以多选">
+          <Section title="其他特点" hint="可以多选">
             {TRAITS.map((t) => (
               <Chip
                 key={t}
@@ -301,9 +404,7 @@ function Chip({
     <button
       onClick={onClick}
       className={`flex items-center gap-1 rounded-full px-3 py-[7px] text-[12px] font-medium transition active:scale-95 ${
-        on
-          ? "bg-brand text-white"
-          : "bg-white text-ink-soft shadow-[0_1px_6px_rgba(80,60,40,0.06)]"
+        on ? "bg-brand text-white" : "bg-white text-ink-soft shadow-[0_1px_6px_rgba(80,60,40,0.06)]"
       }`}
     >
       {on && <Check size={11} strokeWidth={3} />}
@@ -312,7 +413,6 @@ function Chip({
   );
 }
 
-/** 互斥选择：一组里只能亮一个 */
 function SingleChips({
   options,
   value,

@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { Check, X, Sparkles } from "lucide-react";
 import { pets } from "@/lib/data";
 import {
@@ -84,12 +84,12 @@ export default function FilterSheet({
       setScope(species);
     }
   }
-  if (!open) return null;
 
   // 先大类，再小类：品种列表跟着 scope 走
+  // 注意：这段必须在 `if (!open) return null` 之前算，
+  // 否则 Hook 会在打开时凭空多出来，React 直接报错。
   const scoped = scope === "all" ? pets : pets.filter((p) => p.species === scope);
-
-  const breedGroups = useMemo(() => {
+  const breedGroups = (() => {
     const count = new Map<string, number>();
     for (const p of scoped) count.set(p.breed, (count.get(p.breed) ?? 0) + 1);
     const byLetter = new Map<string, { breed: string; n: number }[]>();
@@ -104,7 +104,9 @@ export default function FilterSheet({
         letter,
         items: items.sort((a, b) => a.breed.localeCompare(b.breed, "zh")),
       }));
-  }, [scoped]);
+  })();
+
+  if (!open) return null;
 
   function toggleIn<T extends string>(list: T[], v: T): T[] {
     return list.includes(v) ? list.filter((x) => x !== v) : [...list, v];

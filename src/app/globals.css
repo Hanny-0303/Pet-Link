@@ -2,31 +2,27 @@
 
 /* ── 设计变量：改这里就能整体换肤 ───────────────────────── */
 @theme {
-  /* ── 严格取自色卡的四个颜色 ────────────────────────────
-     CITRUS ZEST  #FFA62B  → 主行动 / 选中
-     SEA BREEZE   #86C5FF  → 辅助面 / 浅标记
-     AMALFI TILE  #2E5AA7  → 文字强调 / 链接 / 认证
-     CREAM GELATO #F8E6A0  → 画布
-     另外补两个中性色（文字、卡片），否则整套无法阅读
+  /* ── 深蓝底 + 饱和黄作选中 ───────────────────────────────
+     背景 AMALFI TILE #2E5AA7，选中 CITRUS ZEST #FFA62B
      ──────────────────────────────────────────────────── */
-  --color-canvas: #f8e6a0; /* CREAM GELATO：画布 */
-  --color-cream: #f8e6a0; /* 旧名兼容 */
-  --color-surface: #fffdf7; /* 卡片：奶白，比纯白更配 */
-  --color-surface-2: #fff8e0; /* 卡片里的块 */
-  --color-ink: #15223b; /* 正文：取自 AMALFI 的深色版 */
-  --color-ink-soft: #4c5b7a;
-  --color-ink-mute: #626a7e;
-  --color-line: #ecd9a1;
-  --color-brand: #ffa62b; /* CITRUS ZEST：填充 / 选中 */
-  --color-brand-soft: #ffe6bd;
-  --color-on-brand: #15223b; /* 橙底上的文字 */
-  --color-accent: #2e5aa7; /* AMALFI TILE：文字强调 */
-  --color-accent-soft: #dfe9f8;
+  --color-canvas: #2e5aa7; /* AMALFI TILE：画布 */
+  --color-cream: #2e5aa7; /* 旧名兼容 */
+  --color-surface: #3a69b5; /* 卡片：比画布亮一档 */
+  --color-surface-2: #4776c0; /* 卡片里的块 */
+  --color-ink: #f5f8ff; /* 主文字：浅色 */
+  --color-ink-soft: #c9d8f2;
+  --color-ink-mute: #9fb4d8;
+  --color-line: #4d79c0;
+  --color-brand: #ffa62b; /* CITRUS ZEST：选中 / 主行动 */
+  --color-brand-soft: #6b5312; /* 深琥珀软底 */
+  --color-on-brand: #241a00; /* 橙底上的文字 */
+  --color-accent: #ffd98a; /* 深底上的强调文字 */
+  --color-accent-soft: #2b4f92;
   --color-sea: #86c5ff; /* SEA BREEZE */
-  --color-sea-soft: #e5f1ff;
-  --color-sand: #f8e6a0;
-  --color-mint: #2e5aa7;
-  --color-mint-soft: #dfe9f8;
+  --color-sea-soft: #2b4f92;
+  --color-sand: #6b5312;
+  --color-mint: #ffd98a;
+  --color-mint-soft: #2b4f92;
   --color-white: #ffffff;
 
 
@@ -46,8 +42,8 @@
   --text-stat: 21px;
   --text-page: 26px;
 
-  --shadow-soft: 0 1px 6px rgba(90, 70, 20, 0.06);   /* 贴地的小块 */
-  --shadow-card: 0 2px 12px rgba(90, 70, 20, 0.10);  /* 卡片 */
+  --shadow-soft: 0 1px 0 rgba(255, 255, 255, 0.06);   /* 贴地的小块 */
+  --shadow-card: 0 2px 0 rgba(0, 0, 0, 0.14);  /* 卡片 */
   --shadow-float: 0 -8px 40px rgba(0, 0, 0, 0.15);   /* 浮层 */
 
   /* 动效曲线：进场"快起慢收"，退场"慢起快收"，两者不能共用一条 */
@@ -64,7 +60,7 @@
 }
 
 body {
-  background-color: #e2cf8c;
+  background-color: #1c3a70;
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;

@@ -208,3 +208,10 @@ html {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* 深蓝底上，卡片和背景明度只差一档，靠一道浅描边把边界"缝"出来
+   （对应色卡里蓝色瓷砖之间的缝） */
+.bg-surface.shadow-card,
+.bg-surface.shadow-soft {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+}

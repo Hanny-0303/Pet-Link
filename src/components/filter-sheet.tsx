@@ -201,7 +201,13 @@ export default function FilterSheet({
               })}
             </div>
 
-            {breedGroups.map((g) => (
+            {scope === "all" && (
+              <p className="rounded-[12px] bg-white/70 px-3 py-3 text-center text-[11.5px] text-ink-mute">
+                先选一个大类，再看具体品种
+              </p>
+            )}
+
+            {scope !== "all" && breedGroups.map((g) => (
               <div key={g.letter} className="mb-2">
                 <p className="mb-1 px-0.5 text-[10px] font-semibold text-ink-mute">
                   {g.letter}

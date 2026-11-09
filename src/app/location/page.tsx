@@ -6,6 +6,7 @@ import { ArrowLeft, Check, ChevronRight, MapPin, Search, X } from "lucide-react"
 import { pets } from "@/lib/data";
 import {
   DIVISIONS,
+  groupByLetter,
   searchLocations,
   type FlatEntry,
   type Location,
@@ -140,17 +141,24 @@ export default function LocationPage() {
             {!location && <Check size={15} strokeWidth={2.8} className="text-brand" />}
           </button>
 
-          <div className="grid grid-cols-3 gap-2">
-            {DIVISIONS.map((p) => (
-              <button
-                key={p.name}
-                onClick={() => setProvince(p.name)}
-                className="rounded-[12px] bg-white px-2 py-2.5 text-[12.5px] font-medium shadow-[0_1px_6px_rgba(80,60,40,0.05)] active:scale-95"
-              >
-                {shortProvince(p.name)}
-              </button>
-            ))}
-          </div>
+          {groupByLetter(DIVISIONS, (p) => p.name).map((g) => (
+            <div key={g.letter} className="mb-3">
+              <p className="mb-1.5 px-1 text-[11px] font-semibold text-ink-mute">
+                {g.letter}
+              </p>
+              <div className="grid grid-cols-3 gap-2">
+                {g.list.map((p) => (
+                  <button
+                    key={p.name}
+                    onClick={() => setProvince(p.name)}
+                    className="rounded-[12px] bg-white px-2 py-2.5 text-[12.5px] font-medium shadow-[0_1px_6px_rgba(80,60,40,0.05)] active:scale-95"
+                  >
+                    {shortProvince(p.name)}
+                  </button>
+                ))}
+              </div>
+            </div>
+          ))}
         </div>
       ) : !currentCity ? (
         /* 市级 */
@@ -164,27 +172,34 @@ export default function LocationPage() {
             </span>
             <ChevronRight size={14} className="text-ink-mute" />
           </button>
-          <div className="grid grid-cols-2 gap-2">
-            {currentProvince.cities.map((c) => {
-              const n = CITY_COUNT.get(c.name) ?? 0;
-              return (
-                <button
-                  key={c.name}
-                  onClick={() => setCity(c.name)}
-                  className="flex items-center gap-2 rounded-[12px] bg-white px-3 py-2.5 text-left shadow-[0_1px_6px_rgba(80,60,40,0.05)] active:scale-[0.98]"
-                >
-                  <span className="min-w-0 flex-1 truncate text-[13px] font-medium">
-                    {c.name}
-                  </span>
-                  {n > 0 && (
-                    <span className="shrink-0 rounded-full bg-brand-soft px-1.5 text-[9.5px] font-semibold text-brand">
-                      {n}
-                    </span>
-                  )}
-                </button>
-              );
-            })}
-          </div>
+          {groupByLetter(currentProvince.cities, (c) => c.name).map((g) => (
+            <div key={g.letter} className="mb-3">
+              <p className="mb-1.5 px-1 text-[11px] font-semibold text-ink-mute">
+                {g.letter}
+              </p>
+              <div className="grid grid-cols-2 gap-2">
+                {g.list.map((c) => {
+                  const n = CITY_COUNT.get(c.name) ?? 0;
+                  return (
+                    <button
+                      key={c.name}
+                      onClick={() => setCity(c.name)}
+                      className="flex items-center gap-2 rounded-[12px] bg-white px-3 py-2.5 text-left shadow-[0_1px_6px_rgba(80,60,40,0.05)] active:scale-[0.98]"
+                    >
+                      <span className="min-w-0 flex-1 truncate text-[13px] font-medium">
+                        {c.name}
+                      </span>
+                      {n > 0 && (
+                        <span className="shrink-0 rounded-full bg-brand-soft px-1.5 text-[9.5px] font-semibold text-brand">
+                          {n}
+                        </span>
+                      )}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </div>
       ) : (
         /* 区县级 */
@@ -200,8 +215,13 @@ export default function LocationPage() {
             </span>
             <ChevronRight size={14} className="text-ink-mute" />
           </button>
-          <div className="grid grid-cols-2 gap-2">
-            {currentCity.areas.map((a) => {
+          {groupByLetter(currentCity.areas, (a) => a).map((g) => (
+            <div key={g.letter} className="mb-3">
+              <p className="mb-1.5 px-1 text-[11px] font-semibold text-ink-mute">
+                {g.letter}
+              </p>
+              <div className="grid grid-cols-2 gap-2">
+                {g.list.map((a) => {
               const n = AREA_COUNT.get(a) ?? 0;
               return (
                 <button
@@ -228,9 +248,11 @@ export default function LocationPage() {
                     </span>
                   )}
                 </button>
-              );
-            })}
-          </div>
+                  );
+                })}
+              </div>
+            </div>
+          ))}
         </div>
       )}
     </div>

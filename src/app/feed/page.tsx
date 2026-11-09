@@ -64,6 +64,7 @@ export default function FeedPage() {
               key={post.id}
               className="overflow-hidden rounded-[22px] bg-white p-4 shadow-[0_2px_14px_rgba(80,60,40,0.06)]"
             >
+              <Link href={`/feed/${post.id}`} className="block active:opacity-90">
               <div className="flex items-center gap-2.5">
                 <Avatar name={post.authorName} tint={post.tint} size={36} />
                 <div className="min-w-0 flex-1">
@@ -125,6 +126,8 @@ export default function FeedPage() {
                 </Link>
               )}
 
+              </Link>
+
               <div className="mt-3 flex items-center gap-5 border-t border-line/70 pt-2.5">
                 <button
                   onClick={() => like(post.id)}
@@ -139,10 +142,13 @@ export default function FeedPage() {
                     {post.likes + (isLiked ? 1 : 0)}
                   </span>
                 </button>
-                <span className="flex items-center gap-1.5 text-[11.5px] text-ink-mute">
+                <Link
+                  href={`/feed/${post.id}`}
+                  className="flex items-center gap-1.5 text-[11.5px] text-ink-mute"
+                >
                   <MessageCircle size={15} strokeWidth={2.2} />
                   {post.comments}
-                </span>
+                </Link>
               </div>
             </article>
           );

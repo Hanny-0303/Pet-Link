@@ -1,4 +1,5 @@
 import raw from "./china-divisions.json";
+import letters from "./china-letters.json";
 
 export type City = { name: string; areas: string[] };
 export type Province = { name: string; cities: City[] };
@@ -59,4 +60,30 @@ export function locationLabel(loc: Location | null): string {
 export function fullLabel(loc: Location | null): string {
   if (!loc) return "全国";
   return loc.area ? `${loc.province} ${loc.city} ${loc.area}` : `${loc.province} ${loc.city}`;
+}
+
+const LETTERS = letters as Record<string, string>;
+
+/** 名称的拼音首字母（构建时预计算，运行时不依赖拼音库） */
+export function letterOf(name: string): string {
+  return LETTERS[name] ?? "#";
+}
+
+/** 按首字母分组，组内按拼音排序 */
+export function groupByLetter<T>(
+  items: T[],
+  nameOf: (t: T) => string
+): { letter: string; list: T[] }[] {
+  const map = new Map<string, T[]>();
+  for (const it of items) {
+    const l = letterOf(nameOf(it));
+    if (!map.has(l)) map.set(l, []);
+    map.get(l)!.push(it);
+  }
+  return [...map.entries()]
+    .sort((a, b) => a[0].localeCompare(b[0]))
+    .map(([letter, list]) => ({
+      letter,
+      list: list.sort((x, y) => nameOf(x).localeCompare(nameOf(y), "zh")),
+    }));
 }

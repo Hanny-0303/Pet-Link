@@ -57,3 +57,10 @@ export function buildRecommendations(me: Pet, top = 4): Record<string, string> {
       .map(([p]) => [p.id, matchReason(me, p)])
   );
 }
+
+/** 每只宠物的基础点赞数：由 id 决定，稳定且好看 */
+export function likeCount(pet: Pet): number {
+  let h = 7;
+  for (const ch of pet.id) h = (h * 31 + ch.charCodeAt(0)) % 997;
+  return 12 + (h % 480);
+}

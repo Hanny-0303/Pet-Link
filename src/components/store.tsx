@@ -33,6 +33,8 @@ type Store = {
   joined: string[];
   greeted: string[];
   liked: string[];
+  /** 点过赞的宠物 */
+  likedPets: string[];
   extraMeetups: Meetup[];
   /** 当前选中的地区，null 表示全国 */
   location: Location | null;
@@ -45,6 +47,7 @@ type Store = {
   join: (id: string) => void;
   greet: (id: string) => void;
   like: (id: string) => void;
+  likePet: (id: string) => void;
   addMeetup: (m: Meetup) => void;
   setLocation: (l: Location | null) => void;
   setSpecies: (s: Species | "all") => void;
@@ -76,6 +79,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
   const [joined, setJoined] = useState<string[]>([]);
   const [greeted, setGreeted] = useState<string[]>([]);
   const [liked, setLiked] = useState<string[]>([]);
+  const [likedPets, setLikedPets] = useState<string[]>([]);
   const [extraMeetups, setExtraMeetups] = useState<Meetup[]>([]);
   const [location, setLocation] = useState<Location | null>(null);
   const [species, setSpecies] = useState<Species | "all">("all");
@@ -94,6 +98,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
     setJoined([]);
     setGreeted([]);
     setLiked([]);
+    setLikedPets([]);
     setExtraMeetups([]);
     setLocation(null);
     setSpecies("all");
@@ -108,6 +113,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
         joined,
         greeted,
         liked,
+        likedPets,
         extraMeetups,
         location,
         species,
@@ -122,6 +128,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
         join: (id) => setJoined((s) => toggle(s, id)),
         greet: (id) => setGreeted((s) => toggle(s, id)),
         like: (id) => setLiked((s) => toggle(s, id)),
+        likePet: (id) => setLikedPets((s) => toggle(s, id)),
         addMeetup: (m) => setExtraMeetups((s) => [m, ...s]),
         togglePref: (k) => setPrefs((p) => ({ ...p, [k]: !p[k] })),
       }}

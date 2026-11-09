@@ -5,12 +5,14 @@ import { useParams, useRouter } from "next/navigation";
 import {
   ArrowLeft,
   Check,
+  Heart,
   MapPin,
   PawPrint,
   ShieldCheck,
   Syringe,
 } from "lucide-react";
 import { getPet, meetups, posts } from "@/lib/data";
+import { likeCount } from "@/lib/pet";
 import { DIMENSIONS, SIZE_LABEL, canWalk } from "@/lib/types";
 
 /** 每个维度里「左边那个值」是什么 */
@@ -28,7 +30,7 @@ import Avatar from "@/components/avatar";
 export default function PetDetailPage() {
   const { id } = useParams<{ id: string }>();
   const router = useRouter();
-  const { greeted, greet } = useAppStore();
+  const { greeted, greet, likedPets, likePet } = useAppStore();
   const pet = getPet(id);
 
   if (!pet) {
@@ -43,6 +45,8 @@ export default function PetDetailPage() {
   }
 
   const done = greeted.includes(pet.id);
+  const liked = likedPets.includes(pet.id);
+  const likes = likeCount(pet) + (liked ? 1 : 0);
   const related = meetups.filter((m) =>
     m.participants.some((p) => p.name === pet.ownerName)
   );
@@ -60,6 +64,21 @@ export default function PetDetailPage() {
           className="absolute top-5 left-4 grid h-9 w-9 place-items-center rounded-full bg-white/85 backdrop-blur active:scale-95"
         >
           <ArrowLeft size={17} strokeWidth={2.4} />
+        </button>
+
+        <button
+          onClick={() => likePet(pet.id)}
+          aria-label={liked ? "取消点赞" : "点赞"}
+          className={`absolute top-5 right-4 flex items-center gap-1.5 rounded-full px-3 py-1.5 backdrop-blur active:scale-95 ${
+            liked ? "bg-brand text-white" : "bg-white/85 text-ink-soft"
+          }`}
+        >
+          <Heart
+            size={15}
+            strokeWidth={2.4}
+            className={liked ? "fill-white text-white" : "text-ink-soft"}
+          />
+          <span className="text-[11.5px] font-semibold">{likes}</span>
         </button>
 
         <div className="absolute inset-x-0 bottom-0 p-5">
@@ -220,12 +239,19 @@ export default function PetDetailPage() {
             <h2 className="text-[14px] font-semibold">主人的动态</h2>
             <div className="mt-2 space-y-2">
               {relatedPosts.map((p) => (
-                <div key={p.id} className="rounded-[16px] bg-white p-3 shadow-[0_2px_10px_rgba(80,60,40,0.05)]">
+                <Link
+                  key={p.id}
+                  href={`/feed/${p.id}`}
+                  className="block rounded-[16px] bg-white p-3 shadow-[0_2px_10px_rgba(80,60,40,0.05)] active:opacity-90"
+                >
                   <p className="line-clamp-2 text-[12px] leading-relaxed text-ink-soft">
                     {p.content}
                   </p>
-                  <p className="mt-1 text-[10px] text-ink-mute">{p.timeText}</p>
-                </div>
+                  <p className="mt-1 flex items-center justify-between text-[10px] text-ink-mute">
+                    {p.timeText}
+                    <span className="text-brand">查看 →</span>
+                  </p>
+                </Link>
               ))}
             </div>
           </div>

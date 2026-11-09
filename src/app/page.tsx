@@ -69,6 +69,15 @@ export default function HomePage() {
     [species, location, filters, recommendations]
   );
 
+  // 网格模式：两列各自独立排（左列 1,3,5…，右列 2,4,6…）
+  // 用 CSS columns 会变成"左列填满再填右列"，滚动顺序是 1,22,2,23…
+  const gridColumns = useMemo(() => {
+    const left: typeof list = [];
+    const right: typeof list = [];
+    list.forEach((p, i) => (i % 2 === 0 ? left : right).push(p));
+    return [left, right];
+  }, [list]);
+
   function handleGreet(pet: Pet) {
     const done = greeted.includes(pet.id);
     greet(pet.id);
@@ -200,18 +209,22 @@ export default function HomePage() {
           </div>
         ) : (
           <div className="no-scrollbar min-h-0 flex-1 overflow-y-auto px-3 pb-4">
-          <div className="columns-2 gap-2">
-            {list.map((pet, i) => (
-              <PetTile
-                key={pet.id}
-                pet={pet}
-                reason={recommendations[pet.id]}
-                liked={likedPets.includes(pet.id)}
-                likes={likeCount(pet) + (likedPets.includes(pet.id) ? 1 : 0)}
-                showDistance={prefs.showDistance}
-                onLike={() => likePet(pet.id)}
-                delay={Math.min(i, 6) * 45}
-              />
+          <div className="flex gap-2">
+            {gridColumns.map((col, ci) => (
+              <div key={ci} className="flex min-w-0 flex-1 flex-col gap-2">
+                {col.map((pet, i) => (
+                  <PetTile
+                    key={pet.id}
+                    pet={pet}
+                    reason={recommendations[pet.id]}
+                    liked={likedPets.includes(pet.id)}
+                    likes={likeCount(pet) + (likedPets.includes(pet.id) ? 1 : 0)}
+                    showDistance={prefs.showDistance}
+                    onLike={() => likePet(pet.id)}
+                    delay={Math.min(ci * 2 + i, 6) * 45}
+                  />
+                ))}
+              </div>
             ))}
           </div>
           </div>
@@ -434,7 +447,7 @@ function PetTile({
   return (
     <div
       onClick={onTap}
-      className="stagger tap mb-2 block cursor-pointer break-inside-avoid overflow-hidden rounded-card bg-surface shadow-card"
+      className="stagger tap block cursor-pointer overflow-hidden rounded-card bg-surface shadow-card"
       style={{ animationDelay: `${delay}ms` }}
     >
       <div className="relative w-full" style={{ paddingBottom: "118%" }}>

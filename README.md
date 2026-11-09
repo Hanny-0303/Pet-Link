@@ -17,7 +17,7 @@
 
 <sub>建议用手机打开，或把浏览器窗口缩窄到手机宽度</sub>
 
-[产品方案](docs/产品方案.md) · [部署指南](docs/部署指南.md)
+[产品方案](docs/产品方案.md) · [部署指南](docs/部署指南.md) · [设计规范](design-md/README.md)
 
 </div>
 
@@ -156,6 +156,7 @@ npm run build && npm start
 │       ├── types.ts          # 数据结构
 │       └── date.ts           # 日期格式化
 ├── public/img/               # 26 张宠物照片（本地存储，不依赖外链）
+├── design-md/                # 4 套品牌 DESIGN.md + 选型预览.html
 └── docs/
     ├── 产品方案.md            # 定位、功能清单、数据模型、迭代计划
     └── 部署指南.md

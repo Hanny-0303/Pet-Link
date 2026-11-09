@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DESIGN.md 选型预览 · 遛遛</title>
+<style>
+  :root {
+    --page: #f4f1ec;
+    --ink: #1b1a17;
+    --muted: #6f6a62;
+    --line: #e2dcd2;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--page); color: var(--ink);
+    font: 15px/1.65 -apple-system, BlinkMacSystemFont, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 64px 28px 96px; }
+
+  .intro { max-width: 760px; }
+  .kicker { font-size: 12px; letter-spacing: .18em; text-transform: uppercase; color: #8a8378; margin: 0 0 14px; }
+  h1 { font-size: clamp(30px, 4vw, 44px); line-height: 1.15; letter-spacing: -.02em; margin: 0 0 18px; }
+  .lede { font-size: 16px; color: #55514a; margin: 0; }
+  .lede b { color: var(--ink); }
+  .how { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 14px; margin: 36px 0 0; }
+  .how div { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; }
+  .how span { display: block; font-size: 11px; letter-spacing: .12em; color: #948d82; text-transform: uppercase; margin-bottom: 6px; }
+  .how p { margin: 0; font-size: 13.5px; color: #403c36; }
+
+  .brand {
+    display: grid; grid-template-columns: 300px 320px minmax(0, 1fr);
+    gap: 44px; padding: 56px 0 48px; border-top: 1px solid var(--line); margin-top: 56px;
+    background: var(--bg); border-radius: 24px; padding-left: 28px; padding-right: 28px;
+    box-shadow: 0 1px 0 rgba(0,0,0,.04), 0 18px 40px -32px rgba(40,30,10,.45);
+  }
+  .brand:first-of-type { margin-top: 48px; }
+
+  h2 { font-size: 26px; margin: 0; letter-spacing: -.02em; }
+  .b-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .b-tag { font-size: 11px; padding: 3px 9px; border-radius: 999px; background: var(--soft); color: var(--muted); border: 1px solid var(--line); }
+  .b-cn { font-size: 13px; color: var(--muted); margin: 6px 0 12px; }
+  .b-desc { font-size: 13.5px; color: var(--body); margin: 0 0 18px; }
+
+  .swatches { list-style: none; padding: 0; margin: 0 0 18px; display: grid; gap: 7px; }
+  .sw { display: flex; align-items: center; gap: 9px; font-size: 12px; color: var(--muted); }
+  .sw .dot { width: 14px; height: 14px; border-radius: 5px; box-shadow: inset 0 0 0 1px rgba(0,0,0,.08); flex: none; }
+  .sw .sw-t { width: 58px; }
+  .sw code { font: 11px/1 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--ink); }
+
+  .meta { margin: 0 0 16px; display: grid; gap: 6px; font-size: 12px; }
+  .meta div { display: flex; gap: 10px; }
+  .meta dt { width: 44px; color: var(--muted); flex: none; }
+  .meta dd { margin: 0; color: var(--ink); }
+  .score { letter-spacing: .06em; }
+  .score em { font-style: normal; color: var(--muted); font-size: 11.5px; letter-spacing: 0; margin-left: 4px; }
+
+  .fit { font-size: 12.5px; color: var(--body); margin: 0 0 6px; }
+  .fit b { display: inline-block; font-size: 11px; font-weight: 600; color: var(--muted); border: 1px solid var(--line); border-radius: 6px; padding: 0 6px; margin-right: 7px; }
+  .fit.bad b { color: #a8623f; border-color: #e3c9b8; }
+  .src { margin: 16px 0 0; font-size: 11.5px; }
+  .src a { color: var(--brand); text-decoration: none; border-bottom: 1px solid color-mix(in srgb, var(--brand) 35%, transparent); }
+
+  /* ---------- phone mock ---------- */
+  .col-phone { display: flex; flex-direction: column; align-items: center; }
+  .phone {
+    width: 300px; border-radius: 30px; background: var(--bg); color: var(--ink);
+    border: 1px solid var(--line); padding: 12px 12px 8px;
+    font-family: var(--font); box-shadow: 0 2px 4px rgba(0,0,0,.04), 0 24px 48px -36px rgba(0,0,0,.5);
+    overflow: hidden;
+  }
+  .p-top { display: flex; align-items: center; justify-content: space-between; padding: 2px 4px 10px; font-size: 12px; }
+  .p-loc { color: var(--ink); font-weight: 500; }
+  .p-ic { display: flex; gap: 5px; }
+  .p-ic i { width: 16px; height: 16px; border-radius: 50%; background: var(--soft); border: 1px solid var(--line); }
+  .p-chips { padding: 0 4px 10px; }
+  .p-chip { display: inline-block; font-size: 11.5px; padding: 5px 10px; border-radius: var(--rchip);
+    border: 1px solid var(--line); background: var(--soft); color: var(--ink); }
+  .p-photo { position: relative; height: 344px; border-radius: var(--rcard); overflow: hidden;
+    background: linear-gradient(155deg, var(--ph1), var(--ph2)); }
+  .p-emoji { position: absolute; inset: 0; display: grid; place-items: center; font-size: 76px; opacity: .55; filter: saturate(.9); }
+  .p-dist { position: absolute; top: 10px; left: 10px; font-size: 11px; color: #fff; background: rgba(0,0,0,.32);
+    backdrop-filter: blur(6px); padding: 3px 9px; border-radius: 999px; }
+  .p-scrim { position: absolute; inset: auto 0 0 0; padding: 70px 14px 60px; color: #fff;
+    background: linear-gradient(to top, rgba(0,0,0,.78), rgba(0,0,0,.34) 46%, transparent); }
+  .p-name { font-size: 22px; font-weight: 700; letter-spacing: -.01em; }
+  .p-sex { font-size: 12px; opacity: .8; }
+  .p-meta { font-size: 11.5px; opacity: .82; margin-top: 1px; }
+  .p-like { font-size: 11px; opacity: .8; margin-top: 5px; }
+  .p-foot { position: absolute; inset: auto 0 0 0; display: flex; align-items: center;
+    justify-content: space-between; gap: 8px; padding: 0 12px 12px; }
+  .p-tags { display: flex; gap: 5px; flex-wrap: wrap; }
+  .p-tags span { font-size: 10.5px; color: rgba(255,255,255,.95); border: 1px solid rgba(255,255,255,.34);
+    background: rgba(255,255,255,.06);
+    border-radius: var(--rchip); padding: 2px 8px; }
+  .p-cta { width: 40px; height: 40px; border-radius: 999px; border: 0; background: var(--brand);
+    color: var(--onbrand); font-size: 16px; line-height: 1; flex: none; box-shadow: 0 2px 8px rgba(0,0,0,.25); }
+  .p-tabs { display: flex; justify-content: space-around; padding: 12px 0 4px; font-size: 10.5px; color: var(--muted); }
+  .p-tabs .on { color: var(--brand); font-weight: 600; }
+  .cap { font-size: 11.5px; color: var(--muted); margin: 14px 0 0; text-align: center; }
+
+  /* ---------- kit ---------- */
+  h3 { font-size: 12px; letter-spacing: .08em; color: var(--muted); margin: 0 0 10px; }
+  .kit-box, .type-box { background: var(--soft); border: 1px solid var(--line); border-radius: 16px; padding: 18px; }
+  .kit-box { display: grid; gap: 14px; margin-bottom: 26px; }
+  .kit-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .btn { font-family: var(--font); font-size: 13px; font-weight: 600; border-radius: var(--rbtn); border: 1px solid transparent; padding: 9px 16px; }
+  .btn.primary { background: var(--brand); color: var(--onbrand); }
+  .btn.ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+  .k-chip { font-family: var(--font); font-size: 11.5px; padding: 4px 10px; border-radius: var(--rchip);
+    border: 1px solid var(--line); background: var(--bg); color: var(--body); }
+  .k-chip.solid { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .field { display: flex; align-items: center; gap: 8px; width: 100%; background: var(--bg);
+    border: 1px solid var(--line); border-radius: var(--rbtn); padding: 9px 12px; font-family: var(--font); }
+  .field span { font-size: 11px; color: var(--muted); white-space: nowrap; }
+  .field input { border: 0; background: transparent; color: var(--ink); font: inherit; font-size: 13px; width: 100%; outline: none; }
+  .k-card { width: 100%; background: var(--bg); border: 1px solid var(--line); border-radius: var(--rcard); padding: 13px 14px; }
+  .k-card-t { font-size: 13.5px; font-weight: 600; color: var(--ink); }
+  .k-card-d { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  .type-box { display: grid; gap: 16px; }
+  .t-row { display: grid; gap: 3px; }
+  .t-sample { font-family: var(--font); color: var(--ink); line-height: 1.3; }
+  .t-spec { font: 10.5px/1.2 ui-monospace, SFMono-Regular, Menlo, monospace; color: var(--muted); }
+
+  .outro { margin-top: 64px; border-top: 1px solid var(--line); padding-top: 32px; font-size: 13.5px; color: #55514a; }
+  .outro h2 { font-size: 20px; margin-bottom: 12px; }
+  .outro ol { padding-left: 20px; }
+  .outro li { margin-bottom: 6px; }
+  .outro code { background: #eae5dc; border-radius: 5px; padding: 1px 5px; font-size: 12px; }
+
+  @media (max-width: 1100px) {
+    .brand { grid-template-columns: 1fr; gap: 28px; }
+    .col-phone { align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="intro">
+    <p class="kicker">DESIGN.md · 选型预览</p>
+    <h1>同一张宠物卡，四种品牌语言</h1>
+    <p class="lede">下面四套配色、圆角、字号，全部取自 <b>awesome-design-md</b> 里各品牌的 DESIGN.md token，
+      套在你现在首页的卡片骨架上渲染出来。选型看的是"照片 + 卡片 + 按钮"这一层顺不顺眼，而不是品牌名好不好听。
+      中文字体用系统字体替代（Airbnb Cereal / Saans / Degular / Notion Sans 都是品牌专有字体，不能直接用）。</p>
+    <div class="how">
+      <div><span>01 挑</span><p>先看这一页，凭直觉选出 1 个最顺眼的。</p></div>
+      <div><span>02 放</span><p>把该品牌 DESIGN.md 放到项目根目录。</p></div>
+      <div><span>03 说</span><p>让 AI「按 DESIGN.md 重做首页，只用里面的 token」。</p></div>
+    </div>
+  </header>
+  
+  <section class="brand" id="airbnb" style="--bg:#ffffff;--soft:#f7f7f7;--ink:#222222;--body:#3f3f3f;--muted:#6a6a6a;--brand:#ff385c;--onbrand:#ffffff;--line:#dddddd;--rcard:20px;--rbtn:8px;--rchip:999px;--font:'Airbnb Cereal VF', 'Circular', -apple-system, 'PingFang SC', sans-serif">
+    <div class="col-spec">
+      <div class="b-head">
+        <h2>Airbnb</h2>
+        <span class="b-tag">社区 / 交易</span>
+      </div>
+      <p class="b-cn">暖珊瑚 · 图片优先 · 大圆角</p>
+      <p class="b-desc">暖珊瑚红 #ff385c 配纯白画布，卡片 20px 大圆角、按钮 8px 方圆角，整页信任摄影而不是排版。宠物照片本身就是内容，最贴合你首页的卡片流。</p>
+      <ul class="swatches"><li class="sw"><span class="dot" style="background:#ff385c"></span>
+      <span class="sw-t">主行动</span><code>#ff385c</code></li><li class="sw"><span class="dot" style="background:#ffffff"></span>
+      <span class="sw-t">画布</span><code>#ffffff</code></li><li class="sw"><span class="dot" style="background:#222222"></span>
+      <span class="sw-t">正文</span><code>#222222</code></li><li class="sw"><span class="dot" style="background:#6a6a6a"></span>
+      <span class="sw-t">次要</span><code>#6a6a6a</code></li><li class="sw"><span class="dot" style="background:#dddddd"></span>
+      <span class="sw-t">描边</span><code>#dddddd</code></li></ul>
+      <dl class="meta">
+        <div><dt>圆角</dt><dd>8 / 14 / 20 / 32</dd></div>
+        <div><dt>字体</dt><dd>Airbnb Cereal VF / Circular</dd></div>
+        <div><dt>匹配度</dt><dd class="score">★★★★★ <em>最贴你的产品形态</em></dd></div>
+      </dl>
+      <p class="fit"><b>适合</b>首页卡片流、活动详情、图集</p>
+      <p class="fit bad"><b>慎用</b>大段文字的阅读页（字重轻、行宽窄时显碎）</p>
+      <p class="src"><a href="https://github.com/VoltAgent/awesome-design-md/blob/main/design-md/airbnb/DESIGN.md">design-md/airbnb/DESIGN.md ↗</a></p>
+    </div>
+
+    <div class="col-phone">
+      
+    <div class="phone" style="--ph1:#fde3d7;--ph2:#f6bfae">
+      <div class="p-top">
+        <span class="p-loc">上海 · 静安 ⌄</span>
+        <span class="p-ic"><i></i><i></i><i></i></span>
+      </div>
+      <div class="p-chips"><span class="p-chip">🐾 全部宠物 42 ⌄</span></div>
+      <div class="p-photo">
+        <div class="p-emoji">🐕</div>
+        <span class="p-dist">0.8 km</span>
+        <div class="p-scrim">
+          <div class="p-name">豆豆 <span class="p-sex">♂</span></div>
+          <div class="p-meta">柯基 · 2岁3个月 · 小型</div>
+          <div class="p-like">♡ 290 人喜欢</div>
+        </div>
+        <div class="p-foot">
+          <div class="p-tags"><span>亲人</span><span>活泼</span><span>吃货</span></div>
+          <button class="p-cta">👋</button>
+        </div>
+      </div>
+      <div class="p-tabs"><span class="on">交友</span><span>活动</span><span>圈子</span><span>我的</span></div>
+    </div>
+      <p class="cap">↑ 同一张卡片骨架，只换 token</p>
+    </div>
+
+    <div class="col-kit">
+      <h3>组件</h3>
+      <div class="kit-box">
+        <div class="kit-row">
+          <button class="btn primary">打个招呼</button>
+          <button class="btn ghost">先看看</button>
+        </div>
+        <div class="kit-row">
+          <span class="k-chip">柯基</span><span class="k-chip">3km 内</span>
+          <span class="k-chip solid">今天有空</span>
+        </div>
+        <div class="kit-row">
+          <label class="field"><span>搜索</span><input value="静安 · 柯基" readonly></label>
+        </div>
+        <div class="kit-row">
+          <div class="k-card">
+            <div class="k-card-t">周六 · 静安雕塑公园</div>
+            <div class="k-card-d">已有 12 人报名，柯基优先</div>
+          </div>
+        </div>
+      </div>
+      <h3>字号阶梯</h3>
+      <div class="type-box"><div class="t-row"><span class="t-sample" style="font-size:28px;font-weight:700;letter-spacing:-0.2px">周末遛狗局</span>
+        <code class="t-spec">display 28 / 700</code></div><div class="t-row"><span class="t-sample" style="font-size:18px;font-weight:600;letter-spacing:0">豆豆 · 柯基</span>
+        <code class="t-spec">title 16 / 600</code></div><div class="t-row"><span class="t-sample" style="font-size:14px;font-weight:400;letter-spacing:0">周六下午 3 点，静安雕塑公园南门集合，记得带水碗。</span>
+        <code class="t-spec">body 14 / 400</code></div><div class="t-row"><span class="t-sample" style="font-size:12px;font-weight:500;letter-spacing:0">12 人报名 · 还剩 4 个位置</span>
+        <code class="t-spec">caption 12 / 500</code></div></div>
+    </div>
+  </section>
+  <section class="brand" id="intercom" style="--bg:#f5f1ec;--soft:#ebe7e1;--ink:#111111;--body:#626260;--muted:#7b7b78;--brand:#ff5600;--onbrand:#ffffff;--line:#d3cec6;--rcard:16px;--rbtn:8px;--rchip:999px;--font:'Saans', -apple-system, 'PingFang SC', sans-serif">
+    <div class="col-spec">
+      <div class="b-head">
+        <h2>Intercom</h2>
+        <span class="b-tag">编辑 / SaaS</span>
+      </div>
+      <p class="b-cn">米白纸感 · 炭黑 · 一点橘</p>
+      <p class="b-desc">画布不是白，是米白 #f5f1ec；主色不是彩色，是炭黑 #111；唯一的彩色留给一个 action（#ff5600）。整套像一本讲究的产品刊物——情绪靠留白，不靠色块。</p>
+      <ul class="swatches"><li class="sw"><span class="dot" style="background:#ff5600"></span>
+      <span class="sw-t">唯一强调</span><code>#ff5600</code></li><li class="sw"><span class="dot" style="background:#f5f1ec"></span>
+      <span class="sw-t">画布</span><code>#f5f1ec</code></li><li class="sw"><span class="dot" style="background:#111111"></span>
+      <span class="sw-t">主色</span><code>#111111</code></li><li class="sw"><span class="dot" style="background:#626260"></span>
+      <span class="sw-t">次要</span><code>#626260</code></li><li class="sw"><span class="dot" style="background:#d3cec6"></span>
+      <span class="sw-t">描边</span><code>#d3cec6</code></li></ul>
+      <dl class="meta">
+        <div><dt>圆角</dt><dd>4 / 8 / 12 / 16 / 24</dd></div>
+        <div><dt>字体</dt><dd>Saans</dd></div>
+        <div><dt>匹配度</dt><dd class="score">★★★★☆ <em>适合把内容做成杂志</em></dd></div>
+      </dl>
+      <p class="fit"><b>适合</b>圈子长文、领养故事、关于页</p>
+      <p class="fit bad"><b>慎用</b>要热闹的首页（过于克制，卡片流会显冷）</p>
+      <p class="src"><a href="https://github.com/VoltAgent/awesome-design-md/blob/main/design-md/intercom/DESIGN.md">design-md/intercom/DESIGN.md ↗</a></p>
+    </div>
+
+    <div class="col-phone">
+      
+    <div class="phone" style="--ph1:#e9dfd2;--ph2:#d5c6b3">
+      <div class="p-top">
+        <span class="p-loc">上海 · 静安 ⌄</span>
+        <span class="p-ic"><i></i><i></i><i></i></span>
+      </div>
+      <div class="p-chips"><span class="p-chip">🐾 全部宠物 42 ⌄</span></div>
+      <div class="p-photo">
+        <div class="p-emoji">🐕</div>
+        <span class="p-dist">0.8 km</span>
+        <div class="p-scrim">
+          <div class="p-name">豆豆 <span class="p-sex">♂</span></div>
+          <div class="p-meta">柯基 · 2岁3个月 · 小型</div>
+          <div class="p-like">♡ 290 人喜欢</div>
+        </div>
+        <div class="p-foot">
+          <div class="p-tags"><span>亲人</span><span>活泼</span><span>吃货</span></div>
+          <button class="p-cta">👋</button>
+        </div>
+      </div>
+      <div class="p-tabs"><span class="on">交友</span><span>活动</span><span>圈子</span><span>我的</span></div>
+    </div>
+      <p class="cap">↑ 同一张卡片骨架，只换 token</p>
+    </div>
+
+    <div class="col-kit">
+      <h3>组件</h3>
+      <div class="kit-box">
+        <div class="kit-row">
+          <button class="btn primary">打个招呼</button>
+          <button class="btn ghost">先看看</button>
+        </div>
+        <div class="kit-row">
+          <span class="k-chip">柯基</span><span class="k-chip">3km 内</span>
+          <span class="k-chip solid">今天有空</span>
+        </div>
+        <div class="kit-row">
+          <label class="field"><span>搜索</span><input value="静安 · 柯基" readonly></label>
+        </div>
+        <div class="kit-row">
+          <div class="k-card">
+            <div class="k-card-t">周六 · 静安雕塑公园</div>
+            <div class="k-card-d">已有 12 人报名，柯基优先</div>
+          </div>
+        </div>
+      </div>
+      <h3>字号阶梯</h3>
+      <div class="type-box"><div class="t-row"><span class="t-sample" style="font-size:28px;font-weight:500;letter-spacing:-0.5px">周末遛狗局</span>
+        <code class="t-spec">headline 28 / 500</code></div><div class="t-row"><span class="t-sample" style="font-size:18px;font-weight:500;letter-spacing:-0.3px">豆豆 · 柯基</span>
+        <code class="t-spec">card-title 22 / 500</code></div><div class="t-row"><span class="t-sample" style="font-size:14px;font-weight:400;letter-spacing:0">周六下午 3 点，静安雕塑公园南门集合，记得带水碗。</span>
+        <code class="t-spec">body 14 / 400</code></div><div class="t-row"><span class="t-sample" style="font-size:12px;font-weight:400;letter-spacing:0">12 人报名 · 还剩 4 个位置</span>
+        <code class="t-spec">caption 12 / 400</code></div></div>
+    </div>
+  </section>
+  <section class="brand" id="zapier" style="--bg:#fffefb;--soft:#f8f4f0;--ink:#201515;--body:#605d52;--muted:#939084;--brand:#ff4f00;--onbrand:#fffefb;--line:#e6dfd5;--rcard:12px;--rbtn:12px;--rchip:999px;--font:'Inter', 'Degular Display', -apple-system, 'PingFang SC', sans-serif">
+    <div class="col-spec">
+      <div class="b-head">
+        <h2>Zapier</h2>
+        <span class="b-tag">工具 / 友好</span>
+      </div>
+      <p class="b-cn">奶油底 · 暖橙 · 12px 圆角</p>
+      <p class="b-desc">奶油白 #fffefb 打底、暖橙 #ff4f00 只给主 CTA、咖啡色 #201515 代替纯黑。12px 圆角是签名档：不用胶囊、不用尖角。和你现在这套柑橘 + 奶油 + 海蓝的色卡是同一温度。</p>
+      <ul class="swatches"><li class="sw"><span class="dot" style="background:#ff4f00"></span>
+      <span class="sw-t">主 CTA</span><code>#ff4f00</code></li><li class="sw"><span class="dot" style="background:#fffefb"></span>
+      <span class="sw-t">画布</span><code>#fffefb</code></li><li class="sw"><span class="dot" style="background:#201515"></span>
+      <span class="sw-t">正文</span><code>#201515</code></li><li class="sw"><span class="dot" style="background:#605d52"></span>
+      <span class="sw-t">次要</span><code>#605d52</code></li><li class="sw"><span class="dot" style="background:#e6dfd5"></span>
+      <span class="sw-t">描边</span><code>#e6dfd5</code></li></ul>
+      <dl class="meta">
+        <div><dt>圆角</dt><dd>6 / 12 / 胶囊</dd></div>
+        <div><dt>字体</dt><dd>Degular Display + Inter</dd></div>
+        <div><dt>匹配度</dt><dd class="score">★★★★☆ <em>改动最小，风险最低</em></dd></div>
+      </dl>
+      <p class="fit"><b>适合</b>首页、发起活动、表单（最像你现有气质）</p>
+      <p class="fit bad"><b>慎用</b>偏冷峻的品牌感页面</p>
+      <p class="src"><a href="https://github.com/VoltAgent/awesome-design-md/blob/main/design-md/zapier/DESIGN.md">design-md/zapier/DESIGN.md ↗</a></p>
+    </div>
+
+    <div class="col-phone">
+      
+    <div class="phone" style="--ph1:#ffe4cf;--ph2:#ffcaa6">
+      <div class="p-top">
+        <span class="p-loc">上海 · 静安 ⌄</span>
+        <span class="p-ic"><i></i><i></i><i></i></span>
+      </div>
+      <div class="p-chips"><span class="p-chip">🐾 全部宠物 42 ⌄</span></div>
+      <div class="p-photo">
+        <div class="p-emoji">🐕</div>
+        <span class="p-dist">0.8 km</span>
+        <div class="p-scrim">
+          <div class="p-name">豆豆 <span class="p-sex">♂</span></div>
+          <div class="p-meta">柯基 · 2岁3个月 · 小型</div>
+          <div class="p-like">♡ 290 人喜欢</div>
+        </div>
+        <div class="p-foot">
+          <div class="p-tags"><span>亲人</span><span>活泼</span><span>吃货</span></div>
+          <button class="p-cta">👋</button>
+        </div>
+      </div>
+      <div class="p-tabs"><span class="on">交友</span><span>活动</span><span>圈子</span><span>我的</span></div>
+    </div>
+      <p class="cap">↑ 同一张卡片骨架，只换 token</p>
+    </div>
+
+    <div class="col-kit">
+      <h3>组件</h3>
+      <div class="kit-box">
+        <div class="kit-row">
+          <button class="btn primary">打个招呼</button>
+          <button class="btn ghost">先看看</button>
+        </div>
+        <div class="kit-row">
+          <span class="k-chip">柯基</span><span class="k-chip">3km 内</span>
+          <span class="k-chip solid">今天有空</span>
+        </div>
+        <div class="kit-row">
+          <label class="field"><span>搜索</span><input value="静安 · 柯基" readonly></label>
+        </div>
+        <div class="kit-row">
+          <div class="k-card">
+            <div class="k-card-t">周六 · 静安雕塑公园</div>
+            <div class="k-card-d">已有 12 人报名，柯基优先</div>
+          </div>
+        </div>
+      </div>
+      <h3>字号阶梯</h3>
+      <div class="type-box"><div class="t-row"><span class="t-sample" style="font-size:34px;font-weight:500;letter-spacing:-0.5px">周末遛狗局</span>
+        <code class="t-spec">display 56 / 500</code></div><div class="t-row"><span class="t-sample" style="font-size:18px;font-weight:600;letter-spacing:0">豆豆 · 柯基</span>
+        <code class="t-spec">heading 20 / 600</code></div><div class="t-row"><span class="t-sample" style="font-size:15px;font-weight:400;letter-spacing:0">周六下午 3 点，静安雕塑公园南门集合，记得带水碗。</span>
+        <code class="t-spec">body 18 / 400</code></div><div class="t-row"><span class="t-sample" style="font-size:13px;font-weight:400;letter-spacing:0">12 人报名 · 还剩 4 个位置</span>
+        <code class="t-spec">caption 14 / 400</code></div></div>
+    </div>
+  </section>
+  <section class="brand" id="notion" style="--bg:#ffffff;--soft:#f6f5f4;--ink:#1a1a1a;--body:#37352f;--muted:#787671;--brand:#5645d4;--onbrand:#ffffff;--line:#e5e3df;--rcard:12px;--rbtn:8px;--rchip:999px;--font:'Notion Sans', -apple-system, 'PingFang SC', sans-serif">
+    <div class="col-spec">
+      <div class="b-head">
+        <h2>Notion</h2>
+        <span class="b-tag">内容 / 记录</span>
+      </div>
+      <p class="b-cn">纸白 · 柔灰面 · 一点紫</p>
+      <p class="b-desc">纯白画布 + #f6f5f4 柔和面 + 大量低饱和色块（桃/薄荷/薰衣草），紫 #5645d4 只在关键按钮出现。阅读舒适、密度高时也不吵，适合「经验 / 就医 / 领养」这类长内容。</p>
+      <ul class="swatches"><li class="sw"><span class="dot" style="background:#5645d4"></span>
+      <span class="sw-t">关键按钮</span><code>#5645d4</code></li><li class="sw"><span class="dot" style="background:#ffffff"></span>
+      <span class="sw-t">画布</span><code>#ffffff</code></li><li class="sw"><span class="dot" style="background:#1a1a1a"></span>
+      <span class="sw-t">正文</span><code>#1a1a1a</code></li><li class="sw"><span class="dot" style="background:#787671"></span>
+      <span class="sw-t">次要</span><code>#787671</code></li><li class="sw"><span class="dot" style="background:#e5e3df"></span>
+      <span class="sw-t">描边</span><code>#e5e3df</code></li></ul>
+      <dl class="meta">
+        <div><dt>圆角</dt><dd>4 / 8 / 12 / 16 / 24</dd></div>
+        <div><dt>字体</dt><dd>Notion Sans</dd></div>
+        <div><dt>匹配度</dt><dd class="score">★★★☆☆ <em>做内容层很好，做门面偏平</em></dd></div>
+      </dl>
+      <p class="fit"><b>适合</b>圈子正文、宠物档案、健康记录</p>
+      <p class="fit bad"><b>慎用</b>需要强品牌记忆点的首页</p>
+      <p class="src"><a href="https://github.com/VoltAgent/awesome-design-md/blob/main/design-md/notion/DESIGN.md">design-md/notion/DESIGN.md ↗</a></p>
+    </div>
+
+    <div class="col-phone">
+      
+    <div class="phone" style="--ph1:#f1ede6;--ph2:#e4ddd2">
+      <div class="p-top">
+        <span class="p-loc">上海 · 静安 ⌄</span>
+        <span class="p-ic"><i></i><i></i><i></i></span>
+      </div>
+      <div class="p-chips"><span class="p-chip">🐾 全部宠物 42 ⌄</span></div>
+      <div class="p-photo">
+        <div class="p-emoji">🐕</div>
+        <span class="p-dist">0.8 km</span>
+        <div class="p-scrim">
+          <div class="p-name">豆豆 <span class="p-sex">♂</span></div>
+          <div class="p-meta">柯基 · 2岁3个月 · 小型</div>
+          <div class="p-like">♡ 290 人喜欢</div>
+        </div>
+        <div class="p-foot">
+          <div class="p-tags"><span>亲人</span><span>活泼</span><span>吃货</span></div>
+          <button class="p-cta">👋</button>
+        </div>
+      </div>
+      <div class="p-tabs"><span class="on">交友</span><span>活动</span><span>圈子</span><span>我的</span></div>
+    </div>
+      <p class="cap">↑ 同一张卡片骨架，只换 token</p>
+    </div>
+
+    <div class="col-kit">
+      <h3>组件</h3>
+      <div class="kit-box">
+        <div class="kit-row">
+          <button class="btn primary">打个招呼</button>
+          <button class="btn ghost">先看看</button>
+        </div>
+        <div class="kit-row">
+          <span class="k-chip">柯基</span><span class="k-chip">3km 内</span>
+          <span class="k-chip solid">今天有空</span>
+        </div>
+        <div class="kit-row">
+          <label class="field"><span>搜索</span><input value="静安 · 柯基" readonly></label>
+        </div>
+        <div class="kit-row">
+          <div class="k-card">
+            <div class="k-card-t">周六 · 静安雕塑公园</div>
+            <div class="k-card-d">已有 12 人报名，柯基优先</div>
+          </div>
+        </div>
+      </div>
+      <h3>字号阶梯</h3>
+      <div class="type-box"><div class="t-row"><span class="t-sample" style="font-size:34px;font-weight:600;letter-spacing:-1px">周末遛狗局</span>
+        <code class="t-spec">display 56 / 600</code></div><div class="t-row"><span class="t-sample" style="font-size:18px;font-weight:600;letter-spacing:-0.2px">豆豆 · 柯基</span>
+        <code class="t-spec">heading 22 / 600</code></div><div class="t-row"><span class="t-sample" style="font-size:15px;font-weight:400;letter-spacing:0">周六下午 3 点，静安雕塑公园南门集合，记得带水碗。</span>
+        <code class="t-spec">body 16 / 400</code></div><div class="t-row"><span class="t-sample" style="font-size:13px;font-weight:400;letter-spacing:0">12 人报名 · 还剩 4 个位置</span>
+        <code class="t-spec">caption 13 / 400</code></div></div>
+    </div>
+  </section>
+  <footer class="outro">
+    <h2>怎么读这份预览</h2>
+    <ol>
+      <li>左边是 DESIGN.md 里的原值（颜色 hex、圆角档位、字体名），可以直接抄进 <code>@theme</code>。</li>
+      <li>中间是同一张卡片骨架，只换 token —— 差异只来自品牌规范，不来自内容。</li>
+      <li>右边是这套规范自己的按钮、标签、输入框、字号阶梯，用来判断"落到别的页面还成不成立"。</li>
+    </ol>
+  </footer>
+</div>
+</body>
+</html>

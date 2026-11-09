@@ -32,18 +32,18 @@ export default function PickerSheet({
     <div className="fixed inset-0 z-[60]">
       <div className="absolute inset-0 bg-ink/35 backdrop-blur-[2px]" onClick={onClose} />
 
-      <div className="absolute inset-x-0 bottom-0 mx-auto flex max-h-[80vh] max-w-[430px] flex-col rounded-t-[26px] bg-cream pb-[env(safe-area-inset-bottom)] shadow-[0_-8px_40px_rgba(0,0,0,0.15)]">
+      <div className="absolute inset-x-0 bottom-0 mx-auto flex max-h-[80vh] max-w-[430px] flex-col rounded-t-hero bg-cream pb-[env(safe-area-inset-bottom)] shadow-[0_-8px_40px_rgba(0,0,0,0.15)]">
         <div className="flex items-center justify-between px-5 pt-5 pb-3">
           <div>
-            <h2 className="text-[17px] font-semibold tracking-tight">{title}</h2>
+            <h2 className="text-title font-semibold tracking-tight">{title}</h2>
             {subtitle && (
-              <p className="mt-0.5 text-[11.5px] text-ink-mute">{subtitle}</p>
+              <p className="mt-0.5 text-note text-ink-mute">{subtitle}</p>
             )}
           </div>
           <button
             onClick={onClose}
             aria-label="关闭"
-            className="grid h-8 w-8 place-items-center rounded-full bg-white shadow-[0_2px_8px_rgba(80,60,40,0.08)]"
+            className="grid h-8 w-8 place-items-center rounded-full bg-white shadow-card"
           >
             <X size={15} strokeWidth={2.4} />
           </button>
@@ -59,19 +59,19 @@ export default function PickerSheet({
                   onPick(o.key);
                   onClose();
                 }}
-                className={`flex w-full items-center gap-2.5 rounded-[14px] px-3 py-3 text-left ${
+                className={`flex w-full items-center gap-2.5 rounded-card px-3 py-3 text-left ${
                   on ? "bg-brand-soft" : "active:bg-white/70"
                 }`}
               >
                 <span
-                  className={`flex-1 text-[13.5px] ${
+                  className={`flex-1 text-body-lg ${
                     on ? "font-semibold text-brand" : "text-ink"
                   }`}
                 >
                   {o.label}
                 </span>
                 {typeof o.count === "number" && (
-                  <span className="text-[11px] text-ink-mute">{o.count}</span>
+                  <span className="text-cap text-ink-mute">{o.count}</span>
                 )}
                 {on && <Check size={15} strokeWidth={2.8} className="text-brand" />}
               </button>

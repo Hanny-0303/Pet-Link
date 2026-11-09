@@ -36,8 +36,8 @@ export default function PetDetailPage() {
   if (!pet) {
     return (
       <div className="px-5 pt-24 text-center">
-        <p className="text-[14px] text-ink-soft">找不到这只小伙伴</p>
-        <Link href="/" className="mt-3 inline-block text-[13px] font-medium text-brand">
+        <p className="text-body-lg text-ink-soft">找不到这只小伙伴</p>
+        <Link href="/" className="mt-3 inline-block text-body font-medium text-brand">
           返回首页
         </Link>
       </div>
@@ -80,32 +80,32 @@ export default function PetDetailPage() {
               liked ? "heart-pop fill-white text-white" : "text-ink-soft"
             }
           />
-          <span className="text-[11.5px] font-semibold">{likes}</span>
+          <span className="text-note font-semibold">{likes}</span>
         </button>
 
         <div className="absolute inset-x-0 bottom-0 p-5">
           <div className="flex items-end gap-2">
-            <h1 className="text-[28px] font-bold text-white">{pet.name}</h1>
-            <span className="pb-1 text-[15px] text-white/70">
+            <h1 className="text-page font-bold text-white">{pet.name}</h1>
+            <span className="pb-1 text-lead text-white/70">
               {pet.gender === "boy" ? "♂" : "♀"}
             </span>
           </div>
-          <p className="mt-0.5 text-[13px] text-white/85">
+          <p className="mt-0.5 text-body text-white/85">
             {pet.breed} · {pet.ageText} · {SIZE_LABEL[pet.size]} · {pet.weightKg}kg
           </p>
-          <div className="mt-2 flex items-center gap-1 text-[11.5px] text-white/75">
+          <div className="mt-2 flex items-center gap-1 text-note text-white/75">
             <MapPin size={11} strokeWidth={2.4} />
             {pet.district} · 距离你 {pet.distanceKm} km
           </div>
         </div>
       </div>
 
-      <div className="-mt-5 rounded-t-[26px] bg-cream px-5 pt-5">
+      <div className="-mt-5 rounded-t-hero bg-cream px-5 pt-5">
         {/* 性格图谱：五个互斥维度，一眼看出偏哪边 */}
-        <div className="rounded-[18px] bg-white p-4 shadow-[0_2px_12px_rgba(80,60,40,0.05)]">
+        <div className="rounded-card bg-white p-4 shadow-card">
           <div className="flex items-baseline justify-between">
-            <h2 className="text-[13px] font-semibold">性格图谱</h2>
-            <span className="text-[9.5px] text-ink-mute">每项二选一</span>
+            <h2 className="text-body font-semibold">性格图谱</h2>
+            <span className="text-micro text-ink-mute">每项二选一</span>
           </div>
 
           <div className="mt-3 space-y-3">
@@ -114,11 +114,11 @@ export default function PetDetailPage() {
               const leftActive = value === LEFT_VALUE[d.key];
               return (
                 <div key={d.key} className="flex items-center gap-2">
-                  <span className="w-9 shrink-0 text-[10px] text-ink-mute">
+                  <span className="w-9 shrink-0 text-micro text-ink-mute">
                     {d.label}
                   </span>
                   <span
-                    className={`w-8 shrink-0 text-right text-[11px] ${
+                    className={`w-8 shrink-0 text-right text-cap ${
                       leftActive ? "font-semibold text-ink" : "text-ink-mute"
                     }`}
                   >
@@ -132,7 +132,7 @@ export default function PetDetailPage() {
                     />
                   </span>
                   <span
-                    className={`w-8 shrink-0 text-[11px] ${
+                    className={`w-8 shrink-0 text-cap ${
                       !leftActive ? "font-semibold text-ink" : "text-ink-mute"
                     }`}
                   >
@@ -145,14 +145,14 @@ export default function PetDetailPage() {
 
           {pet.traits.length > 0 && (
             <>
-              <p className="mt-4 mb-1.5 text-[10px] text-ink-mute">
+              <p className="mt-4 mb-1.5 text-micro text-ink-mute">
                 其他特点 · 可叠加
               </p>
               <div className="flex flex-wrap gap-1.5">
                 {pet.traits.map((t) => (
                   <span
                     key={t}
-                    className="rounded-full bg-cream px-2.5 py-1 text-[11px] font-medium text-ink-soft"
+                    className="rounded-full bg-cream px-2.5 py-1 text-cap font-medium text-ink-soft"
                   >
                     {t}
                   </span>
@@ -162,12 +162,12 @@ export default function PetDetailPage() {
           )}
         </div>
 
-        <p className="mt-3.5 text-[13.5px] leading-[1.85] text-ink-soft">{pet.bio}</p>
+        <p className="mt-3.5 text-body-lg leading-[1.85] text-ink-soft">{pet.bio}</p>
 
         {/* 健康信息 */}
         <div className="mt-4 flex gap-2">
           <span
-            className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-medium ${
+            className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-cap font-medium ${
               pet.vaccinated ? "bg-mint-soft text-mint" : "bg-line text-ink-mute"
             }`}
           >
@@ -175,7 +175,7 @@ export default function PetDetailPage() {
             {pet.vaccinated ? "疫苗齐全" : "未接种"}
           </span>
           <span
-            className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-[11px] font-medium ${
+            className={`flex items-center gap-1.5 rounded-full px-3 py-1.5 text-cap font-medium ${
               pet.neutered ? "bg-mint-soft text-mint" : "bg-line text-ink-mute"
             }`}
           >
@@ -185,15 +185,15 @@ export default function PetDetailPage() {
         </div>
 
         {/* 主人 */}
-        <div className="mt-5 flex items-center gap-2.5 rounded-[18px] bg-white p-3.5 shadow-[0_2px_12px_rgba(80,60,40,0.05)]">
+        <div className="mt-5 flex items-center gap-2.5 rounded-card bg-white p-3.5 shadow-card">
           <Avatar name={pet.ownerName} tint="#ffd6a5" size={38} />
           <div className="flex-1">
-            <p className="text-[13px] font-semibold">{pet.ownerName}</p>
-            <p className="text-[10.5px] text-ink-mute">同城 · 已实名认证</p>
+            <p className="text-body font-semibold">{pet.ownerName}</p>
+            <p className="text-cap text-ink-mute">同城 · 已实名认证</p>
           </div>
           <button
             onClick={() => greet(pet.id)}
-            className={`flex items-center gap-1.5 rounded-full px-4 py-2 text-[12.5px] font-semibold transition active:scale-95 ${
+            className={`flex items-center gap-1.5 rounded-full px-4 py-2 text-body font-semibold transition active:scale-95 ${
               done ? "bg-white text-ink-mute shadow-inner" : "bg-brand text-white shadow-[0_6px_18px_rgba(255,107,74,0.3)]"
             }`}
           >
@@ -213,20 +213,20 @@ export default function PetDetailPage() {
         {/* 常去的局 */}
         {related.length > 0 && (
           <div className="mt-5">
-            <h2 className="text-[14px] font-semibold">常出没的局</h2>
+            <h2 className="text-body-lg font-semibold">常出没的局</h2>
             <div className="mt-2 space-y-2">
               {related.map((m) => (
                 <Link
                   key={m.id}
                   href={`/meetups/${m.id}`}
-                  className="flex items-center gap-3 rounded-[16px] bg-white p-2.5 shadow-[0_2px_10px_rgba(80,60,40,0.05)]"
+                  className="flex items-center gap-3 rounded-card bg-white p-2.5 shadow-card"
                 >
                   <img src={m.cover} alt="" className="h-12 w-12 rounded-xl object-cover" />
                   <div className="min-w-0 flex-1">
-                    <p className="line-clamp-1 text-[12.5px] font-medium">{m.title}</p>
-                    <p className="mt-0.5 text-[10.5px] text-brand">{fmtMeetupShort(m.startAt)}</p>
+                    <p className="line-clamp-1 text-body font-medium">{m.title}</p>
+                    <p className="mt-0.5 text-cap text-brand">{fmtMeetupShort(m.startAt)}</p>
                   </div>
-                  <span className="shrink-0 text-[10.5px] text-ink-mute">
+                  <span className="shrink-0 text-cap text-ink-mute">
                     {m.participants.length}/{m.capacity}
                   </span>
                 </Link>
@@ -238,18 +238,18 @@ export default function PetDetailPage() {
         {/* 主人的动态 */}
         {relatedPosts.length > 0 && (
           <div className="mt-5">
-            <h2 className="text-[14px] font-semibold">主人的动态</h2>
+            <h2 className="text-body-lg font-semibold">主人的动态</h2>
             <div className="mt-2 space-y-2">
               {relatedPosts.map((p) => (
                 <Link
                   key={p.id}
                   href={`/feed/${p.id}`}
-                  className="block rounded-[16px] bg-white p-3 shadow-[0_2px_10px_rgba(80,60,40,0.05)] active:opacity-90"
+                  className="block rounded-card bg-white p-3 shadow-card active:opacity-90"
                 >
-                  <p className="line-clamp-2 text-[12px] leading-relaxed text-ink-soft">
+                  <p className="line-clamp-2 text-note leading-relaxed text-ink-soft">
                     {p.content}
                   </p>
-                  <p className="mt-1 flex items-center justify-between text-[10px] text-ink-mute">
+                  <p className="mt-1 flex items-center justify-between text-micro text-ink-mute">
                     {p.timeText}
                     <span className="text-brand">查看 →</span>
                   </p>

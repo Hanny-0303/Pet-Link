@@ -25,7 +25,7 @@ export default function RootLayout({
     <html lang="zh-CN">
       <body className="font-sans">
         <AppStoreProvider>
-          <div className="relative mx-auto min-h-dvh w-full max-w-[430px] bg-cream pb-20 shadow-[0_0_80px_rgba(80,60,40,0.12)]">
+          <div className="relative mx-auto min-h-dvh w-full max-w-[430px] bg-cream pb-20 shadow-card">
             {children}
           </div>
           <TabBar />

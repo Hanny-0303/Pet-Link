@@ -21,15 +21,15 @@ export default function GreetedPetsPage() {
       {list.length === 0 ? (
         <div className="mt-16 px-8 text-center">
           <PawPrint size={26} strokeWidth={1.6} className="mx-auto text-ink-mute/70" />
-          <p className="mt-3 text-[13.5px] font-medium text-ink-soft">
+          <p className="mt-3 text-body-lg font-medium text-ink-soft">
             你还没跟谁打过招呼
           </p>
-          <p className="mt-1 text-[11.5px] leading-relaxed text-ink-mute">
+          <p className="mt-1 text-note leading-relaxed text-ink-mute">
             在首页刷到喜欢的小伙伴，点右下角那个爪印按钮
           </p>
           <Link
             href="/"
-            className="mt-5 inline-block rounded-full bg-brand px-5 py-2.5 text-[12.5px] font-semibold text-white shadow-[0_6px_18px_rgba(255,107,74,0.28)]"
+            className="mt-5 inline-block rounded-full bg-brand px-5 py-2.5 text-body font-semibold text-white shadow-[0_6px_18px_rgba(255,107,74,0.28)]"
           >
             去首页看看
           </Link>
@@ -45,19 +45,19 @@ export default function GreetedPetsPage() {
               <img
                 src={p.photos[0]}
                 alt={p.name}
-                className="h-14 w-14 shrink-0 rounded-[14px] object-cover"
+                className="h-14 w-14 shrink-0 rounded-card object-cover"
               />
               <div className="min-w-0 flex-1">
-                <p className="text-[13.5px] font-semibold">
+                <p className="text-body-lg font-semibold">
                   {p.name}
-                  <span className="ml-1 text-[11px] font-normal text-ink-mute">
+                  <span className="ml-1 text-cap font-normal text-ink-mute">
                     {p.gender === "boy" ? "♂" : "♀"}
                   </span>
                 </p>
-                <p className="mt-0.5 text-[11px] text-ink-mute">
+                <p className="mt-0.5 text-cap text-ink-mute">
                   {p.breed} · {p.ageText} · {SIZE_LABEL[p.size]}
                 </p>
-                <p className="mt-0.5 flex items-center gap-0.5 text-[10.5px] text-ink-mute">
+                <p className="mt-0.5 flex items-center gap-0.5 text-cap text-ink-mute">
                   <MapPin size={9} strokeWidth={2.4} />
                   {p.district} · {p.distanceKm} km
                 </p>

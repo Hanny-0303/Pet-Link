@@ -64,20 +64,20 @@ export default function NewMeetupPage() {
         <button
           type="button"
           onClick={() => router.back()}
-          className="grid h-9 w-9 place-items-center rounded-full bg-white shadow-[0_2px_10px_rgba(80,60,40,0.08)]"
+          className="grid h-9 w-9 place-items-center rounded-full bg-white shadow-card"
         >
           <ArrowLeft size={17} strokeWidth={2.4} />
         </button>
-        <h1 className="text-[19px] font-bold tracking-tight">发起一个局</h1>
+        <h1 className="text-title font-bold tracking-tight">发起一个局</h1>
       </header>
 
-      <p className="mt-2 px-5 text-[12px] text-ink-mute">
+      <p className="mt-2 px-5 text-note text-ink-mute">
         不用先认识谁，把时间地点写清楚就有人来。
       </p>
 
       <div className="mt-5 space-y-4 px-5">
         <div>
-          <label className="mb-2 block text-[12px] font-medium text-ink-soft">
+          <label className="mb-2 block text-note font-medium text-ink-soft">
             活动类型
           </label>
           <div className="no-scrollbar flex gap-2 overflow-x-auto pb-1">
@@ -88,10 +88,10 @@ export default function NewMeetupPage() {
                   key={k}
                   type="button"
                   onClick={() => setKind(k)}
-                  className={`shrink-0 rounded-full px-3.5 py-2 text-[12px] font-medium transition ${
+                  className={`shrink-0 rounded-full px-3.5 py-2 text-note font-medium transition ${
                     on
                       ? "bg-brand text-white"
-                      : "bg-white text-ink-soft shadow-[0_1px_6px_rgba(80,60,40,0.06)]"
+                      : "bg-white text-ink-soft shadow-soft"
                   }`}
                 >
                   {KIND_LABEL[k]}
@@ -106,7 +106,7 @@ export default function NewMeetupPage() {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             placeholder="例：周六早晨 · 世纪公园遛狗团"
-            className="w-full bg-transparent text-[14px] outline-none placeholder:text-ink-mute/70"
+            className="w-full bg-transparent text-body-lg outline-none placeholder:text-ink-mute/70"
           />
         </Field>
 
@@ -116,7 +116,7 @@ export default function NewMeetupPage() {
               type="date"
               value={date}
               onChange={(e) => setDate(e.target.value)}
-              className="w-full bg-transparent text-[14px] outline-none"
+              className="w-full bg-transparent text-body-lg outline-none"
             />
           </Field>
           <Field label="时间">
@@ -124,7 +124,7 @@ export default function NewMeetupPage() {
               type="time"
               value={time}
               onChange={(e) => setTime(e.target.value)}
-              className="w-full bg-transparent text-[14px] outline-none"
+              className="w-full bg-transparent text-body-lg outline-none"
             />
           </Field>
         </div>
@@ -134,12 +134,12 @@ export default function NewMeetupPage() {
             value={venue}
             onChange={(e) => setVenue(e.target.value)}
             placeholder="例：世纪公园 3 号门"
-            className="w-full bg-transparent text-[14px] outline-none placeholder:text-ink-mute/70"
+            className="w-full bg-transparent text-body-lg outline-none placeholder:text-ink-mute/70"
           />
         </Field>
 
         <div>
-          <label className="mb-2 block text-[12px] font-medium text-ink-soft">
+          <label className="mb-2 block text-note font-medium text-ink-soft">
             适合的体型
           </label>
           <div className="flex gap-2">
@@ -150,10 +150,10 @@ export default function NewMeetupPage() {
                   key={s}
                   type="button"
                   onClick={() => toggleSize(s)}
-                  className={`flex-1 rounded-full py-2.5 text-[12.5px] font-medium transition ${
+                  className={`flex-1 rounded-full py-2.5 text-body font-medium transition ${
                     on
                       ? "bg-brand text-white"
-                      : "bg-white text-ink-soft shadow-[0_1px_6px_rgba(80,60,40,0.06)]"
+                      : "bg-white text-ink-soft shadow-soft"
                   }`}
                 >
                   {SIZE_LABEL[s]}犬
@@ -165,7 +165,7 @@ export default function NewMeetupPage() {
 
         <Field label="人数上限">
           <div className="flex items-center justify-between">
-            <span className="text-[14px] font-medium">{capacity} 人</span>
+            <span className="text-body-lg font-medium">{capacity} 人</span>
             <input
               type="range"
               min={2}
@@ -183,23 +183,23 @@ export default function NewMeetupPage() {
             onChange={(e) => setDescription(e.target.value)}
             rows={4}
             placeholder="路线怎么走、要不要带什么、下雨怎么办…"
-            className="w-full resize-none bg-transparent text-[13.5px] leading-relaxed outline-none placeholder:text-ink-mute/70"
+            className="w-full resize-none bg-transparent text-body-lg leading-relaxed outline-none placeholder:text-ink-mute/70"
           />
         </Field>
 
         {error && (
-          <p className="rounded-xl bg-brand-soft px-3 py-2 text-[12px] font-medium text-brand">
+          <p className="rounded-xl bg-brand-soft px-3 py-2 text-note font-medium text-brand">
             {error}
           </p>
         )}
 
         <button
           type="submit"
-          className="mt-2 h-[52px] w-full rounded-full bg-brand text-[15px] font-semibold text-white shadow-[0_8px_24px_rgba(255,107,74,0.3)] active:scale-[0.98]"
+          className="mt-2 h-[52px] w-full rounded-full bg-brand text-lead font-semibold text-white shadow-[0_8px_24px_rgba(255,107,74,0.3)] active:scale-[0.98]"
         >
           发布这个局
         </button>
-        <p className="pb-4 text-center text-[10.5px] text-ink-mute">
+        <p className="pb-4 text-center text-cap text-ink-mute">
           演示版：发布的局只保存在当前页面，刷新后会消失
         </p>
       </div>
@@ -215,8 +215,8 @@ function Field({
   children: React.ReactNode;
 }) {
   return (
-    <label className="block rounded-[18px] bg-white px-4 py-3 shadow-[0_2px_12px_rgba(80,60,40,0.05)]">
-      <span className="mb-1.5 block text-[11px] font-medium text-ink-mute">
+    <label className="block rounded-card bg-white px-4 py-3 shadow-card">
+      <span className="mb-1.5 block text-cap font-medium text-ink-mute">
         {label}
       </span>
       {children}

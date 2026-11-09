@@ -118,20 +118,20 @@ export default function FilterSheet({
     <div className="fixed inset-0 z-[60]">
       <div className="absolute inset-0 bg-ink/35 backdrop-blur-[2px]" onClick={onClose} />
 
-      <div className="absolute inset-x-0 bottom-0 mx-auto flex max-h-[88vh] max-w-[430px] flex-col rounded-t-[26px] bg-cream pb-[env(safe-area-inset-bottom)] shadow-[0_-8px_40px_rgba(0,0,0,0.15)]">
+      <div className="absolute inset-x-0 bottom-0 mx-auto flex max-h-[88vh] max-w-[430px] flex-col rounded-t-hero bg-cream pb-[env(safe-area-inset-bottom)] shadow-[0_-8px_40px_rgba(0,0,0,0.15)]">
         <div className="flex items-center justify-between px-5 pt-5 pb-2">
-          <h2 className="text-[17px] font-semibold tracking-tight">筛选</h2>
+          <h2 className="text-title font-semibold tracking-tight">筛选</h2>
           <div className="flex items-center gap-3">
             <button
               onClick={() => setDraft(EMPTY_FILTERS)}
-              className="text-[12px] font-medium text-ink-mute active:opacity-60"
+              className="text-note font-medium text-ink-mute active:opacity-60"
             >
               重置
             </button>
             <button
               onClick={onClose}
               aria-label="关闭"
-              className="grid h-8 w-8 place-items-center rounded-full bg-white shadow-[0_2px_8px_rgba(80,60,40,0.08)]"
+              className="grid h-8 w-8 place-items-center rounded-full bg-white shadow-card"
             >
               <X size={15} strokeWidth={2.4} />
             </button>
@@ -141,10 +141,10 @@ export default function FilterSheet({
         <div className="flex-1 overflow-y-auto px-5 pb-3">
           <button
             onClick={() => setDraft({ ...draft, onlyRecommended: !draft.onlyRecommended })}
-            className={`mt-2 flex w-full items-center gap-2.5 rounded-[16px] px-3.5 py-3 text-left transition ${
+            className={`mt-2 flex w-full items-center gap-2.5 rounded-card px-3.5 py-3 text-left transition ${
               draft.onlyRecommended
                 ? "bg-brand-soft ring-1 ring-brand/30"
-                : "bg-white shadow-[0_2px_10px_rgba(80,60,40,0.05)]"
+                : "bg-white shadow-card"
             }`}
           >
             <Sparkles
@@ -154,13 +154,13 @@ export default function FilterSheet({
             />
             <span className="min-w-0 flex-1">
               <span
-                className={`block text-[13px] font-semibold ${
+                className={`block text-body font-semibold ${
                   draft.onlyRecommended ? "text-brand" : ""
                 }`}
               >
                 只看为我推荐的
               </span>
-              <span className="block text-[10.5px] text-ink-mute">
+              <span className="block text-cap text-ink-mute">
                 按你宠物的品种、体型、性格和距离算出来的
               </span>
             </span>
@@ -180,8 +180,8 @@ export default function FilterSheet({
           {/* 品种：先大类，再按首字母排的小类 */}
           <div className="mt-4">
             <div className="mb-2 flex items-baseline gap-1.5">
-              <h3 className="text-[12px] font-semibold text-ink-soft">品种</h3>
-              <span className="text-[10px] text-ink-mute">先选大类，再选品种</span>
+              <h3 className="text-note font-semibold text-ink-soft">品种</h3>
+              <span className="text-micro text-ink-mute">先选大类，再选品种</span>
             </div>
 
             <div className="no-scrollbar -mx-1 flex gap-1.5 overflow-x-auto px-1 pb-2">
@@ -191,7 +191,7 @@ export default function FilterSheet({
                   <button
                     key={s}
                     onClick={() => setScope(s)}
-                    className={`shrink-0 rounded-full px-2.5 py-[5px] text-[11px] font-medium transition ${
+                    className={`shrink-0 rounded-full px-2.5 py-[5px] text-cap font-medium transition ${
                       on ? "bg-ink text-cream" : "bg-white text-ink-soft"
                     }`}
                   >
@@ -202,14 +202,14 @@ export default function FilterSheet({
             </div>
 
             {scope === "all" && (
-              <p className="rounded-[12px] bg-white/70 px-3 py-3 text-center text-[11.5px] text-ink-mute">
+              <p className="rounded-chip bg-white/70 px-3 py-3 text-center text-note text-ink-mute">
                 先选一个大类，再看具体品种
               </p>
             )}
 
             {scope !== "all" && breedGroups.map((g) => (
               <div key={g.letter} className="mb-2">
-                <p className="mb-1 px-0.5 text-[10px] font-semibold text-ink-mute">
+                <p className="mb-1 px-0.5 text-micro font-semibold text-ink-mute">
                   {g.letter}
                 </p>
                 <div className="flex flex-wrap gap-2">
@@ -222,7 +222,7 @@ export default function FilterSheet({
                       }
                     >
                       {breed}
-                      <span className="text-[10px] opacity-60">{n}</span>
+                      <span className="text-micro opacity-60">{n}</span>
                     </Chip>
                   ))}
                 </div>
@@ -369,7 +369,7 @@ export default function FilterSheet({
               onApply(draft);
               onClose();
             }}
-            className="h-[50px] w-full rounded-full bg-brand text-[15px] font-semibold text-white shadow-[0_8px_24px_rgba(255,107,74,0.28)] active:scale-[0.98]"
+            className="h-[50px] w-full rounded-full bg-brand text-lead font-semibold text-white shadow-[0_8px_24px_rgba(255,107,74,0.28)] active:scale-[0.98]"
           >
             {active > 0 ? `应用筛选 · ${active} 个条件` : "应用筛选"}
           </button>
@@ -391,8 +391,8 @@ function Section({
   return (
     <div className="mt-4">
       <div className="mb-2 flex items-baseline gap-1.5">
-        <h3 className="text-[12px] font-semibold text-ink-soft">{title}</h3>
-        {hint && <span className="text-[10px] text-ink-mute">{hint}</span>}
+        <h3 className="text-note font-semibold text-ink-soft">{title}</h3>
+        {hint && <span className="text-micro text-ink-mute">{hint}</span>}
       </div>
       <div className="flex flex-wrap gap-2">{children}</div>
     </div>
@@ -411,8 +411,8 @@ function Chip({
   return (
     <button
       onClick={onClick}
-      className={`flex items-center gap-1 rounded-full px-3 py-[7px] text-[12px] font-medium transition active:scale-95 ${
-        on ? "bg-brand text-white" : "bg-white text-ink-soft shadow-[0_1px_6px_rgba(80,60,40,0.06)]"
+      className={`flex items-center gap-1 rounded-full px-3 py-[7px] text-note font-medium transition active:scale-95 ${
+        on ? "bg-brand text-white" : "bg-white text-ink-soft shadow-soft"
       }`}
     >
       {on && <Check size={11} strokeWidth={3} />}
@@ -432,11 +432,27 @@ function SingleChips({
 }) {
   return (
     <>
-      {options.map((o) => (
-        <Chip key={o.v} on={value === o.v} onClick={() => onChange(o.v)}>
-          {o.label}
-        </Chip>
-      ))}
+      {options.map((o) =>
+        // 「不限」是默认值，不能和"已选条件"长得一样，否则看不出自己选了什么
+        o.v === "all" ? (
+          <button
+            key={o.v}
+            onClick={() => onChange(o.v)}
+            className={`tap flex items-center gap-1 rounded-full px-3 py-[7px] text-note font-medium ${
+              value === o.v
+                ? "border border-line bg-white text-ink-mute"
+                : "border border-transparent bg-white/60 text-ink-mute"
+            }`}
+          >
+            {value === o.v && <Check size={11} strokeWidth={3} className="text-ink-mute" />}
+            {o.label}
+          </button>
+        ) : (
+          <Chip key={o.v} on={value === o.v} onClick={() => onChange(o.v)}>
+            {o.label}
+          </Chip>
+        )
+      )}
     </>
   );
 }

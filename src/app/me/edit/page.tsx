@@ -29,10 +29,10 @@ export default function EditProfilePage() {
       <SubPageHeader title="编辑资料" subtitle="改完立刻生效，刷新会还原" />
 
       <div className="mt-3 px-5">
-        <div className="flex flex-col items-center rounded-[20px] bg-white py-6 shadow-[0_2px_12px_rgba(80,60,40,0.05)]">
+        <div className="flex flex-col items-center rounded-block bg-white py-6 shadow-card">
           <Avatar name={name || "我"} tint="#ffb4a2" size={64} />
-          <p className="mt-2.5 text-[13px] font-semibold">{name || "未命名"}</p>
-          <p className="mt-0.5 text-[10.5px] text-ink-mute">
+          <p className="mt-2.5 text-body font-semibold">{name || "未命名"}</p>
+          <p className="mt-0.5 text-cap text-ink-mute">
             演示版：头像暂不支持上传
           </p>
         </div>
@@ -42,7 +42,7 @@ export default function EditProfilePage() {
             value={name}
             onChange={(e) => setName(e.target.value)}
             maxLength={12}
-            className="w-full bg-transparent text-[14px] outline-none"
+            className="w-full bg-transparent text-body-lg outline-none"
           />
         </Field>
 
@@ -52,15 +52,15 @@ export default function EditProfilePage() {
             onChange={(e) => setBio(e.target.value)}
             rows={3}
             maxLength={60}
-            className="w-full resize-none bg-transparent text-[13px] leading-relaxed outline-none"
+            className="w-full resize-none bg-transparent text-body leading-relaxed outline-none"
           />
-          <span className="mt-1 block text-right text-[10px] text-ink-mute">
+          <span className="mt-1 block text-right text-micro text-ink-mute">
             {bio.length}/60
           </span>
         </Field>
 
         <div className="mt-4">
-          <p className="mb-2 text-[12px] font-medium text-ink-soft">常驻区域</p>
+          <p className="mb-2 text-note font-medium text-ink-soft">常驻区域</p>
           <div className="flex flex-wrap gap-2">
             {districts.map((d) => {
               const on = district === d;
@@ -68,10 +68,10 @@ export default function EditProfilePage() {
                 <button
                   key={d}
                   onClick={() => setDistrict(d)}
-                  className={`flex items-center gap-1 rounded-full px-3 py-2 text-[12px] font-medium transition ${
+                  className={`flex items-center gap-1 rounded-full px-3 py-2 text-note font-medium transition ${
                     on
                       ? "bg-brand text-white"
-                      : "bg-white text-ink-soft shadow-[0_1px_6px_rgba(80,60,40,0.06)]"
+                      : "bg-white text-ink-soft shadow-soft"
                   }`}
                 >
                   {on && <Check size={11} strokeWidth={3} />}
@@ -84,7 +84,7 @@ export default function EditProfilePage() {
 
         <button
           onClick={save}
-          className="mt-6 h-[50px] w-full rounded-full bg-brand text-[15px] font-semibold text-white shadow-[0_8px_24px_rgba(255,107,74,0.3)] active:scale-[0.98]"
+          className="mt-6 h-[50px] w-full rounded-full bg-brand text-lead font-semibold text-white shadow-[0_8px_24px_rgba(255,107,74,0.3)] active:scale-[0.98]"
         >
           保存
         </button>
@@ -95,8 +95,8 @@ export default function EditProfilePage() {
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <label className="mt-4 block rounded-[18px] bg-white px-4 py-3 shadow-[0_2px_12px_rgba(80,60,40,0.05)]">
-      <span className="mb-1.5 block text-[11px] font-medium text-ink-mute">
+    <label className="mt-4 block rounded-card bg-white px-4 py-3 shadow-card">
+      <span className="mb-1.5 block text-cap font-medium text-ink-mute">
         {label}
       </span>
       {children}

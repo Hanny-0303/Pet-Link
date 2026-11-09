@@ -55,8 +55,8 @@ export default function MeetupsPage() {
     <div className="rise">
       <header className="flex items-start justify-between px-5 pt-7">
         <div>
-          <h1 className="text-[26px] font-bold tracking-tight">活动</h1>
-          <p className="mt-1 text-[12.5px] text-ink-mute">
+          <h1 className="text-page font-bold tracking-tight">活动</h1>
+          <p className="mt-1 text-body text-ink-mute">
             {all.length} 个局正在组队，报名就能去
           </p>
         </div>
@@ -72,10 +72,10 @@ export default function MeetupsPage() {
       <div className="no-scrollbar mt-4 flex gap-2 overflow-x-auto px-5">
         <button
           onClick={() => setCatOpen(true)}
-          className="flex items-center gap-1.5 rounded-full bg-white px-3.5 py-[7px] text-[12.5px] font-medium shadow-[0_1px_6px_rgba(80,60,40,0.06)] active:scale-95"
+          className="flex items-center gap-1.5 rounded-full bg-white px-3.5 py-[7px] text-body font-medium shadow-soft active:scale-95"
         >
           {kind === "all" ? "全部分类" : KIND_LABEL[kind]}
-          <span className="text-[11px] text-ink-mute">
+          <span className="text-cap text-ink-mute">
             {kind === "all" ? all.length : all.filter((m) => m.kind === kind).length}
           </span>
           <ChevronDown size={12} strokeWidth={2.6} className="text-ink-mute" />
@@ -93,7 +93,7 @@ export default function MeetupsPage() {
           <button
             key={f.label}
             onClick={() => f.set(!f.on)}
-            className={`tap rounded-full border px-3 py-[5px] text-[11px] font-medium ${
+            className={`tap rounded-full border px-3 py-[5px] text-cap font-medium ${
               f.on
                 ? "border-brand bg-brand-soft text-brand"
                 : "border-line bg-transparent text-ink-soft"
@@ -115,7 +115,7 @@ export default function MeetupsPage() {
             <Link
               key={m.id}
               href={`/meetups/${m.id}`}
-              className="block overflow-hidden rounded-[22px] bg-white shadow-[0_2px_14px_rgba(80,60,40,0.07)] active:scale-[0.995]"
+              className="block overflow-hidden rounded-block bg-white shadow-card active:scale-[0.995]"
             >
               <div className="relative aspect-[16/9] overflow-hidden bg-line">
                 <img
@@ -124,31 +124,31 @@ export default function MeetupsPage() {
                   className="h-full w-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                <span className="absolute top-2.5 left-2.5 flex items-center gap-1 rounded-full bg-white/88 px-2 py-[3px] text-[9.5px] font-medium backdrop-blur">
+                <span className="absolute top-2.5 left-2.5 flex items-center gap-1 rounded-full bg-white/88 px-2 py-[3px] text-micro font-medium backdrop-blur">
                   {KIND_LABEL[m.kind]}
                   {m.type === "brand" && (
                     <BadgeCheck size={10} strokeWidth={2.6} className="text-mint" />
                   )}
                 </span>
-                <span className="absolute right-2.5 bottom-2.5 rounded-full bg-white/90 px-2 py-[3px] text-[9.5px] font-semibold backdrop-blur">
+                <span className="absolute right-2.5 bottom-2.5 rounded-full bg-white/90 px-2 py-[3px] text-micro font-semibold backdrop-blur">
                   {m.fee > 0 ? `¥${m.fee}` : "免费"}
                 </span>
                 {isJoined && (
-                  <span className="absolute bottom-2.5 left-2.5 rounded-full bg-mint px-2 py-[3px] text-[9.5px] font-semibold text-white">
+                  <span className="absolute bottom-2.5 left-2.5 rounded-full bg-mint px-2 py-[3px] text-micro font-semibold text-white">
                     已报名
                   </span>
                 )}
               </div>
 
               <div className="p-4">
-                <div className="flex items-center gap-1 text-[11px] font-semibold text-brand">
+                <div className="flex items-center gap-1 text-cap font-semibold text-brand">
                   <Clock size={11} strokeWidth={2.6} />
                   {fmtMeetup(m.startAt)}
                 </div>
-                <h3 className="mt-1.5 text-[15.5px] font-semibold tracking-tight">
+                <h3 className="mt-1.5 text-lead font-semibold tracking-tight">
                   {m.title}
                 </h3>
-                <p className="mt-1 flex items-center gap-1 text-[11.5px] text-ink-mute">
+                <p className="mt-1 flex items-center gap-1 text-note text-ink-mute">
                   <MapPin size={11} strokeWidth={2.2} />
                   {m.venueName}
                   <span className="text-line">|</span>
@@ -162,7 +162,7 @@ export default function MeetupsPage() {
                       style={{ width: `${pct}%` }}
                     />
                   </div>
-                  <div className="mt-1.5 flex items-center justify-between text-[10.5px]">
+                  <div className="mt-1.5 flex items-center justify-between text-cap">
                     <span className="flex items-center gap-1 text-ink-soft">
                       <Users size={10} strokeWidth={2.4} />
                       {people}/{m.capacity} 人
@@ -178,9 +178,9 @@ export default function MeetupsPage() {
         })}
 
         {list.length === 0 && (
-          <div className="rounded-[22px] border border-dashed border-line py-14 text-center">
-            <p className="text-[13px] text-ink-mute">这一类暂时还没有局</p>
-            <Link href="/meetups/new" className="mt-2 inline-block text-[12.5px] font-medium text-brand">
+          <div className="rounded-block border border-dashed border-line py-14 text-center">
+            <p className="text-body text-ink-mute">这一类暂时还没有局</p>
+            <Link href="/meetups/new" className="mt-2 inline-block text-body font-medium text-brand">
               发起一个 →
             </Link>
           </div>

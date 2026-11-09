@@ -15,7 +15,7 @@ export default function TabBar() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-1/2 z-50 w-full max-w-[430px] -translate-x-1/2 border-t border-line/70 bg-cream/88 pb-[env(safe-area-inset-bottom)] shadow-[0_-6px_24px_rgba(80,60,40,0.06)] backdrop-blur-xl">
+    <nav className="fixed bottom-0 left-1/2 z-50 w-full max-w-[430px] -translate-x-1/2 border-t border-line/70 bg-cream/88 pb-[env(safe-area-inset-bottom)] shadow-card backdrop-blur-xl">
       <div className="flex h-[62px] items-stretch">
         {TABS.map(({ href, label, Icon }) => {
           const active =
@@ -41,7 +41,7 @@ export default function TabBar() {
                 }`}
               />
               <span
-                className={`relative text-[10px] tracking-wide transition-colors ${
+                className={`relative text-micro tracking-wide transition-colors ${
                   active ? "font-semibold text-brand" : "text-ink-mute"
                 }`}
               >

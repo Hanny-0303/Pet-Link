@@ -30,8 +30,8 @@ export default function MeetupDetailPage() {
   if (!meetup) {
     return (
       <div className="px-5 pt-24 text-center">
-        <p className="text-[14px] text-ink-soft">这个活动不存在或已结束</p>
-        <Link href="/meetups" className="mt-3 inline-block text-[13px] font-medium text-brand">
+        <p className="text-body-lg text-ink-soft">这个活动不存在或已结束</p>
+        <Link href="/meetups" className="mt-3 inline-block text-body font-medium text-brand">
           返回活动列表
         </Link>
       </div>
@@ -90,45 +90,45 @@ export default function MeetupDetailPage() {
         <div className="absolute inset-x-0 bottom-0 p-5">
           <div className="mb-2 flex items-center gap-1.5">
             {meetup.type === "brand" ? (
-              <span className="flex items-center gap-1 rounded-full bg-white/90 px-2 py-[3px] text-[10px] font-semibold">
+              <span className="flex items-center gap-1 rounded-full bg-white/90 px-2 py-[3px] text-micro font-semibold">
                 <BadgeCheck size={11} strokeWidth={2.6} className="text-mint" />
                 品牌活动
               </span>
             ) : (
-              <span className="rounded-full bg-white/90 px-2 py-[3px] text-[10px] font-semibold">
+              <span className="rounded-full bg-white/90 px-2 py-[3px] text-micro font-semibold">
                 遛狗局
               </span>
             )}
-            <span className="rounded-full bg-white/90 px-2 py-[3px] text-[10px] font-semibold">
+            <span className="rounded-full bg-white/90 px-2 py-[3px] text-micro font-semibold">
               {meetup.fee > 0 ? `¥${meetup.fee}/人` : "免费"}
             </span>
           </div>
-          <h1 className="text-[21px] leading-snug font-bold text-white">
+          <h1 className="text-stat leading-snug font-bold text-white">
             {meetup.title}
           </h1>
         </div>
       </div>
 
-      <div className="-mt-4 rounded-t-[26px] bg-cream px-5 pt-5">
+      <div className="-mt-4 rounded-t-hero bg-cream px-5 pt-5">
         {/* 主办方 */}
         <div className="flex items-center gap-2.5">
           <Avatar name={meetup.hostName} tint={meetup.type === "brand" ? "#caffbf" : "#ffd6a5"} size={38} />
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1">
-              <p className="text-[13.5px] font-semibold">{meetup.hostName}</p>
+              <p className="text-body-lg font-semibold">{meetup.hostName}</p>
               {meetup.verified && (
                 <BadgeCheck size={13} strokeWidth={2.6} className="text-mint" />
               )}
             </div>
-            <p className="text-[11px] text-ink-mute">
+            <p className="text-cap text-ink-mute">
               {meetup.type === "brand" ? "认证商家" : "发起人"}
             </p>
           </div>
-          <p className="text-[11.5px] text-ink-mute">{meetup.district}</p>
+          <p className="text-note text-ink-mute">{meetup.district}</p>
         </div>
 
         {/* 关键信息 */}
-        <div className="mt-4 space-y-3 rounded-[18px] bg-white p-4 shadow-[0_2px_12px_rgba(80,60,40,0.05)]">
+        <div className="mt-4 space-y-3 rounded-card bg-white p-4 shadow-card">
           <Row icon={<CalendarDays size={15} />} label="时间" value={fmtMeetup(meetup.startAt)} />
           <Row
             icon={<MapPin size={15} />}
@@ -155,14 +155,14 @@ export default function MeetupDetailPage() {
 
         {/* 适合体型 */}
         <div className="mt-4">
-          <h2 className="text-[14px] font-semibold">适合的体型</h2>
+          <h2 className="text-body-lg font-semibold">适合的体型</h2>
           <div className="mt-2 flex gap-2">
             {(["small", "medium", "large"] as const).map((s) => {
               const ok = meetup.sizeLimit.includes(s);
               return (
                 <span
                   key={s}
-                  className={`rounded-full px-3 py-1.5 text-[11.5px] font-medium ${
+                  className={`rounded-full px-3 py-1.5 text-note font-medium ${
                     ok
                       ? "bg-brand-soft text-brand"
                       : "bg-line/50 text-ink-mute"
@@ -178,10 +178,10 @@ export default function MeetupDetailPage() {
         {/* 已报名 */}
         <div className="mt-5">
           <div className="flex items-center justify-between">
-            <h2 className="text-[14px] font-semibold">已报名</h2>
-            <span className="text-[11px] text-ink-mute">{people} 位主人 · {people} 只狗</span>
+            <h2 className="text-body-lg font-semibold">已报名</h2>
+            <span className="text-cap text-ink-mute">{people} 位主人 · {people} 只狗</span>
           </div>
-          <div className="mt-2.5 flex flex-wrap gap-x-4 gap-y-3 rounded-[18px] bg-white p-4 shadow-[0_2px_12px_rgba(80,60,40,0.05)]">
+          <div className="mt-2.5 flex flex-wrap gap-x-4 gap-y-3 rounded-card bg-white p-4 shadow-card">
             {isJoined && (
               <Person name="我" petName={me?.name ?? "我的狗"} tint="#ffb4a2" highlight />
             )}
@@ -195,10 +195,10 @@ export default function MeetupDetailPage() {
             ))}
             {Array.from({ length: Math.max(0, meetup.capacity - people) }).slice(0, 3).map((_, i) => (
               <span key={i} className="flex w-10 flex-col items-center gap-1">
-                <span className="grid h-9 w-9 place-items-center rounded-full border border-dashed border-line text-[13px] text-ink-mute">
+                <span className="grid h-9 w-9 place-items-center rounded-full border border-dashed border-line text-body text-ink-mute">
                   +
                 </span>
-                <span className="text-[9.5px] text-ink-mute">待加入</span>
+                <span className="text-micro text-ink-mute">待加入</span>
               </span>
             ))}
           </div>
@@ -206,20 +206,20 @@ export default function MeetupDetailPage() {
 
         {/* 说明 */}
         <div className="mt-5">
-          <h2 className="text-[14px] font-semibold">活动说明</h2>
-          <p className="mt-2 text-[13px] leading-[1.85] whitespace-pre-line text-ink-soft">
+          <h2 className="text-body-lg font-semibold">活动说明</h2>
+          <p className="mt-2 text-body leading-[1.85] whitespace-pre-line text-ink-soft">
             {meetup.description}
           </p>
           <div className="mt-3 flex flex-wrap gap-1.5">
             {meetup.tags.map((t) => (
-              <span key={t} className="rounded-full bg-white px-2.5 py-1 text-[10.5px] text-ink-soft shadow-[0_1px_5px_rgba(80,60,40,0.05)]">
+              <span key={t} className="rounded-full bg-white px-2.5 py-1 text-cap text-ink-soft shadow-soft">
                 #{t}
               </span>
             ))}
           </div>
         </div>
 
-        <p className="mt-5 flex items-center gap-1 text-[10.5px] text-ink-mute">
+        <p className="mt-5 flex items-center gap-1 text-cap text-ink-mute">
           <Clock size={10} /> 活动开始前 2 小时可免费取消
         </p>
       </div>
@@ -229,9 +229,9 @@ export default function MeetupDetailPage() {
         <button
           onClick={() => join(meetup.id)}
           disabled={full && !isJoined}
-          className={`flex h-[52px] w-full items-center justify-center gap-2 rounded-full text-[15px] font-semibold shadow-[0_8px_24px_rgba(255,107,74,0.32)] transition active:scale-[0.98] ${
+          className={`flex h-[52px] w-full items-center justify-center gap-2 rounded-full text-lead font-semibold shadow-[0_8px_24px_rgba(255,107,74,0.32)] transition active:scale-[0.98] ${
             isJoined
-              ? "bg-white text-ink shadow-[0_8px_24px_rgba(80,60,40,0.14)]"
+              ? "bg-white text-ink shadow-card"
               : full
                 ? "bg-line text-ink-mute shadow-none"
                 : "bg-brand text-white"
@@ -265,8 +265,8 @@ function Row({
   return (
     <div className="flex items-start gap-2.5">
       <span className="mt-[1px] text-ink-mute">{icon}</span>
-      <span className="w-9 shrink-0 text-[12px] text-ink-mute">{label}</span>
-      <span className="flex-1 text-[12.5px] font-medium">{value}</span>
+      <span className="w-9 shrink-0 text-note text-ink-mute">{label}</span>
+      <span className="flex-1 text-body font-medium">{value}</span>
     </div>
   );
 }
@@ -287,7 +287,7 @@ function Person({
       <span className={highlight ? "rounded-full ring-2 ring-brand ring-offset-2 ring-offset-white" : ""}>
         <Avatar name={name} tint={tint} size={36} />
       </span>
-      <span className="max-w-[44px] truncate text-[9.5px] text-ink-soft">
+      <span className="max-w-[44px] truncate text-micro text-ink-soft">
         {petName}
       </span>
     </span>

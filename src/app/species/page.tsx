@@ -56,17 +56,17 @@ export default function SpeciesPage() {
           <button
             onClick={() => router.back()}
             aria-label="返回"
-            className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white shadow-[0_2px_10px_rgba(80,60,40,0.08)]"
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white shadow-card"
           >
             <ArrowLeft size={17} strokeWidth={2.4} />
           </button>
-          <div className="flex h-10 flex-1 items-center gap-2 rounded-full bg-white px-3.5 shadow-[0_2px_10px_rgba(80,60,40,0.06)]">
+          <div className="flex h-10 flex-1 items-center gap-2 rounded-full bg-white px-3.5 shadow-card">
             <Search size={15} strokeWidth={2.4} className="shrink-0 text-ink-mute" />
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="搜物种，比如「鹦鹉」「爬宠」"
-              className="w-full bg-transparent text-[13.5px] outline-none placeholder:text-ink-mute/80"
+              className="w-full bg-transparent text-body-lg outline-none placeholder:text-ink-mute/80"
             />
             {q && (
               <button onClick={() => setQ("")} aria-label="清空">
@@ -80,25 +80,25 @@ export default function SpeciesPage() {
       <div className="px-5 pt-2">
         <button
           onClick={() => pick("all")}
-          className={`flex w-full items-center gap-3 rounded-[16px] px-4 py-3.5 ${
-            species === "all" ? "bg-brand-soft" : "bg-white shadow-[0_2px_10px_rgba(80,60,40,0.05)]"
+          className={`flex w-full items-center gap-3 rounded-card px-4 py-3.5 ${
+            species === "all" ? "bg-brand-soft" : "bg-white shadow-card"
           }`}
         >
-          <span className="text-[20px]">🐾</span>
+          <span className="text-stat">🐾</span>
           <span
-            className={`flex-1 text-left text-[14px] font-semibold ${
+            className={`flex-1 text-left text-body-lg font-semibold ${
               species === "all" ? "text-brand" : ""
             }`}
           >
             全部宠物
           </span>
-          <span className="text-[11px] text-ink-mute">{pets.length}</span>
+          <span className="text-cap text-ink-mute">{pets.length}</span>
           {species === "all" && <Check size={16} strokeWidth={2.8} className="text-brand" />}
         </button>
 
         {groups.map((g) => (
           <section key={g.title} className="mt-5">
-            <h2 className="mb-2 px-1 text-[12px] font-semibold text-ink-soft">
+            <h2 className="mb-2 px-1 text-note font-semibold text-ink-soft">
               {g.title}
             </h2>
             <div className="grid grid-cols-2 gap-2.5">
@@ -108,22 +108,22 @@ export default function SpeciesPage() {
                   <button
                     key={s}
                     onClick={() => pick(s)}
-                    className={`flex items-center gap-2.5 rounded-[16px] px-3.5 py-3 text-left transition active:scale-[0.98] ${
+                    className={`flex items-center gap-2.5 rounded-card px-3.5 py-3 text-left transition active:scale-[0.98] ${
                       active
                         ? "bg-brand-soft ring-1 ring-brand/30"
-                        : "bg-white shadow-[0_2px_10px_rgba(80,60,40,0.05)]"
+                        : "bg-white shadow-card"
                     }`}
                   >
-                    <span className="text-[20px]">{SPECIES_EMOJI[s]}</span>
+                    <span className="text-stat">{SPECIES_EMOJI[s]}</span>
                     <span className="min-w-0 flex-1">
                       <span
-                        className={`block text-[13.5px] font-semibold ${
+                        className={`block text-body-lg font-semibold ${
                           active ? "text-brand" : ""
                         }`}
                       >
                         {SPECIES_LABEL[s]}
                       </span>
-                      <span className="block text-[10.5px] text-ink-mute">
+                      <span className="block text-cap text-ink-mute">
                         {count(s)} 只在等你
                       </span>
                     </span>
@@ -139,14 +139,14 @@ export default function SpeciesPage() {
 
         {groups.length === 0 && (
           <div className="pt-16 text-center">
-            <p className="text-[13px] text-ink-soft">没有找到「{q}」这个分类</p>
-            <p className="mt-1 text-[11.5px] text-ink-mute">
+            <p className="text-body text-ink-soft">没有找到「{q}」这个分类</p>
+            <p className="mt-1 text-note text-ink-mute">
               试试「鹦鹉」「爬宠」「兔子」
             </p>
           </div>
         )}
 
-        <p className="mt-8 px-2 text-center text-[10.5px] leading-relaxed text-ink-mute">
+        <p className="mt-8 px-2 text-center text-cap leading-relaxed text-ink-mute">
           异宠同好很难在身边找到，
           <br />
           所以我们把圈子也按物种分了。

@@ -32,29 +32,29 @@ export default function MyPetsPage() {
           <Link
             key={p.id}
             href={`/pets/${p.id}`}
-            className="flex items-center gap-3 rounded-[20px] bg-white p-3 shadow-[0_2px_12px_rgba(80,60,40,0.05)]"
+            className="flex items-center gap-3 rounded-block bg-white p-3 shadow-card"
           >
             <img
               src={p.photos[0]}
               alt={p.name}
-              className="h-20 w-20 shrink-0 rounded-[16px] object-cover"
+              className="h-20 w-20 shrink-0 rounded-card object-cover"
             />
             <div className="min-w-0 flex-1">
               <div className="flex items-center gap-1.5">
-                <p className="text-[15px] font-semibold">{p.name}</p>
-                <span className="text-[11px] text-ink-mute">
+                <p className="text-lead font-semibold">{p.name}</p>
+                <span className="text-cap text-ink-mute">
                   {p.gender === "boy" ? "♂" : "♀"}
                 </span>
               </div>
-              <p className="mt-0.5 text-[11.5px] text-ink-soft">
+              <p className="mt-0.5 text-note text-ink-soft">
                 {p.breed} · {p.ageText} · {SIZE_LABEL[p.size]} · {p.weightKg}kg
               </p>
               <div className="mt-2 flex gap-1.5">
-                <span className="flex items-center gap-1 rounded-full bg-mint-soft px-2 py-[3px] text-[9.5px] font-medium text-mint">
+                <span className="flex items-center gap-1 rounded-full bg-mint-soft px-2 py-[3px] text-micro font-medium text-mint">
                   <Syringe size={9} strokeWidth={2.6} /> 疫苗齐全
                 </span>
                 <span
-                  className={`flex items-center gap-1 rounded-full px-2 py-[3px] text-[9.5px] font-medium ${
+                  className={`flex items-center gap-1 rounded-full px-2 py-[3px] text-micro font-medium ${
                     p.neutered ? "bg-mint-soft text-mint" : "bg-line/70 text-ink-mute"
                   }`}
                 >
@@ -69,13 +69,13 @@ export default function MyPetsPage() {
 
         <Link
           href="/me/health"
-          className="flex items-center justify-between rounded-[18px] bg-white px-4 py-3.5 shadow-[0_2px_12px_rgba(80,60,40,0.05)]"
+          className="flex items-center justify-between rounded-card bg-white px-4 py-3.5 shadow-card"
         >
-          <span className="text-[12.5px] font-medium">查看疫苗与健康记录</span>
+          <span className="text-body font-medium">查看疫苗与健康记录</span>
           <ChevronRight size={15} className="text-ink-mute" />
         </Link>
 
-        <p className="pt-2 text-center text-[10.5px] leading-relaxed text-ink-mute">
+        <p className="pt-2 text-center text-cap leading-relaxed text-ink-mute">
           真实产品里这里可以添加多只宠物，
           <br />
           演示版固定一只，方便你快速看懂流程。

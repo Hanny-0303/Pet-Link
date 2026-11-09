@@ -38,13 +38,13 @@ export default function SettingsSheet({
     <div className="fixed inset-0 z-[60]">
       <div className="absolute inset-0 bg-ink/35 backdrop-blur-[2px]" onClick={onClose} />
 
-      <div className="absolute inset-x-0 bottom-0 mx-auto max-w-[430px] rounded-t-[26px] bg-cream pb-[env(safe-area-inset-bottom)] shadow-[0_-8px_40px_rgba(0,0,0,0.15)]">
+      <div className="absolute inset-x-0 bottom-0 mx-auto max-w-[430px] rounded-t-hero bg-cream pb-[env(safe-area-inset-bottom)] shadow-[0_-8px_40px_rgba(0,0,0,0.15)]">
         <div className="flex items-center justify-between px-5 pt-5 pb-3">
-          <h2 className="text-[17px] font-semibold tracking-tight">设置</h2>
+          <h2 className="text-title font-semibold tracking-tight">设置</h2>
           <button
             onClick={onClose}
             aria-label="关闭"
-            className="grid h-8 w-8 place-items-center rounded-full bg-white shadow-[0_2px_8px_rgba(80,60,40,0.08)]"
+            className="grid h-8 w-8 place-items-center rounded-full bg-white shadow-card"
           >
             <X size={15} strokeWidth={2.4} />
           </button>
@@ -60,14 +60,14 @@ export default function SettingsSheet({
                   togglePref(key);
                   showToast(`${label}已${on ? "关闭" : "开启"}`);
                 }}
-                className="flex w-full items-center gap-3 rounded-[14px] px-2 py-3 text-left active:bg-white/70"
+                className="flex w-full items-center gap-3 rounded-card px-2 py-3 text-left active:bg-white/70"
               >
-                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white text-ink-soft shadow-[0_1px_5px_rgba(80,60,40,0.06)]">
+                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white text-ink-soft shadow-soft">
                   <Icon size={14} strokeWidth={2.2} />
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className="block text-[13.5px] font-medium">{label}</span>
-                  <span className="mt-0.5 block text-[10.5px] text-ink-mute">{desc}</span>
+                  <span className="block text-body-lg font-medium">{label}</span>
+                  <span className="mt-0.5 block text-cap text-ink-mute">{desc}</span>
                 </span>
                 <span
                   className={`relative h-[26px] w-[44px] shrink-0 rounded-full transition-colors ${
@@ -91,12 +91,12 @@ export default function SettingsSheet({
               resetAll();
               onClose();
             }}
-            className="flex w-full items-center justify-center gap-1.5 rounded-full border border-line bg-white py-3 text-[12.5px] font-medium text-ink-soft active:scale-[0.99]"
+            className="flex w-full items-center justify-center gap-1.5 rounded-full border border-line bg-white py-3 text-body font-medium text-ink-soft active:scale-[0.99]"
           >
             <RotateCcw size={13} strokeWidth={2.2} />
             清除演示数据
           </button>
-          <p className="mt-2 text-center text-[10.5px] text-ink-mute">
+          <p className="mt-2 text-center text-cap text-ink-mute">
             报名、打招呼、发起的活动都会回到初始状态
           </p>
         </div>

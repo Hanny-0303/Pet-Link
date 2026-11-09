@@ -61,14 +61,14 @@ export default function HealthPage() {
       />
 
       <div className="mt-2 px-5">
-        <div className="flex items-center gap-2 rounded-[16px] bg-mint-soft px-3.5 py-3">
+        <div className="flex items-center gap-2 rounded-card bg-mint-soft px-3.5 py-3">
           <CheckCircle2 size={16} strokeWidth={2.4} className="shrink-0 text-mint" />
-          <p className="text-[11.5px] leading-relaxed text-mint">
+          <p className="text-note leading-relaxed text-mint">
             疫苗齐全，最近一次驱虫在 30 天内
           </p>
         </div>
 
-        <div className="mt-3 overflow-hidden rounded-[20px] bg-white shadow-[0_2px_12px_rgba(80,60,40,0.05)]">
+        <div className="mt-3 overflow-hidden rounded-block bg-white shadow-card">
           {RECORDS.map((r, i) => (
             <div
               key={r.label}
@@ -80,20 +80,20 @@ export default function HealthPage() {
                 <r.Icon size={14} strokeWidth={2.2} />
               </span>
               <div className="min-w-0 flex-1">
-                <p className="text-[13px] font-medium">{r.label}</p>
-                <p className="mt-0.5 text-[10.5px] text-ink-mute">{r.detail}</p>
+                <p className="text-body font-medium">{r.label}</p>
+                <p className="mt-0.5 text-cap text-ink-mute">{r.detail}</p>
               </div>
               <div className="shrink-0 text-right">
-                <p className="text-[10.5px] text-ink-soft">{r.date}</p>
+                <p className="text-cap text-ink-soft">{r.date}</p>
                 {r.valid && (
-                  <p className="mt-0.5 text-[10px] text-mint">{r.valid}</p>
+                  <p className="mt-0.5 text-micro text-mint">{r.valid}</p>
                 )}
               </div>
             </div>
           ))}
         </div>
 
-        <p className="mt-4 text-center text-[10.5px] leading-relaxed text-ink-mute">
+        <p className="mt-4 text-center text-cap leading-relaxed text-ink-mute">
           参加活动前，主办方可以查看这份记录
           <br />
           真实产品里会由宠物医院开具并签名

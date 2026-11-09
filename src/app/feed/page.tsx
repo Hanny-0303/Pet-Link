@@ -26,8 +26,8 @@ export default function FeedPage() {
     <>
     <div className="rise">
       <header className="px-5 pt-7">
-        <h1 className="text-[26px] font-bold tracking-tight">圈子</h1>
-        <p className="mt-1 text-[12.5px] text-ink-mute">
+        <h1 className="text-page font-bold tracking-tight">圈子</h1>
+        <p className="mt-1 text-body text-ink-mute">
           养宠人的经验、求助和日常，都在这里
         </p>
       </header>
@@ -35,10 +35,10 @@ export default function FeedPage() {
       <div className="mt-4 px-5">
         <button
           onClick={() => setPickerOpen(true)}
-          className="flex items-center gap-1.5 rounded-full bg-white px-3.5 py-2 text-[13px] font-medium shadow-[0_1px_6px_rgba(80,60,40,0.06)] active:scale-95"
+          className="flex items-center gap-1.5 rounded-full bg-white px-3.5 py-2 text-body font-medium shadow-soft active:scale-95"
         >
           {topic === "all" ? "全部话题" : TOPIC_LABEL[topic]}
-          <span className="text-[11px] text-ink-mute">
+          <span className="text-cap text-ink-mute">
             {topic === "all" ? posts.length : posts.filter((p) => p.topic === topic).length}
           </span>
           <ChevronDown size={13} strokeWidth={2.6} className="text-ink-mute" />
@@ -53,17 +53,17 @@ export default function FeedPage() {
           return (
             <article
               key={post.id}
-              className="overflow-hidden rounded-[22px] bg-white p-4 shadow-[0_2px_14px_rgba(80,60,40,0.06)]"
+              className="overflow-hidden rounded-block bg-white p-4 shadow-card"
             >
               <Link href={`/feed/${post.id}`} className="tap block">
               <div className="flex items-center gap-2.5">
                 <Avatar name={post.authorName} tint={post.tint} size={36} />
                 <div className="min-w-0 flex-1">
-                  <p className="text-[13px] font-semibold">{post.authorName}</p>
-                  <p className="text-[10.5px] text-ink-mute">
+                  <p className="text-body font-semibold">{post.authorName}</p>
+                  <p className="text-cap text-ink-mute">
                     {post.petName}的主人 · {post.timeText}
                     {post.topic !== "daily" && !meetup && (
-                      <span className="ml-1.5 rounded-full bg-cream px-1.5 py-[1px] text-[9.5px] font-medium text-ink-soft">
+                      <span className="ml-1.5 rounded-full bg-cream px-1.5 py-[1px] text-micro font-medium text-ink-soft">
                         {TOPIC_LABEL[post.topic]}
                       </span>
                     )}
@@ -72,7 +72,7 @@ export default function FeedPage() {
                 {meetup && (
                   <Link
                     href={`/meetups/${meetup.id}`}
-                    className="flex shrink-0 items-center gap-1 rounded-full bg-mint-soft px-2 py-1 text-[9.5px] font-medium text-mint"
+                    className="flex shrink-0 items-center gap-1 rounded-full bg-mint-soft px-2 py-1 text-micro font-medium text-mint"
                   >
                     <Sparkles size={9} strokeWidth={2.6} />
                     活动回顾
@@ -80,12 +80,12 @@ export default function FeedPage() {
                 )}
               </div>
 
-              <p className="mt-3 text-[13.5px] leading-[1.8] whitespace-pre-line text-ink-soft">
+              <p className="mt-3 text-body-lg leading-[1.8] whitespace-pre-line text-ink-soft">
                 {post.content}
               </p>
 
               <div
-                className={`mt-3 grid gap-1 overflow-hidden rounded-[16px] ${
+                className={`mt-3 grid gap-1 overflow-hidden rounded-card ${
                   post.images.length === 1
                     ? "grid-cols-1"
                     : post.images.length === 2
@@ -99,7 +99,7 @@ export default function FeedPage() {
                     src={src}
                     alt=""
                     className={`w-full object-cover ${
-                      post.images.length === 1 ? "max-h-[320px] rounded-[16px]" : "aspect-square"
+                      post.images.length === 1 ? "max-h-[320px] rounded-card" : "aspect-square"
                     }`}
                   />
                 ))}
@@ -108,12 +108,12 @@ export default function FeedPage() {
               {meetup && (
                 <Link
                   href={`/meetups/${meetup.id}`}
-                  className="mt-3 flex items-center justify-between rounded-[14px] bg-cream px-3 py-2.5"
+                  className="mt-3 flex items-center justify-between rounded-card bg-cream px-3 py-2.5"
                 >
-                  <span className="line-clamp-1 text-[11.5px] font-medium text-ink-soft">
+                  <span className="line-clamp-1 text-note font-medium text-ink-soft">
                     #{meetup.title}
                   </span>
-                  <span className="shrink-0 text-[10.5px] text-brand">去看看</span>
+                  <span className="shrink-0 text-cap text-brand">去看看</span>
                 </Link>
               )}
 
@@ -122,7 +122,7 @@ export default function FeedPage() {
               <div className="mt-3 flex items-center gap-5 border-t border-line/70 pt-2.5">
                 <button
                   onClick={() => like(post.id)}
-                  className="flex items-center gap-1.5 text-[11.5px] active:scale-90"
+                  className="flex items-center gap-1.5 text-note active:scale-90"
                 >
                   <Heart
                     size={15}
@@ -137,7 +137,7 @@ export default function FeedPage() {
                 </button>
                 <Link
                   href={`/feed/${post.id}`}
-                  className="flex items-center gap-1.5 text-[11.5px] text-ink-mute"
+                  className="flex items-center gap-1.5 text-note text-ink-mute"
                 >
                   <MessageCircle size={15} strokeWidth={2.2} />
                   {post.comments}

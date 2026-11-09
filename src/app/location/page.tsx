@@ -67,17 +67,17 @@ export default function LocationPage() {
               router.back();
             }}
             aria-label="返回"
-            className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white shadow-[0_2px_10px_rgba(80,60,40,0.08)]"
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white shadow-card"
           >
             <ArrowLeft size={17} strokeWidth={2.4} />
           </button>
-          <div className="flex h-10 flex-1 items-center gap-2 rounded-full bg-white px-3.5 shadow-[0_2px_10px_rgba(80,60,40,0.06)]">
+          <div className="flex h-10 flex-1 items-center gap-2 rounded-full bg-white px-3.5 shadow-card">
             <Search size={15} strokeWidth={2.4} className="shrink-0 text-ink-mute" />
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="搜城市或区县，比如「朝阳」「昆山」"
-              className="w-full bg-transparent text-[13.5px] outline-none placeholder:text-ink-mute/80"
+              className="w-full bg-transparent text-body-lg outline-none placeholder:text-ink-mute/80"
             />
             {q && (
               <button onClick={() => setQ("")} aria-label="清空">
@@ -87,7 +87,7 @@ export default function LocationPage() {
           </div>
         </div>
 
-        <p className="mt-2.5 px-1 text-[11.5px] text-ink-mute">
+        <p className="mt-2.5 px-1 text-note text-ink-mute">
           {q ? `搜索「${q}」` : title}
         </p>
       </header>
@@ -96,7 +96,7 @@ export default function LocationPage() {
       {q ? (
         <div className="px-3">
           {results.length === 0 ? (
-            <p className="pt-12 text-center text-[12.5px] text-ink-mute">
+            <p className="pt-12 text-center text-body text-ink-mute">
               没有找到「{q}」
             </p>
           ) : (
@@ -104,12 +104,12 @@ export default function LocationPage() {
               <button
                 key={`${e.text}-${i}`}
                 onClick={() => pickEntry(e)}
-                className="flex w-full items-center gap-2.5 rounded-[12px] px-3 py-3 text-left active:bg-white/70"
+                className="flex w-full items-center gap-2.5 rounded-chip px-3 py-3 text-left active:bg-white/70"
               >
                 <MapPin size={14} strokeWidth={2.2} className="shrink-0 text-ink-mute" />
                 <span className="min-w-0 flex-1">
-                  <span className="block text-[13.5px] font-medium">{e.text}</span>
-                  <span className="block text-[10.5px] text-ink-mute">
+                  <span className="block text-body-lg font-medium">{e.text}</span>
+                  <span className="block text-cap text-ink-mute">
                     {e.area
                       ? `${AREA_COUNT.get(e.area) ?? 0} 位小伙伴`
                       : `${CITY_COUNT.get(e.city) ?? 0} 位小伙伴`}
@@ -125,25 +125,25 @@ export default function LocationPage() {
         <div className="px-5 pt-1">
           <button
             onClick={() => pick(null)}
-            className={`mb-3 flex w-full items-center gap-3 rounded-[16px] px-4 py-3.5 ${
-              !location ? "bg-brand-soft" : "bg-white shadow-[0_2px_10px_rgba(80,60,40,0.05)]"
+            className={`mb-3 flex w-full items-center gap-3 rounded-card px-4 py-3.5 ${
+              !location ? "bg-brand-soft" : "bg-white shadow-card"
             }`}
           >
-            <span className="text-[18px]">🇨🇳</span>
+            <span className="text-title">🇨🇳</span>
             <span
-              className={`flex-1 text-left text-[13.5px] font-semibold ${
+              className={`flex-1 text-left text-body-lg font-semibold ${
                 !location ? "text-brand" : ""
               }`}
             >
               全国
             </span>
-            <span className="text-[11px] text-ink-mute">{pets.length}</span>
+            <span className="text-cap text-ink-mute">{pets.length}</span>
             {!location && <Check size={15} strokeWidth={2.8} className="text-brand" />}
           </button>
 
           {groupByLetter(DIVISIONS, (p) => p.name).map((g) => (
             <div key={g.letter} className="mb-3">
-              <p className="mb-1.5 px-1 text-[11px] font-semibold text-ink-mute">
+              <p className="mb-1.5 px-1 text-cap font-semibold text-ink-mute">
                 {g.letter}
               </p>
               <div className="grid grid-cols-3 gap-2">
@@ -151,7 +151,7 @@ export default function LocationPage() {
                   <button
                     key={p.name}
                     onClick={() => setProvince(p.name)}
-                    className="rounded-[12px] bg-white px-2 py-2.5 text-[12.5px] font-medium shadow-[0_1px_6px_rgba(80,60,40,0.05)] active:scale-95"
+                    className="rounded-chip bg-white px-2 py-2.5 text-body font-medium shadow-soft active:scale-95"
                   >
                     {shortProvince(p.name)}
                   </button>
@@ -165,16 +165,16 @@ export default function LocationPage() {
         <div className="px-5 pt-1">
           <button
             onClick={() => pick({ province: currentProvince.name, city: currentProvince.name, area: null })}
-            className="mb-3 flex w-full items-center gap-2 rounded-[14px] bg-white px-4 py-3 text-left shadow-[0_1px_6px_rgba(80,60,40,0.05)]"
+            className="mb-3 flex w-full items-center gap-2 rounded-card bg-white px-4 py-3 text-left shadow-soft"
           >
-            <span className="flex-1 text-[13px] font-medium">
+            <span className="flex-1 text-body font-medium">
               整个{currentProvince.name}
             </span>
             <ChevronRight size={14} className="text-ink-mute" />
           </button>
           {groupByLetter(currentProvince.cities, (c) => c.name).map((g) => (
             <div key={g.letter} className="mb-3">
-              <p className="mb-1.5 px-1 text-[11px] font-semibold text-ink-mute">
+              <p className="mb-1.5 px-1 text-cap font-semibold text-ink-mute">
                 {g.letter}
               </p>
               <div className="grid grid-cols-2 gap-2">
@@ -184,13 +184,13 @@ export default function LocationPage() {
                     <button
                       key={c.name}
                       onClick={() => setCity(c.name)}
-                      className="flex items-center gap-2 rounded-[12px] bg-white px-3 py-2.5 text-left shadow-[0_1px_6px_rgba(80,60,40,0.05)] active:scale-[0.98]"
+                      className="flex items-center gap-2 rounded-chip bg-white px-3 py-2.5 text-left shadow-soft active:scale-[0.98]"
                     >
-                      <span className="min-w-0 flex-1 truncate text-[13px] font-medium">
+                      <span className="min-w-0 flex-1 truncate text-body font-medium">
                         {c.name}
                       </span>
                       {n > 0 && (
-                        <span className="shrink-0 rounded-full bg-brand-soft px-1.5 text-[9.5px] font-semibold text-brand">
+                        <span className="shrink-0 rounded-full bg-brand-soft px-1.5 text-micro font-semibold text-brand">
                           {n}
                         </span>
                       )}
@@ -208,16 +208,16 @@ export default function LocationPage() {
             onClick={() =>
               pick({ province: currentProvince.name, city: currentCity.name, area: null })
             }
-            className="mb-3 flex w-full items-center gap-2 rounded-[14px] bg-white px-4 py-3 text-left shadow-[0_1px_6px_rgba(80,60,40,0.05)]"
+            className="mb-3 flex w-full items-center gap-2 rounded-card bg-white px-4 py-3 text-left shadow-soft"
           >
-            <span className="flex-1 text-[13px] font-medium">
+            <span className="flex-1 text-body font-medium">
               整个{currentCity.name}
             </span>
             <ChevronRight size={14} className="text-ink-mute" />
           </button>
           {groupByLetter(currentCity.areas, (a) => a).map((g) => (
             <div key={g.letter} className="mb-3">
-              <p className="mb-1.5 px-1 text-[11px] font-semibold text-ink-mute">
+              <p className="mb-1.5 px-1 text-cap font-semibold text-ink-mute">
                 {g.letter}
               </p>
               <div className="grid grid-cols-2 gap-2">
@@ -229,21 +229,21 @@ export default function LocationPage() {
                   onClick={() =>
                     pick({ province: currentProvince.name, city: currentCity.name, area: a })
                   }
-                  className={`flex items-center gap-2 rounded-[12px] px-3 py-2.5 text-left active:scale-[0.98] ${
+                  className={`flex items-center gap-2 rounded-chip px-3 py-2.5 text-left active:scale-[0.98] ${
                     n > 0
-                      ? "bg-white shadow-[0_2px_10px_rgba(80,60,40,0.06)]"
+                      ? "bg-white shadow-card"
                       : "bg-white/60"
                   }`}
                 >
                   <span
-                    className={`min-w-0 flex-1 truncate text-[13px] ${
+                    className={`min-w-0 flex-1 truncate text-body ${
                       n > 0 ? "font-medium text-ink" : "text-ink-soft"
                     }`}
                   >
                     {a}
                   </span>
                   {n > 0 && (
-                    <span className="shrink-0 rounded-full bg-brand px-1.5 text-[9.5px] font-semibold text-white">
+                    <span className="shrink-0 rounded-full bg-brand px-1.5 text-micro font-semibold text-white">
                       {n}
                     </span>
                   )}

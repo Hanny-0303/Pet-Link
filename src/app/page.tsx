@@ -99,7 +99,7 @@ export default function HomePage() {
           <div className="flex items-center justify-between">
             <Link
               href="/location"
-              className="flex items-center gap-1 text-[13px] font-medium text-ink-soft active:opacity-60"
+              className="flex items-center gap-1 text-body font-medium text-ink-soft active:opacity-60"
             >
               <MapPin size={13} strokeWidth={2.4} className="text-brand" />
               {locationLabel(location)}
@@ -110,7 +110,7 @@ export default function HomePage() {
               <button
                 onClick={() => setMode(mode === "swipe" ? "grid" : "swipe")}
                 aria-label={mode === "swipe" ? "切换到网格" : "切换到单张"}
-                className="grid h-9 w-9 place-items-center rounded-full bg-white shadow-[0_2px_10px_rgba(80,60,40,0.08)] active:scale-95"
+                className="grid h-9 w-9 place-items-center rounded-full bg-white shadow-card active:scale-95"
               >
                 {mode === "swipe" ? (
                   <LayoutGrid size={16} strokeWidth={2.2} />
@@ -121,13 +121,13 @@ export default function HomePage() {
               <button
                 onClick={() => setFilterOpen(true)}
                 aria-label="筛选"
-                className={`relative grid h-9 w-9 place-items-center rounded-full shadow-[0_2px_10px_rgba(80,60,40,0.08)] active:scale-95 ${
+                className={`relative grid h-9 w-9 place-items-center rounded-full shadow-card active:scale-95 ${
                   countActive(filters) > 0 ? "bg-brand text-white" : "bg-white"
                 }`}
               >
                 <SlidersHorizontal size={16} strokeWidth={2.2} />
                 {countActive(filters) > 0 && (
-                  <span className="absolute -top-1 -right-1 grid h-4 min-w-4 place-items-center rounded-full bg-white px-1 text-[9px] font-bold text-brand shadow">
+                  <span className="absolute -top-1 -right-1 grid h-4 min-w-4 place-items-center rounded-full bg-white px-1 text-micro font-bold text-brand shadow">
                     {countActive(filters)}
                   </span>
                 )}
@@ -135,7 +135,7 @@ export default function HomePage() {
               <Link
                 href="/search"
                 aria-label="搜索"
-                className="grid h-9 w-9 place-items-center rounded-full bg-white shadow-[0_2px_10px_rgba(80,60,40,0.08)] active:scale-95"
+                className="grid h-9 w-9 place-items-center rounded-full bg-white shadow-card active:scale-95"
               >
                 <Search size={16} strokeWidth={2.2} />
               </Link>
@@ -144,12 +144,12 @@ export default function HomePage() {
 
           {mode === "grid" && (
             <div className="mt-4">
-              <h1 className="text-[24px] leading-tight font-bold tracking-tight">
+              <h1 className="text-page leading-tight font-bold tracking-tight">
                 今天想认识
                 <br />
                 哪个小家伙？
               </h1>
-              <p className="mt-1 text-[12px] text-ink-mute">
+              <p className="mt-1 text-note text-ink-mute">
                 {location ? `${locationLabel(location)} 有 ${list.length} 只小伙伴` : `附近有 ${list.length} 只小伙伴`}
               </p>
             </div>
@@ -160,11 +160,11 @@ export default function HomePage() {
       <div className="mt-3 flex shrink-0 items-center px-5 pb-2">
         <Link
           href="/species"
-          className="tap flex items-center gap-1.5 rounded-full bg-white px-3.5 py-2 text-[13px] font-medium shadow-[0_2px_10px_rgba(80,60,40,0.06)]"
+          className="tap flex items-center gap-1.5 rounded-full bg-white px-3.5 py-2 text-body font-medium shadow-card"
         >
           <PawPrint size={13} strokeWidth={2.2} className="text-brand" />
           {species === "all" ? "全部宠物" : SPECIES_LABEL[species as Species]}
-          <span className="text-[11px] text-ink-mute">{list.length}</span>
+          <span className="text-cap text-ink-mute">{list.length}</span>
           <ChevronDown size={13} strokeWidth={2.6} className="text-ink-mute" />
         </Link>
       </div>
@@ -173,10 +173,10 @@ export default function HomePage() {
         {list.length === 0 ? (
           <div className="flex flex-1 flex-col items-center justify-center px-8 text-center">
             <PawPrint size={26} strokeWidth={1.6} className="text-ink-mute/70" />
-            <p className="mt-3 text-[13.5px] font-medium text-ink-soft">
+            <p className="mt-3 text-body-lg font-medium text-ink-soft">
               {location ? "这里还没有小伙伴" : "这个条件下还没有小伙伴"}
             </p>
-            <p className="mt-1 px-4 text-[11px] leading-relaxed text-ink-mute">
+            <p className="mt-1 px-4 text-cap leading-relaxed text-ink-mute">
               {location
                 ? "产品刚起步，先从有人的城市看起吧"
                 : "试试放宽筛选条件"}
@@ -185,14 +185,14 @@ export default function HomePage() {
               {location && (
                 <Link
                   href="/location"
-                  className="rounded-full bg-brand px-4 py-2 text-[12px] font-medium text-white shadow-[0_4px_14px_rgba(255,107,74,0.28)]"
+                  className="rounded-full bg-brand px-4 py-2 text-note font-medium text-white shadow-[0_4px_14px_rgba(255,107,74,0.28)]"
                 >
                   换个地区
                 </Link>
               )}
               <button
                 onClick={() => setFilters(EMPTY_FILTERS)}
-                className="rounded-full bg-white px-4 py-2 text-[12px] font-medium text-ink-soft shadow-[0_2px_10px_rgba(80,60,40,0.06)]"
+                className="rounded-full bg-white px-4 py-2 text-note font-medium text-ink-soft shadow-card"
               >
                 清空筛选
               </button>
@@ -287,7 +287,7 @@ function PetSlide({
 
   return (
     <article className="h-full w-full snap-start px-4 pb-2">
-      <div className="relative h-full overflow-hidden rounded-[26px] bg-line">
+      <div className="relative h-full overflow-hidden rounded-hero bg-line">
         {/* 横向图集 */}
         <div
           className="no-scrollbar flex h-full w-full snap-x snap-mandatory overflow-x-auto"
@@ -332,14 +332,14 @@ function PetSlide({
 
         {/* 顶部：距离 / 推荐 / 图集指示点 */}
         {showDistance && (
-          <div className="pointer-events-none absolute top-3 left-3 flex items-center gap-1 rounded-full bg-white/85 px-2 py-1 text-[10.5px] font-medium backdrop-blur">
+          <div className="pointer-events-none absolute top-3 left-3 flex items-center gap-1 rounded-full bg-white/85 px-2 py-1 text-cap font-medium backdrop-blur">
             <MapPin size={10} strokeWidth={2.6} className="text-brand" />
             {pet.distanceKm} km
           </div>
         )}
 
         {reason && (
-          <div className="pointer-events-none absolute top-3 right-3 flex items-center gap-1 rounded-full bg-brand px-2 py-1 text-[10px] font-semibold text-white shadow-lg">
+          <div className="pointer-events-none absolute top-3 right-3 flex items-center gap-1 rounded-full bg-brand px-2 py-1 text-micro font-semibold text-white shadow-lg">
             <Sparkles size={10} strokeWidth={2.8} />
             推荐
           </div>
@@ -362,15 +362,15 @@ function PetSlide({
         <div className="absolute inset-x-0 bottom-0 p-5">
           <Link href={`/pets/${pet.id}`} className="block">
             <div className="flex items-center gap-1.5">
-              <h2 className="text-[26px] font-bold text-white">{pet.name}</h2>
-              <span className="text-[14px] text-white/60">
+              <h2 className="text-page font-bold text-white">{pet.name}</h2>
+              <span className="text-body-lg text-white/60">
                 {pet.gender === "boy" ? "♂" : "♀"}
               </span>
             </div>
-            <p className="mt-1 text-[13px] text-white/85">
+            <p className="mt-1 text-body text-white/85">
               {pet.breed} · {pet.ageText} · {SIZE_LABEL[pet.size]}
             </p>
-            <p className="mt-1 flex items-center gap-1 text-[11px] text-white/70">
+            <p className="mt-1 flex items-center gap-1 text-cap text-white/70">
               <Heart
                 size={11}
                 strokeWidth={2.4}
@@ -383,7 +383,7 @@ function PetSlide({
               {pet.personality.slice(0, 3).map((t) => (
                 <span
                   key={t}
-                  className="rounded-full bg-white/20 px-2 py-[3px] text-[10.5px] text-white backdrop-blur-sm"
+                  className="rounded-full bg-white/20 px-2 py-[3px] text-cap text-white backdrop-blur-sm"
                 >
                   {t}
                 </span>
@@ -447,7 +447,7 @@ function PetTile({
   return (
     <div
       onClick={onTap}
-      className="tap mb-2 block cursor-pointer break-inside-avoid overflow-hidden rounded-[16px] bg-white shadow-[0_2px_12px_rgba(80,60,40,0.06)]"
+      className="tap mb-2 block cursor-pointer break-inside-avoid overflow-hidden rounded-card bg-white shadow-card"
     >
       <div className="relative w-full" style={{ paddingBottom: "118%" }}>
         <img
@@ -465,24 +465,24 @@ function PetTile({
           </div>
         )}
         {reason && (
-          <span className="absolute top-2 left-2 flex items-center gap-0.5 rounded-full bg-brand px-1.5 py-[3px] text-[9px] font-semibold text-white shadow">
+          <span className="absolute top-2 left-2 flex items-center gap-0.5 rounded-full bg-brand px-1.5 py-[3px] text-micro font-semibold text-white shadow">
             <Sparkles size={8} strokeWidth={3} /> 推荐
           </span>
         )}
         {showDistance && (
-          <span className="absolute right-2 bottom-2 rounded-full bg-black/45 px-1.5 py-[2px] text-[9px] text-white backdrop-blur">
+          <span className="absolute right-2 bottom-2 rounded-full bg-black/45 px-1.5 py-[2px] text-micro text-white backdrop-blur">
             {pet.distanceKm}km
           </span>
         )}
       </div>
       <div className="px-2.5 py-2">
         <div className="flex items-center gap-1">
-          <p className="truncate text-[13px] font-semibold">{pet.name}</p>
-          <span className="text-[10px] text-ink-mute">
+          <p className="truncate text-body font-semibold">{pet.name}</p>
+          <span className="text-micro text-ink-mute">
             {pet.gender === "boy" ? "♂" : "♀"}
           </span>
         </div>
-        <p className="mt-0.5 truncate text-[10.5px] text-ink-mute">
+        <p className="mt-0.5 truncate text-cap text-ink-mute">
           {pet.breed} · {pet.ageText} · {SIZE_LABEL[pet.size]}
         </p>
         <div className="mt-1.5 flex items-center gap-1">
@@ -493,18 +493,18 @@ function PetTile({
               liked ? "heart-pop fill-brand text-brand" : "text-ink-mute"
             }
           />
-          <span className="text-[9.5px] text-ink-mute">{likes}</span>
+          <span className="text-micro text-ink-mute">{likes}</span>
           {pet.personality.slice(0, 1).map((t) => (
             <span
               key={t}
-              className="ml-1 rounded-full bg-cream px-1.5 py-[2px] text-[9.5px] text-ink-soft"
+              className="ml-1 rounded-full bg-cream px-1.5 py-[2px] text-micro text-ink-soft"
             >
               {t}
             </span>
           ))}
         </div>
         {reason && (
-          <p className="mt-1 truncate text-[9.5px] text-brand">{reason}</p>
+          <p className="mt-1 truncate text-micro text-brand">{reason}</p>
         )}
       </div>
     </div>

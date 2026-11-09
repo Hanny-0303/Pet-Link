@@ -65,19 +65,19 @@ export default function SearchPage() {
           <button
             onClick={() => router.back()}
             aria-label="返回"
-            className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white shadow-[0_2px_10px_rgba(80,60,40,0.08)]"
+            className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white shadow-card"
           >
             <ArrowLeft size={17} strokeWidth={2.4} />
           </button>
 
-          <div className="flex h-10 flex-1 items-center gap-2 rounded-full bg-white px-3.5 shadow-[0_2px_10px_rgba(80,60,40,0.06)]">
+          <div className="flex h-10 flex-1 items-center gap-2 rounded-full bg-white px-3.5 shadow-card">
             <Search size={15} strokeWidth={2.4} className="shrink-0 text-ink-mute" />
             <input
               ref={inputRef}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="搜宠物、品种、活动、地点"
-              className="w-full bg-transparent text-[13.5px] outline-none placeholder:text-ink-mute/80"
+              className="w-full bg-transparent text-body-lg outline-none placeholder:text-ink-mute/80"
             />
             {query && (
               <button onClick={() => setQuery("")} aria-label="清空">
@@ -91,22 +91,22 @@ export default function SearchPage() {
       {/* 还没输入 */}
       {!q && (
         <div className="px-5 pt-4">
-          <h2 className="text-[13px] font-semibold text-ink-soft">大家都在搜</h2>
+          <h2 className="text-body font-semibold text-ink-soft">大家都在搜</h2>
           <div className="mt-3 flex flex-wrap gap-2">
             {HOT.map((t) => (
               <button
                 key={t}
                 onClick={() => setQuery(t)}
-                className="rounded-full bg-white px-3.5 py-[7px] text-[12.5px] font-medium text-ink-soft shadow-[0_1px_6px_rgba(80,60,40,0.06)] active:scale-95"
+                className="rounded-full bg-white px-3.5 py-[7px] text-body font-medium text-ink-soft shadow-soft active:scale-95"
               >
                 {t}
               </button>
             ))}
           </div>
 
-          <div className="mt-8 rounded-[18px] border border-dashed border-line px-4 py-6 text-center">
+          <div className="mt-8 rounded-card border border-dashed border-line px-4 py-6 text-center">
             <PawPrint size={20} strokeWidth={1.8} className="mx-auto text-ink-mute" />
-            <p className="mt-2 text-[12px] leading-relaxed text-ink-mute">
+            <p className="mt-2 text-note leading-relaxed text-ink-mute">
               可以搜宠物名字、品种、性格，
               <br />
               也可以搜活动名称和公园
@@ -120,7 +120,7 @@ export default function SearchPage() {
         <div className="pb-24">
           {petHits.length > 0 && (
             <section className="mt-2">
-              <h2 className="px-5 pb-1 text-[11.5px] font-semibold text-ink-mute">
+              <h2 className="px-5 pb-1 text-note font-semibold text-ink-mute">
                 宠物 · {petHits.length}
               </h2>
               {petHits.map((p) => (
@@ -132,19 +132,19 @@ export default function SearchPage() {
                   <img
                     src={p.photos[0]}
                     alt={p.name}
-                    className="h-14 w-14 shrink-0 rounded-[14px] object-cover"
+                    className="h-14 w-14 shrink-0 rounded-card object-cover"
                   />
                   <div className="min-w-0 flex-1">
-                    <p className="text-[13.5px] font-semibold">
+                    <p className="text-body-lg font-semibold">
                       {p.name}
-                      <span className="ml-1 text-[11px] font-normal text-ink-mute">
+                      <span className="ml-1 text-cap font-normal text-ink-mute">
                         {p.gender === "boy" ? "♂" : "♀"}
                       </span>
                     </p>
-                    <p className="mt-0.5 text-[11px] text-ink-mute">
+                    <p className="mt-0.5 text-cap text-ink-mute">
                       {p.breed} · {p.ageText} · {SIZE_LABEL[p.size]}
                     </p>
-                    <p className="mt-0.5 flex items-center gap-0.5 text-[10.5px] text-ink-mute">
+                    <p className="mt-0.5 flex items-center gap-0.5 text-cap text-ink-mute">
                       <MapPin size={9} strokeWidth={2.4} />
                       {p.district} · {p.distanceKm} km
                     </p>
@@ -157,7 +157,7 @@ export default function SearchPage() {
 
           {meetupHits.length > 0 && (
             <section className="mt-4">
-              <h2 className="px-5 pb-1 text-[11.5px] font-semibold text-ink-mute">
+              <h2 className="px-5 pb-1 text-note font-semibold text-ink-mute">
                 活动 · {meetupHits.length}
               </h2>
               {meetupHits.map((m) => (
@@ -169,16 +169,16 @@ export default function SearchPage() {
                   <img
                     src={m.cover}
                     alt={m.title}
-                    className="h-14 w-14 shrink-0 rounded-[14px] object-cover"
+                    className="h-14 w-14 shrink-0 rounded-card object-cover"
                   />
                   <div className="min-w-0 flex-1">
-                    <p className="line-clamp-1 text-[13.5px] font-semibold">
+                    <p className="line-clamp-1 text-body-lg font-semibold">
                       {m.title}
                     </p>
-                    <p className="mt-0.5 text-[11px] text-brand">
+                    <p className="mt-0.5 text-cap text-brand">
                       {fmtMeetupShort(m.startAt)}
                     </p>
-                    <p className="mt-0.5 line-clamp-1 text-[10.5px] text-ink-mute">
+                    <p className="mt-0.5 line-clamp-1 text-cap text-ink-mute">
                       {m.venueName}
                     </p>
                   </div>
@@ -194,16 +194,16 @@ export default function SearchPage() {
       {q && total === 0 && (
         <div className="px-5 pt-16 text-center">
           <PawPrint size={26} strokeWidth={1.6} className="mx-auto text-ink-mute/70" />
-          <p className="mt-3 text-[13.5px] font-medium text-ink-soft">
+          <p className="mt-3 text-body-lg font-medium text-ink-soft">
             没有找到「{query}」
           </p>
-          <p className="mt-1 text-[11.5px] text-ink-mute">换个词试试看</p>
+          <p className="mt-1 text-note text-ink-mute">换个词试试看</p>
           <div className="mt-5 flex flex-wrap justify-center gap-2">
             {HOT.slice(0, 4).map((t) => (
               <button
                 key={t}
                 onClick={() => setQuery(t)}
-                className="rounded-full bg-white px-3.5 py-[7px] text-[12px] font-medium text-ink-soft shadow-[0_1px_6px_rgba(80,60,40,0.06)]"
+                className="rounded-full bg-white px-3.5 py-[7px] text-note font-medium text-ink-soft shadow-soft"
               >
                 {t}
               </button>

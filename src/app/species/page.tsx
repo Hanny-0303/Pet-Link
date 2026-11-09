@@ -56,11 +56,11 @@ export default function SpeciesPage() {
           <button
             onClick={() => router.back()}
             aria-label="返回"
-            className="hit grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white shadow-card"
+            className="hit grid h-9 w-9 shrink-0 place-items-center rounded-full bg-surface shadow-card"
           >
             <ArrowLeft size={17} strokeWidth={2.4} />
           </button>
-          <div className="flex h-10 flex-1 items-center gap-2 rounded-full bg-white px-3.5 shadow-card">
+          <div className="flex h-10 flex-1 items-center gap-2 rounded-full bg-surface px-3.5 shadow-card">
             <Search size={15} strokeWidth={2.4} className="shrink-0 text-ink-mute" />
             <input
               value={q}
@@ -81,7 +81,7 @@ export default function SpeciesPage() {
         <button
           onClick={() => pick("all")}
           className={`flex w-full items-center gap-3 rounded-card px-4 py-3.5 ${
-            species === "all" ? "bg-brand-soft" : "bg-white shadow-card"
+            species === "all" ? "bg-brand-soft" : "bg-surface shadow-card"
           }`}
         >
           <span className="text-stat">🐾</span>
@@ -111,7 +111,7 @@ export default function SpeciesPage() {
                     className={`flex items-center gap-2.5 rounded-card px-3.5 py-3 text-left tap-soft ${
                       active
                         ? "bg-brand-soft ring-1 ring-brand/30"
-                        : "bg-white shadow-card"
+                        : "bg-surface shadow-card"
                     }`}
                   >
                     <span className="text-stat">{SPECIES_EMOJI[s]}</span>

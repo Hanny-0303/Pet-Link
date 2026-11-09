@@ -35,7 +35,7 @@ export default function MePage() {
             <button
               onClick={() => setSettingsOpen(true)}
               aria-label="设置"
-              className="hit grid h-9 w-9 place-items-center rounded-full bg-white shadow-card tap"
+              className="hit grid h-9 w-9 place-items-center rounded-full bg-surface shadow-card tap"
             >
               <Settings size={16} strokeWidth={2.2} />
             </button>
@@ -43,7 +43,7 @@ export default function MePage() {
         </header>
 
         {/* 个人信息 */}
-        <div className="mx-5 mt-4 flex items-center gap-3 rounded-block bg-white p-4 shadow-card">
+        <div className="mx-5 mt-4 flex items-center gap-3 rounded-block bg-surface p-4 shadow-card">
           <Avatar name={profile.name} tint="#CFE0FF" size={52} />
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1.5">
@@ -69,7 +69,7 @@ export default function MePage() {
         </p>
 
         {/* 数据 */}
-        <div className="mx-5 mt-3 grid grid-cols-3 divide-x divide-line rounded-card bg-white py-3.5 shadow-card">
+        <div className="mx-5 mt-3 grid grid-cols-3 divide-x divide-line rounded-card bg-surface py-3.5 shadow-card">
           <Stat label="我报名的" value={myMeetups.length} />
           <Stat label="我发起的" value={extraMeetups.length} />
           <Stat label="打过招呼" value={greeted.length} />
@@ -86,7 +86,7 @@ export default function MePage() {
             </div>
             <Link
               href={`/pets/${myPet.id}`}
-              className="mt-2 flex items-center gap-3 rounded-block bg-white p-3 shadow-card"
+              className="mt-2 flex items-center gap-3 rounded-block bg-surface p-3 shadow-card"
             >
               <img
                 src={myPet.photos[0]}
@@ -135,7 +135,7 @@ export default function MePage() {
                 <Link
                   key={m.id}
                   href={`/meetups/${m.id}`}
-                  className="flex items-center gap-3 rounded-card bg-white p-2.5 shadow-card"
+                  className="flex items-center gap-3 rounded-card bg-surface p-2.5 shadow-card"
                 >
                   <img src={m.cover} alt="" className="h-12 w-12 rounded-xl object-cover" />
                   <div className="min-w-0 flex-1">
@@ -155,7 +155,7 @@ export default function MePage() {
 
         {/* 菜单 */}
         <div className="mt-5 px-5">
-          <div className="divide-y divide-line overflow-hidden rounded-card bg-white shadow-card">
+          <div className="divide-y divide-line overflow-hidden rounded-card bg-surface shadow-card">
             <MenuRow
               href="/me/pets"
               icon={<PawPrint size={15} />}

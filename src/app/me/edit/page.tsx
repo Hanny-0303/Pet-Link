@@ -29,7 +29,7 @@ export default function EditProfilePage() {
       <SubPageHeader title="编辑资料" subtitle="改完立刻生效，刷新会还原" />
 
       <div className="mt-3 px-5">
-        <div className="flex flex-col items-center rounded-block bg-white py-6 shadow-card">
+        <div className="flex flex-col items-center rounded-block bg-surface py-6 shadow-card">
           <Avatar name={name || "我"} tint="#CFE0FF" size={64} />
           <p className="mt-2.5 text-body font-semibold">{name || "未命名"}</p>
           <p className="mt-0.5 text-cap text-ink-mute">
@@ -70,8 +70,8 @@ export default function EditProfilePage() {
                   onClick={() => setDistrict(d)}
                   className={`flex items-center gap-1 rounded-full px-3 py-2 text-note font-medium transition ${
                     on
-                      ? "bg-brand text-ink"
-                      : "bg-white text-ink-soft shadow-soft"
+                      ? "bg-brand text-on-brand"
+                      : "bg-surface text-ink-soft shadow-soft"
                   }`}
                 >
                   {on && <Check size={11} strokeWidth={3} />}
@@ -95,7 +95,7 @@ export default function EditProfilePage() {
 
 function Field({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <label className="mt-4 block rounded-card bg-white px-4 py-3 shadow-card">
+    <label className="mt-4 block rounded-card bg-surface px-4 py-3 shadow-card">
       <span className="mb-1.5 block text-cap font-medium text-ink-mute">
         {label}
       </span>

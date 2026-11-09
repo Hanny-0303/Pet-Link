@@ -18,7 +18,7 @@ export default function SubPageHeader({
       <button
         onClick={() => router.back()}
         aria-label="返回"
-        className="hit mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white shadow-card tap"
+        className="hit mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-full bg-surface shadow-card tap"
       >
         <ArrowLeft size={17} strokeWidth={2.4} />
       </button>

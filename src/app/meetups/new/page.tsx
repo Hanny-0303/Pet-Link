@@ -64,7 +64,7 @@ export default function NewMeetupPage() {
         <button
           type="button"
           onClick={() => router.back()}
-          className="hit grid h-9 w-9 place-items-center rounded-full bg-white shadow-card"
+          className="hit grid h-9 w-9 place-items-center rounded-full bg-surface shadow-card"
         >
           <ArrowLeft size={17} strokeWidth={2.4} />
         </button>
@@ -90,8 +90,8 @@ export default function NewMeetupPage() {
                   onClick={() => setKind(k)}
                   className={`shrink-0 rounded-full px-3.5 py-2 text-note font-medium transition ${
                     on
-                      ? "bg-brand text-ink"
-                      : "bg-white text-ink-soft shadow-soft"
+                      ? "bg-brand text-on-brand"
+                      : "bg-surface text-ink-soft shadow-soft"
                   }`}
                 >
                   {KIND_LABEL[k]}
@@ -152,8 +152,8 @@ export default function NewMeetupPage() {
                   onClick={() => toggleSize(s)}
                   className={`flex-1 rounded-full py-2.5 text-body font-medium transition ${
                     on
-                      ? "bg-brand text-ink"
-                      : "bg-white text-ink-soft shadow-soft"
+                      ? "bg-brand text-on-brand"
+                      : "bg-surface text-ink-soft shadow-soft"
                   }`}
                 >
                   {SIZE_LABEL[s]}犬
@@ -215,7 +215,7 @@ function Field({
   children: React.ReactNode;
 }) {
   return (
-    <label className="block rounded-card bg-white px-4 py-3 shadow-card">
+    <label className="block rounded-card bg-surface px-4 py-3 shadow-card">
       <span className="mb-1.5 block text-cap font-medium text-ink-mute">
         {label}
       </span>

@@ -43,7 +43,7 @@ export default function PickerSheet({
           <button
             onClick={onClose}
             aria-label="关闭"
-            className="hit grid h-8 w-8 place-items-center rounded-full bg-white shadow-card"
+            className="hit grid h-8 w-8 place-items-center rounded-full bg-surface shadow-card"
           >
             <X size={15} strokeWidth={2.4} />
           </button>
@@ -60,7 +60,7 @@ export default function PickerSheet({
                   onClose();
                 }}
                 className={`flex w-full items-center gap-2.5 rounded-card px-3 py-3 text-left ${
-                  on ? "bg-brand-soft" : "active:bg-white/70"
+                  on ? "bg-brand-soft" : "active:bg-white/10"
                 }`}
               >
                 <span

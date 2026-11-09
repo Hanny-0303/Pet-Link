@@ -35,7 +35,7 @@ export default function FeedPage() {
       <div className="sticky top-0 z-20 -mb-1 bg-canvas/95 px-5 pt-3 pb-2 backdrop-blur-xl">
         <button
           onClick={() => setPickerOpen(true)}
-          className="flex items-center gap-1.5 rounded-full bg-white px-3.5 py-2 text-body font-medium shadow-soft tap"
+          className="flex items-center gap-1.5 rounded-full bg-surface px-3.5 py-2 text-body font-medium shadow-soft tap"
         >
           {topic === "all" ? "全部话题" : TOPIC_LABEL[topic]}
           <span className="text-cap text-ink-mute">
@@ -53,7 +53,7 @@ export default function FeedPage() {
           return (
             <article
               key={post.id}
-              className="stagger overflow-hidden rounded-block bg-white p-4 shadow-card"
+              className="stagger overflow-hidden rounded-block bg-surface p-4 shadow-card"
               style={{ animationDelay: `${Math.min(i, 6) * 45}ms` }}
             >
               <Link href={`/feed/${post.id}`} className="tap block">

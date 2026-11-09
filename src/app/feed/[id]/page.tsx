@@ -34,7 +34,7 @@ export default function PostDetailPage() {
       <SubPageHeader title="帖子" />
 
       <article className="mt-2 px-5">
-        <div className="rounded-block bg-white p-4 shadow-card">
+        <div className="rounded-block bg-surface p-4 shadow-card">
           <div className="flex items-center gap-2.5">
             <Avatar name={post.authorName} tint={post.tint} size={40} />
             <div className="min-w-0 flex-1">

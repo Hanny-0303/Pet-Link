@@ -30,19 +30,19 @@ export default function TabBar() {
             >
               <span
                 className={`absolute top-1.5 h-8 w-12 rounded-full transition-all duration-200 ${
-                  active ? "bg-accent-soft opacity-100" : "opacity-0"
+                  active ? "bg-brand opacity-100" : "opacity-0"
                 }`}
               />
               <Icon
                 size={21}
                 strokeWidth={active ? 2.5 : 1.8}
                 className={`relative transition-transform duration-200 ${
-                  active ? "-translate-y-[1px] text-accent" : "text-ink-mute"
+                  active ? "-translate-y-[1px] text-on-brand" : "text-ink-mute"
                 }`}
               />
               <span
                 className={`relative text-micro tracking-wide transition-colors ${
-                  active ? "font-semibold text-accent" : "text-ink-mute"
+                  active ? "font-semibold text-brand" : "text-ink-mute"
                 }`}
               >
                 {label}

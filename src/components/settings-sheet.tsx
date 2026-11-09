@@ -44,7 +44,7 @@ export default function SettingsSheet({
           <button
             onClick={onClose}
             aria-label="关闭"
-            className="hit grid h-8 w-8 place-items-center rounded-full bg-white shadow-card"
+            className="hit grid h-8 w-8 place-items-center rounded-full bg-surface shadow-card"
           >
             <X size={15} strokeWidth={2.4} />
           </button>
@@ -60,9 +60,9 @@ export default function SettingsSheet({
                   togglePref(key);
                   showToast(`${label}已${on ? "关闭" : "开启"}`);
                 }}
-                className="flex w-full items-center gap-3 rounded-card px-2 py-3 text-left active:bg-white/70"
+                className="flex w-full items-center gap-3 rounded-card px-2 py-3 text-left active:bg-white/10"
               >
-                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white text-ink-soft shadow-soft">
+                <span className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-surface text-ink-soft shadow-soft">
                   <Icon size={14} strokeWidth={2.2} />
                 </span>
                 <span className="min-w-0 flex-1">
@@ -75,7 +75,7 @@ export default function SettingsSheet({
                   }`}
                 >
                   <span
-                    className={`absolute top-[3px] h-5 w-5 rounded-full bg-white shadow-sm transition-all ${
+                    className={`absolute top-[3px] h-5 w-5 rounded-full bg-surface shadow-sm transition-all ${
                       on ? "left-[21px]" : "left-[3px]"
                     }`}
                   />
@@ -91,7 +91,7 @@ export default function SettingsSheet({
               resetAll();
               onClose();
             }}
-            className="flex w-full items-center justify-center gap-1.5 rounded-full border border-line bg-white py-3 text-body font-medium text-ink-soft active:scale-[0.99]"
+            className="flex w-full items-center justify-center gap-1.5 rounded-full border border-line bg-surface py-3 text-body font-medium text-ink-soft active:scale-[0.99]"
           >
             <RotateCcw size={13} strokeWidth={2.2} />
             清除演示数据

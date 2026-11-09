@@ -65,12 +65,12 @@ export default function SearchPage() {
           <button
             onClick={() => router.back()}
             aria-label="返回"
-            className="hit grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white shadow-card"
+            className="hit grid h-9 w-9 shrink-0 place-items-center rounded-full bg-surface shadow-card"
           >
             <ArrowLeft size={17} strokeWidth={2.4} />
           </button>
 
-          <div className="flex h-10 flex-1 items-center gap-2 rounded-full bg-white px-3.5 shadow-card">
+          <div className="flex h-10 flex-1 items-center gap-2 rounded-full bg-surface px-3.5 shadow-card">
             <Search size={15} strokeWidth={2.4} className="shrink-0 text-ink-mute" />
             <input
               ref={inputRef}
@@ -97,7 +97,7 @@ export default function SearchPage() {
               <button
                 key={t}
                 onClick={() => setQuery(t)}
-                className="rounded-full bg-white px-3.5 py-[7px] text-body font-medium text-ink-soft shadow-soft tap"
+                className="rounded-full bg-surface px-3.5 py-[7px] text-body font-medium text-ink-soft shadow-soft tap"
               >
                 {t}
               </button>
@@ -127,7 +127,7 @@ export default function SearchPage() {
                 <Link
                   key={p.id}
                   href={`/pets/${p.id}`}
-                  className="flex items-center gap-3 px-5 py-2.5 active:bg-white/70"
+                  className="flex items-center gap-3 px-5 py-2.5 active:bg-white/10"
                 >
                   <img
                     src={p.photos[0]}
@@ -164,7 +164,7 @@ export default function SearchPage() {
                 <Link
                   key={m.id}
                   href={`/meetups/${m.id}`}
-                  className="flex items-center gap-3 px-5 py-2.5 active:bg-white/70"
+                  className="flex items-center gap-3 px-5 py-2.5 active:bg-white/10"
                 >
                   <img
                     src={m.cover}
@@ -203,7 +203,7 @@ export default function SearchPage() {
               <button
                 key={t}
                 onClick={() => setQuery(t)}
-                className="rounded-full bg-white px-3.5 py-[7px] text-note font-medium text-ink-soft shadow-soft"
+                className="rounded-full bg-surface px-3.5 py-[7px] text-note font-medium text-ink-soft shadow-soft"
               >
                 {t}
               </button>

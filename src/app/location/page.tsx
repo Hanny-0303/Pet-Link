@@ -67,11 +67,11 @@ export default function LocationPage() {
               router.back();
             }}
             aria-label="返回"
-            className="hit grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white shadow-card"
+            className="hit grid h-9 w-9 shrink-0 place-items-center rounded-full bg-surface shadow-card"
           >
             <ArrowLeft size={17} strokeWidth={2.4} />
           </button>
-          <div className="flex h-10 flex-1 items-center gap-2 rounded-full bg-white px-3.5 shadow-card">
+          <div className="flex h-10 flex-1 items-center gap-2 rounded-full bg-surface px-3.5 shadow-card">
             <Search size={15} strokeWidth={2.4} className="shrink-0 text-ink-mute" />
             <input
               value={q}
@@ -104,7 +104,7 @@ export default function LocationPage() {
               <button
                 key={`${e.text}-${i}`}
                 onClick={() => pickEntry(e)}
-                className="flex w-full items-center gap-2.5 rounded-chip px-3 py-3 text-left active:bg-white/70"
+                className="flex w-full items-center gap-2.5 rounded-chip px-3 py-3 text-left active:bg-white/10"
               >
                 <MapPin size={14} strokeWidth={2.2} className="shrink-0 text-ink-mute" />
                 <span className="min-w-0 flex-1">
@@ -126,7 +126,7 @@ export default function LocationPage() {
           <button
             onClick={() => pick(null)}
             className={`mb-3 flex w-full items-center gap-3 rounded-card px-4 py-3.5 ${
-              !location ? "bg-brand-soft" : "bg-white shadow-card"
+              !location ? "bg-brand-soft" : "bg-surface shadow-card"
             }`}
           >
             <span className="text-title">🇨🇳</span>
@@ -151,7 +151,7 @@ export default function LocationPage() {
                   <button
                     key={p.name}
                     onClick={() => setProvince(p.name)}
-                    className="rounded-chip bg-white px-2 py-2.5 text-body font-medium shadow-soft tap"
+                    className="rounded-chip bg-surface px-2 py-2.5 text-body font-medium shadow-soft tap"
                   >
                     {shortProvince(p.name)}
                   </button>
@@ -165,7 +165,7 @@ export default function LocationPage() {
         <div className="px-5 pt-1">
           <button
             onClick={() => pick({ province: currentProvince.name, city: currentProvince.name, area: null })}
-            className="mb-3 flex w-full items-center gap-2 rounded-card bg-white px-4 py-3 text-left shadow-soft"
+            className="mb-3 flex w-full items-center gap-2 rounded-card bg-surface px-4 py-3 text-left shadow-soft"
           >
             <span className="flex-1 text-body font-medium">
               整个{currentProvince.name}
@@ -184,7 +184,7 @@ export default function LocationPage() {
                     <button
                       key={c.name}
                       onClick={() => setCity(c.name)}
-                      className="flex items-center gap-2 rounded-chip bg-white px-3 py-2.5 text-left shadow-soft tap-soft"
+                      className="flex items-center gap-2 rounded-chip bg-surface px-3 py-2.5 text-left shadow-soft tap-soft"
                     >
                       <span className="min-w-0 flex-1 truncate text-body font-medium">
                         {c.name}
@@ -208,7 +208,7 @@ export default function LocationPage() {
             onClick={() =>
               pick({ province: currentProvince.name, city: currentCity.name, area: null })
             }
-            className="mb-3 flex w-full items-center gap-2 rounded-card bg-white px-4 py-3 text-left shadow-soft"
+            className="mb-3 flex w-full items-center gap-2 rounded-card bg-surface px-4 py-3 text-left shadow-soft"
           >
             <span className="flex-1 text-body font-medium">
               整个{currentCity.name}
@@ -231,8 +231,8 @@ export default function LocationPage() {
                   }
                   className={`flex items-center gap-2 rounded-chip px-3 py-2.5 text-left tap-soft ${
                     n > 0
-                      ? "bg-white shadow-card"
-                      : "bg-white/60"
+                      ? "bg-surface shadow-card"
+                      : "bg-white/10"
                   }`}
                 >
                   <span

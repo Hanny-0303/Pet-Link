@@ -20,7 +20,7 @@ export default function MyPetsPage() {
           <button
             onClick={() => showToast("演示版：暂只支持一只宠物")}
             aria-label="添加宠物"
-            className="hit mt-0.5 grid h-9 w-9 place-items-center rounded-full bg-ink text-canvas shadow-md tap"
+            className="hit mt-0.5 grid h-9 w-9 place-items-center rounded-full bg-brand text-on-brand shadow-md tap"
           >
             <Plus size={17} strokeWidth={2.6} />
           </button>
@@ -32,7 +32,7 @@ export default function MyPetsPage() {
           <Link
             key={p.id}
             href={`/pets/${p.id}`}
-            className="flex items-center gap-3 rounded-block bg-white p-3 shadow-card"
+            className="flex items-center gap-3 rounded-block bg-surface p-3 shadow-card"
           >
             <img
               src={p.photos[0]}
@@ -69,7 +69,7 @@ export default function MyPetsPage() {
 
         <Link
           href="/me/health"
-          className="flex items-center justify-between rounded-card bg-white px-4 py-3.5 shadow-card"
+          className="flex items-center justify-between rounded-card bg-surface px-4 py-3.5 shadow-card"
         >
           <span className="text-body font-medium">查看疫苗与健康记录</span>
           <ChevronRight size={15} className="text-ink-mute" />

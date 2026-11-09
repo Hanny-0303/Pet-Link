@@ -68,7 +68,7 @@ export default function HealthPage() {
           </p>
         </div>
 
-        <div className="mt-3 overflow-hidden rounded-block bg-white shadow-card">
+        <div className="mt-3 overflow-hidden rounded-block bg-surface shadow-card">
           {RECORDS.map((r, i) => (
             <div
               key={r.label}

@@ -149,7 +149,7 @@ export default function FilterSheet({
             <button
               onClick={onClose}
               aria-label="关闭"
-              className="hit grid h-8 w-8 place-items-center rounded-full bg-white shadow-card"
+              className="hit grid h-8 w-8 place-items-center rounded-full bg-surface shadow-card"
             >
               <X size={15} strokeWidth={2.4} />
             </button>
@@ -162,7 +162,7 @@ export default function FilterSheet({
             className={`mt-2 flex w-full items-center gap-2.5 rounded-card px-3.5 py-3 text-left transition ${
               draft.onlyRecommended
                 ? "bg-brand-soft ring-1 ring-brand/30"
-                : "bg-white shadow-card"
+                : "bg-surface shadow-card"
             }`}
           >
             <Sparkles
@@ -188,7 +188,7 @@ export default function FilterSheet({
               }`}
             >
               <span
-                className={`absolute top-[3px] h-[18px] w-[18px] rounded-full bg-white shadow-sm transition-all ${
+                className={`absolute top-[3px] h-[18px] w-[18px] rounded-full bg-surface shadow-sm transition-all ${
                   draft.onlyRecommended ? "left-[19px]" : "left-[3px]"
                 }`}
               />
@@ -210,7 +210,7 @@ export default function FilterSheet({
                     key={s}
                     onClick={() => setScope(s)}
                     className={`shrink-0 rounded-full px-2.5 py-[5px] text-cap font-medium tap ${
-                      on ? "bg-ink text-canvas" : "bg-white text-ink-soft"
+                      on ? "bg-brand text-on-brand" : "bg-surface text-ink-soft"
                     }`}
                   >
                     {s === "all" ? "全部" : SPECIES_LABEL[s]}
@@ -220,7 +220,7 @@ export default function FilterSheet({
             </div>
 
             {scope === "all" && (
-              <p className="rounded-chip bg-white/70 px-3 py-3 text-center text-note text-ink-mute">
+              <p className="rounded-chip bg-white/10 px-3 py-3 text-center text-note text-ink-mute">
                 先选一个大类，再看具体品种
               </p>
             )}
@@ -432,7 +432,7 @@ function Chip({
     <button
       onClick={onClick}
       className={`flex items-center gap-1 rounded-full px-3 py-[7px] text-note font-medium tap ${
-        on ? "bg-brand text-ink" : "bg-white text-ink-soft shadow-soft"
+        on ? "bg-brand text-on-brand" : "bg-surface text-ink-soft shadow-soft"
       }`}
     >
       {on && <Check size={11} strokeWidth={3} />}
@@ -460,8 +460,8 @@ function SingleChips({
             onClick={() => onChange(o.v)}
             className={`tap flex items-center gap-1 rounded-full px-3 py-[7px] text-note font-medium ${
               value === o.v
-                ? "border border-line bg-white text-ink-mute"
-                : "border border-transparent bg-white/60 text-ink-mute"
+                ? "border border-line bg-surface text-ink-mute"
+                : "border border-transparent bg-white/10 text-ink-mute"
             }`}
           >
             {value === o.v && <Check size={11} strokeWidth={3} className="text-ink-mute" />}

@@ -62,7 +62,7 @@ export default function MeetupsPage() {
         </div>
         <Link
           href="/meetups/new"
-          className="hit mt-1 grid h-9 w-9 place-items-center rounded-full bg-ink text-canvas shadow-md tap"
+          className="hit mt-1 grid h-9 w-9 place-items-center rounded-full bg-brand text-on-brand shadow-md tap"
           aria-label="发起活动"
         >
           <Plus size={18} strokeWidth={2.6} />
@@ -73,7 +73,7 @@ export default function MeetupsPage() {
       <div className="no-scrollbar flex gap-2 overflow-x-auto pb-2">
         <button
           onClick={() => setCatOpen(true)}
-          className="flex items-center gap-1.5 rounded-full bg-white px-3.5 py-[7px] text-body font-medium shadow-soft tap"
+          className="flex items-center gap-1.5 rounded-full bg-surface px-3.5 py-[7px] text-body font-medium shadow-soft tap"
         >
           {kind === "all" ? "全部分类" : KIND_LABEL[kind]}
           <span className="text-cap text-ink-mute">
@@ -117,7 +117,7 @@ export default function MeetupsPage() {
             <Link
               key={m.id}
               href={`/meetups/${m.id}`}
-              className="block overflow-hidden rounded-block bg-white shadow-card tap-soft"
+              className="block overflow-hidden rounded-block bg-surface shadow-card tap-soft"
             >
               <div className="relative aspect-[16/9] overflow-hidden bg-line">
                 <img
@@ -126,13 +126,13 @@ export default function MeetupsPage() {
                   className="h-full w-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                <span className="absolute top-2.5 left-2.5 flex items-center gap-1 rounded-full bg-white/88 px-2 py-[3px] text-micro font-medium backdrop-blur">
+                <span className="absolute top-2.5 left-2.5 flex items-center gap-1 rounded-full bg-surface-2/95 px-2 py-[3px] text-micro font-medium backdrop-blur">
                   {KIND_LABEL[m.kind]}
                   {m.type === "brand" && (
                     <BadgeCheck size={10} strokeWidth={2.6} className="text-mint" />
                   )}
                 </span>
-                <span className="absolute right-2.5 bottom-2.5 rounded-full bg-white/90 px-2 py-[3px] text-micro font-semibold backdrop-blur">
+                <span className="absolute right-2.5 bottom-2.5 rounded-full bg-surface-2/95 px-2 py-[3px] text-micro font-semibold backdrop-blur">
                   {m.fee > 0 ? `¥${m.fee}` : "免费"}
                 </span>
                 {isJoined && (

@@ -61,7 +61,7 @@ export default function PetDetailPage() {
         <button
           onClick={() => router.back()}
           aria-label="返回"
-          className="hit absolute top-5 left-4 grid h-9 w-9 place-items-center rounded-full bg-white/85 backdrop-blur tap"
+          className="hit absolute top-5 left-4 grid h-9 w-9 place-items-center rounded-full bg-surface-2/95 backdrop-blur tap"
         >
           <ArrowLeft size={17} strokeWidth={2.4} />
         </button>
@@ -70,14 +70,14 @@ export default function PetDetailPage() {
           onClick={() => likePet(pet.id)}
           aria-label={liked ? "取消点赞" : "点赞"}
           className={`absolute top-5 right-4 flex items-center gap-1.5 rounded-full px-3 py-1.5 backdrop-blur tap ${
-            liked ? "bg-brand text-ink" : "bg-white/85 text-ink-soft"
+            liked ? "bg-brand text-on-brand" : "bg-surface-2/95 text-ink-soft"
           }`}
         >
           <Heart
             size={15}
             strokeWidth={2.4}
             className={
-              liked ? "heart-pop fill-ink text-ink" : "text-ink-soft"
+              liked ? "heart-pop fill-on-brand text-ink" : "text-ink-soft"
             }
           />
           <span className="text-note font-semibold">{likes}</span>
@@ -102,7 +102,7 @@ export default function PetDetailPage() {
 
       <div className="-mt-5 rounded-t-hero bg-canvas px-5 pt-5">
         {/* 性格图谱：五个互斥维度，一眼看出偏哪边 */}
-        <div className="rounded-card bg-white p-4 shadow-card">
+        <div className="rounded-card bg-surface p-4 shadow-card">
           <div className="flex items-baseline justify-between">
             <h2 className="text-body font-semibold">性格图谱</h2>
             <span className="text-micro text-ink-mute">每项二选一</span>
@@ -185,7 +185,7 @@ export default function PetDetailPage() {
         </div>
 
         {/* 主人 */}
-        <div className="mt-5 flex items-center gap-2.5 rounded-card bg-white p-3.5 shadow-card">
+        <div className="mt-5 flex items-center gap-2.5 rounded-card bg-surface p-3.5 shadow-card">
           <Avatar name={pet.ownerName} tint="#FFE28A" size={38} />
           <div className="flex-1">
             <p className="text-body font-semibold">{pet.ownerName}</p>
@@ -194,7 +194,7 @@ export default function PetDetailPage() {
           <button
             onClick={() => greet(pet.id)}
             className={`flex items-center gap-1.5 rounded-full px-4 py-2 text-body font-semibold tap ${
-              done ? "bg-white text-ink-mute shadow-inner" : "bg-brand text-ink shadow-[0_6px_18px_rgba(255,166,43,0.35)]"
+              done ? "bg-surface text-ink-mute shadow-inner" : "bg-brand text-on-brand shadow-[0_6px_18px_rgba(255,166,43,0.35)]"
             }`}
           >
             {done ? (
@@ -219,7 +219,7 @@ export default function PetDetailPage() {
                 <Link
                   key={m.id}
                   href={`/meetups/${m.id}`}
-                  className="flex items-center gap-3 rounded-card bg-white p-2.5 shadow-card"
+                  className="flex items-center gap-3 rounded-card bg-surface p-2.5 shadow-card"
                 >
                   <img src={m.cover} alt="" className="h-12 w-12 rounded-xl object-cover" />
                   <div className="min-w-0 flex-1">
@@ -244,7 +244,7 @@ export default function PetDetailPage() {
                 <Link
                   key={p.id}
                   href={`/feed/${p.id}`}
-                  className="block rounded-card bg-white p-3 shadow-card active:opacity-90"
+                  className="block rounded-card bg-surface p-3 shadow-card active:opacity-90"
                 >
                   <p className="line-clamp-2 text-note leading-relaxed text-ink-soft">
                     {p.content}

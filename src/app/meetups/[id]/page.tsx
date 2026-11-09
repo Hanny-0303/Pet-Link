@@ -74,14 +74,14 @@ export default function MeetupDetailPage() {
           <button
             onClick={() => router.back()}
             aria-label="返回"
-            className="hit grid h-9 w-9 place-items-center rounded-full bg-white/85 backdrop-blur tap"
+            className="hit grid h-9 w-9 place-items-center rounded-full bg-surface-2/95 backdrop-blur tap"
           >
             <ArrowLeft size={17} strokeWidth={2.4} />
           </button>
           <button
             onClick={share}
             aria-label="分享"
-            className="hit grid h-9 w-9 place-items-center rounded-full bg-white/85 backdrop-blur tap"
+            className="hit grid h-9 w-9 place-items-center rounded-full bg-surface-2/95 backdrop-blur tap"
           >
             <Share2 size={16} strokeWidth={2.2} />
           </button>
@@ -90,16 +90,16 @@ export default function MeetupDetailPage() {
         <div className="absolute inset-x-0 bottom-0 p-5">
           <div className="mb-2 flex items-center gap-1.5">
             {meetup.type === "brand" ? (
-              <span className="flex items-center gap-1 rounded-full bg-white/90 px-2 py-[3px] text-micro font-semibold">
+              <span className="flex items-center gap-1 rounded-full bg-surface-2/95 px-2 py-[3px] text-micro font-semibold">
                 <BadgeCheck size={11} strokeWidth={2.6} className="text-mint" />
                 品牌活动
               </span>
             ) : (
-              <span className="rounded-full bg-white/90 px-2 py-[3px] text-micro font-semibold">
+              <span className="rounded-full bg-surface-2/95 px-2 py-[3px] text-micro font-semibold">
                 遛狗局
               </span>
             )}
-            <span className="rounded-full bg-white/90 px-2 py-[3px] text-micro font-semibold">
+            <span className="rounded-full bg-surface-2/95 px-2 py-[3px] text-micro font-semibold">
               {meetup.fee > 0 ? `¥${meetup.fee}/人` : "免费"}
             </span>
           </div>
@@ -128,7 +128,7 @@ export default function MeetupDetailPage() {
         </div>
 
         {/* 关键信息 */}
-        <div className="mt-4 space-y-3 rounded-card bg-white p-4 shadow-card">
+        <div className="mt-4 space-y-3 rounded-card bg-surface p-4 shadow-card">
           <Row icon={<CalendarDays size={15} />} label="时间" value={fmtMeetup(meetup.startAt)} />
           <Row
             icon={<MapPin size={15} />}
@@ -164,7 +164,7 @@ export default function MeetupDetailPage() {
                   key={s}
                   className={`rounded-full px-3 py-1.5 text-note font-medium ${
                     ok
-                      ? "bg-brand-soft text-accent"
+                      ? "bg-brand text-on-brand"
                       : "bg-line/50 text-ink-mute"
                   }`}
                 >
@@ -181,7 +181,7 @@ export default function MeetupDetailPage() {
             <h2 className="text-body-lg font-semibold">已报名</h2>
             <span className="text-cap text-ink-mute">{people} 位主人 · {people} 只狗</span>
           </div>
-          <div className="mt-2.5 flex flex-wrap gap-x-4 gap-y-3 rounded-card bg-white p-4 shadow-card">
+          <div className="mt-2.5 flex flex-wrap gap-x-4 gap-y-3 rounded-card bg-surface p-4 shadow-card">
             {isJoined && (
               <Person name="我" petName={me?.name ?? "我的狗"} tint="#CFE0FF" highlight />
             )}
@@ -212,7 +212,7 @@ export default function MeetupDetailPage() {
           </p>
           <div className="mt-3 flex flex-wrap gap-1.5">
             {meetup.tags.map((t) => (
-              <span key={t} className="rounded-full bg-white px-2.5 py-1 text-cap text-ink-soft shadow-soft">
+              <span key={t} className="rounded-full bg-surface px-2.5 py-1 text-cap text-ink-soft shadow-soft">
                 #{t}
               </span>
             ))}
@@ -231,10 +231,10 @@ export default function MeetupDetailPage() {
           disabled={full && !isJoined}
           className={`flex h-[52px] w-full items-center justify-center gap-2 rounded-full text-lead font-semibold shadow-[0_8px_24px_rgba(255,166,43,0.35)] tap-soft ${
             isJoined
-              ? "bg-white text-ink shadow-card"
+              ? "bg-surface text-ink shadow-card"
               : full
                 ? "cursor-not-allowed bg-line text-ink-mute shadow-none"
-                : "bg-brand text-ink"
+                : "bg-brand text-on-brand"
           }`}
         >
           {isJoined ? (

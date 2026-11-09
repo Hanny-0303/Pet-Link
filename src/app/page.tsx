@@ -94,7 +94,7 @@ export default function HomePage() {
               <button
                 onClick={() => setMode(mode === "swipe" ? "grid" : "swipe")}
                 aria-label={mode === "swipe" ? "切换到网格" : "切换到单张"}
-                className="hit grid h-9 w-9 place-items-center rounded-full bg-white shadow-card tap"
+                className="hit grid h-9 w-9 place-items-center rounded-full bg-surface shadow-card tap"
               >
                 {mode === "swipe" ? (
                   <LayoutGrid size={16} strokeWidth={2.2} />
@@ -106,12 +106,12 @@ export default function HomePage() {
                 onClick={() => setFilterOpen(true)}
                 aria-label="筛选"
                 className={`hit relative grid h-9 w-9 place-items-center rounded-full shadow-card tap ${
-                  countActive(filters) > 0 ? "bg-brand text-ink" : "bg-white"
+                  countActive(filters) > 0 ? "bg-brand text-on-brand" : "bg-surface"
                 }`}
               >
                 <SlidersHorizontal size={16} strokeWidth={2.2} />
                 {countActive(filters) > 0 && (
-                  <span className="absolute -top-1 -right-1 grid h-4 min-w-4 place-items-center rounded-full bg-white px-1 text-micro font-bold text-accent shadow">
+                  <span className="absolute -top-1 -right-1 grid h-4 min-w-4 place-items-center rounded-full bg-surface px-1 text-micro font-bold text-accent shadow">
                     {countActive(filters)}
                   </span>
                 )}
@@ -119,7 +119,7 @@ export default function HomePage() {
               <Link
                 href="/search"
                 aria-label="搜索"
-                className="hit grid h-9 w-9 place-items-center rounded-full bg-white shadow-card tap"
+                className="hit grid h-9 w-9 place-items-center rounded-full bg-surface shadow-card tap"
               >
                 <Search size={16} strokeWidth={2.2} />
               </Link>
@@ -144,7 +144,7 @@ export default function HomePage() {
       <div className="mt-3 flex shrink-0 items-center px-5 pb-2">
         <Link
           href="/species"
-          className="tap flex items-center gap-1.5 rounded-full bg-white px-3.5 py-2 text-body font-medium shadow-card"
+          className="tap flex items-center gap-1.5 rounded-full bg-surface px-3.5 py-2 text-body font-medium shadow-card"
         >
           <PawPrint size={13} strokeWidth={2.2} className="text-accent" />
           {species === "all" ? "全部宠物" : SPECIES_LABEL[species as Species]}
@@ -176,7 +176,7 @@ export default function HomePage() {
               )}
               <button
                 onClick={() => setFilters(EMPTY_FILTERS)}
-                className="rounded-full bg-white px-4 py-2 text-note font-medium text-ink-soft shadow-card"
+                className="rounded-full bg-surface px-4 py-2 text-note font-medium text-ink-soft shadow-card"
               >
                 清空筛选
               </button>
@@ -317,7 +317,7 @@ function PetSlide({
 
         {/* 顶部：距离 / 推荐 / 图集指示点 */}
         {showDistance && (
-          <div className="pointer-events-none absolute top-3 left-3 flex items-center gap-1 rounded-full bg-white/85 px-2 py-1 text-cap font-medium backdrop-blur">
+          <div className="pointer-events-none absolute top-3 left-3 flex items-center gap-1 rounded-full bg-surface-2/95 px-2 py-1 text-cap font-medium backdrop-blur">
             <MapPin size={10} strokeWidth={2.6} className="text-accent" />
             {pet.distanceKm} km
           </div>
@@ -336,7 +336,7 @@ function PetSlide({
               <span
                 key={i}
                 className={`h-[5px] rounded-full transition-all ${
-                  i === idx ? "w-4 bg-white" : "w-[5px] bg-white/50"
+                  i === idx ? "w-4 bg-white" : "w-[5px] bg-white/40"
                 }`}
               />
             ))}
@@ -359,7 +359,7 @@ function PetSlide({
               <Heart
                 size={11}
                 strokeWidth={2.4}
-                className={liked ? "heart-pop fill-ink text-ink" : ""}
+                className={liked ? "heart-pop fill-on-brand text-ink" : ""}
               />
               {likes} 人喜欢
               {reason && <span className="text-white/45">· {reason}</span>}
@@ -368,7 +368,7 @@ function PetSlide({
               {pet.personality.slice(0, 3).map((t) => (
                 <span
                   key={t}
-                  className="rounded-full bg-white/20 px-2 py-[3px] text-cap text-white backdrop-blur-sm"
+                  className="rounded-full bg-white/15 px-2 py-[3px] text-cap text-white backdrop-blur-sm"
                 >
                   {t}
                 </span>
@@ -380,7 +380,7 @@ function PetSlide({
             onClick={onGreet}
             aria-label="打招呼"
             className={`absolute right-5 bottom-5 grid h-12 w-12 place-items-center rounded-full shadow-lg transition active:scale-90 ${
-              greeted ? "bg-white text-ink-mute" : "bg-brand text-ink"
+              greeted ? "bg-surface text-ink-mute" : "bg-brand text-on-brand"
             }`}
           >
             {greeted ? (
@@ -434,7 +434,7 @@ function PetTile({
   return (
     <div
       onClick={onTap}
-      className="stagger tap mb-2 block cursor-pointer break-inside-avoid overflow-hidden rounded-card bg-white shadow-card"
+      className="stagger tap mb-2 block cursor-pointer break-inside-avoid overflow-hidden rounded-card bg-surface shadow-card"
       style={{ animationDelay: `${delay}ms` }}
     >
       <div className="relative w-full" style={{ paddingBottom: "118%" }}>

@@ -168,12 +168,12 @@ export default function FilterSheet({
             <Sparkles
               size={15}
               strokeWidth={2.4}
-              className={draft.onlyRecommended ? "text-brand" : "text-ink-mute"}
+              className={draft.onlyRecommended ? "text-accent" : "text-ink-mute"}
             />
             <span className="min-w-0 flex-1">
               <span
                 className={`block text-body font-semibold ${
-                  draft.onlyRecommended ? "text-brand" : ""
+                  draft.onlyRecommended ? "text-accent" : ""
                 }`}
               >
                 只看为我推荐的
@@ -387,7 +387,7 @@ export default function FilterSheet({
               onApply(draft);
               onClose();
             }}
-            className="h-[50px] w-full rounded-full bg-brand text-lead font-semibold text-white shadow-[0_8px_24px_rgba(255,107,74,0.28)] tap-soft"
+            className="h-[50px] w-full rounded-full bg-brand text-lead font-semibold text-white shadow-[0_8px_24px_rgba(255,166,43,0.32)] tap-soft"
           >
             {active > 0
               ? `应用筛选 · 剩 ${preview} 只`
@@ -432,7 +432,7 @@ function Chip({
     <button
       onClick={onClick}
       className={`flex items-center gap-1 rounded-full px-3 py-[7px] text-note font-medium tap ${
-        on ? "bg-brand text-white" : "bg-white text-ink-soft shadow-soft"
+        on ? "bg-brand text-ink" : "bg-white text-ink-soft shadow-soft"
       }`}
     >
       {on && <Check size={11} strokeWidth={3} />}

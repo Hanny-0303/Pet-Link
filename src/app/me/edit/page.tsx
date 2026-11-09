@@ -70,7 +70,7 @@ export default function EditProfilePage() {
                   onClick={() => setDistrict(d)}
                   className={`flex items-center gap-1 rounded-full px-3 py-2 text-note font-medium transition ${
                     on
-                      ? "bg-brand text-white"
+                      ? "bg-brand text-ink"
                       : "bg-white text-ink-soft shadow-soft"
                   }`}
                 >
@@ -84,7 +84,7 @@ export default function EditProfilePage() {
 
         <button
           onClick={save}
-          className="mt-6 h-[50px] w-full rounded-full bg-brand text-lead font-semibold text-white shadow-[0_8px_24px_rgba(255,107,74,0.3)] tap-soft"
+          className="mt-6 h-[50px] w-full rounded-full bg-brand text-lead font-semibold text-white shadow-[0_8px_24px_rgba(255,166,43,0.35)] tap-soft"
         >
           保存
         </button>

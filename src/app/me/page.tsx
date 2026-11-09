@@ -80,7 +80,7 @@ export default function MePage() {
           <div className="mt-5 px-5">
             <div className="flex items-center justify-between">
               <h2 className="text-body-lg font-semibold">我的宠物</h2>
-              <Link href="/me/pets" className="text-note text-brand">
+              <Link href="/me/pets" className="text-note text-accent">
                 管理
               </Link>
             </div>
@@ -107,7 +107,7 @@ export default function MePage() {
                   {myPet.personality.slice(0, 2).map((t) => (
                     <span
                       key={t}
-                      className="rounded-full bg-brand-soft px-2 py-[2px] text-micro font-medium text-brand"
+                      className="rounded-full bg-brand-soft px-2 py-[2px] text-micro font-medium text-accent"
                     >
                       {t}
                     </span>
@@ -140,7 +140,7 @@ export default function MePage() {
                   <img src={m.cover} alt="" className="h-12 w-12 rounded-xl object-cover" />
                   <div className="min-w-0 flex-1">
                     <p className="line-clamp-1 text-body font-medium">{m.title}</p>
-                    <p className="mt-0.5 text-cap text-brand">
+                    <p className="mt-0.5 text-cap text-accent">
                       {fmtMeetupShort(m.startAt)}
                     </p>
                   </div>

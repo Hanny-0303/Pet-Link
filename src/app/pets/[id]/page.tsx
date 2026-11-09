@@ -37,7 +37,7 @@ export default function PetDetailPage() {
     return (
       <div className="px-5 pt-24 text-center">
         <p className="text-body-lg text-ink-soft">找不到这只小伙伴</p>
-        <Link href="/" className="mt-3 inline-block text-body font-medium text-brand">
+        <Link href="/" className="mt-3 inline-block text-body font-medium text-accent">
           返回首页
         </Link>
       </div>
@@ -70,14 +70,14 @@ export default function PetDetailPage() {
           onClick={() => likePet(pet.id)}
           aria-label={liked ? "取消点赞" : "点赞"}
           className={`absolute top-5 right-4 flex items-center gap-1.5 rounded-full px-3 py-1.5 backdrop-blur tap ${
-            liked ? "bg-brand text-white" : "bg-white/85 text-ink-soft"
+            liked ? "bg-brand text-ink" : "bg-white/85 text-ink-soft"
           }`}
         >
           <Heart
             size={15}
             strokeWidth={2.4}
             className={
-              liked ? "heart-pop fill-white text-white" : "text-ink-soft"
+              liked ? "heart-pop fill-ink text-ink" : "text-ink-soft"
             }
           />
           <span className="text-note font-semibold">{likes}</span>
@@ -194,7 +194,7 @@ export default function PetDetailPage() {
           <button
             onClick={() => greet(pet.id)}
             className={`flex items-center gap-1.5 rounded-full px-4 py-2 text-body font-semibold tap ${
-              done ? "bg-white text-ink-mute shadow-inner" : "bg-brand text-white shadow-[0_6px_18px_rgba(255,107,74,0.3)]"
+              done ? "bg-white text-ink-mute shadow-inner" : "bg-brand text-ink shadow-[0_6px_18px_rgba(255,166,43,0.35)]"
             }`}
           >
             {done ? (
@@ -224,7 +224,7 @@ export default function PetDetailPage() {
                   <img src={m.cover} alt="" className="h-12 w-12 rounded-xl object-cover" />
                   <div className="min-w-0 flex-1">
                     <p className="line-clamp-1 text-body font-medium">{m.title}</p>
-                    <p className="mt-0.5 text-cap text-brand">{fmtMeetupShort(m.startAt)}</p>
+                    <p className="mt-0.5 text-cap text-accent">{fmtMeetupShort(m.startAt)}</p>
                   </div>
                   <span className="shrink-0 text-cap text-ink-mute">
                     {m.participants.length}/{m.capacity}
@@ -251,7 +251,7 @@ export default function PetDetailPage() {
                   </p>
                   <p className="mt-1 flex items-center justify-between text-micro text-ink-mute">
                     {p.timeText}
-                    <span className="text-brand">查看 →</span>
+                    <span className="text-accent">查看 →</span>
                   </p>
                 </Link>
               ))}

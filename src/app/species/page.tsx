@@ -87,13 +87,13 @@ export default function SpeciesPage() {
           <span className="text-stat">🐾</span>
           <span
             className={`flex-1 text-left text-body-lg font-semibold ${
-              species === "all" ? "text-brand" : ""
+              species === "all" ? "text-accent" : ""
             }`}
           >
             全部宠物
           </span>
           <span className="text-cap text-ink-mute">{pets.length}</span>
-          {species === "all" && <Check size={16} strokeWidth={2.8} className="text-brand" />}
+          {species === "all" && <Check size={16} strokeWidth={2.8} className="text-accent" />}
         </button>
 
         {groups.map((g) => (
@@ -118,7 +118,7 @@ export default function SpeciesPage() {
                     <span className="min-w-0 flex-1">
                       <span
                         className={`block text-body-lg font-semibold ${
-                          active ? "text-brand" : ""
+                          active ? "text-accent" : ""
                         }`}
                       >
                         {SPECIES_LABEL[s]}
@@ -128,7 +128,7 @@ export default function SpeciesPage() {
                       </span>
                     </span>
                     {active && (
-                      <Check size={14} strokeWidth={2.8} className="shrink-0 text-brand" />
+                      <Check size={14} strokeWidth={2.8} className="shrink-0 text-accent" />
                     )}
                   </button>
                 );

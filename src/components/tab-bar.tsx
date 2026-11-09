@@ -15,7 +15,7 @@ export default function TabBar() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-1/2 z-50 w-full max-w-[430px] -translate-x-1/2 border-t border-line/70 bg-cream/88 pb-[env(safe-area-inset-bottom)] shadow-card backdrop-blur-xl">
+    <nav className="fixed bottom-0 left-1/2 z-50 w-full max-w-[430px] -translate-x-1/2 border-t border-line/70 bg-cream/92 pb-[env(safe-area-inset-bottom)] shadow-card backdrop-blur-xl">
       <div className="flex h-[62px] items-stretch">
         {TABS.map(({ href, label, Icon }) => {
           const active =
@@ -30,19 +30,19 @@ export default function TabBar() {
             >
               <span
                 className={`absolute top-1.5 h-8 w-12 rounded-full transition-all duration-200 ${
-                  active ? "bg-brand-soft opacity-100" : "opacity-0"
+                  active ? "bg-accent-soft opacity-100" : "opacity-0"
                 }`}
               />
               <Icon
                 size={21}
                 strokeWidth={active ? 2.5 : 1.8}
                 className={`relative transition-transform duration-200 ${
-                  active ? "-translate-y-[1px] text-brand" : "text-ink-mute"
+                  active ? "-translate-y-[1px] text-accent" : "text-ink-mute"
                 }`}
               />
               <span
                 className={`relative text-micro tracking-wide transition-colors ${
-                  active ? "font-semibold text-brand" : "text-ink-mute"
+                  active ? "font-semibold text-accent" : "text-ink-mute"
                 }`}
               >
                 {label}

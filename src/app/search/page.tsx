@@ -175,7 +175,7 @@ export default function SearchPage() {
                     <p className="line-clamp-1 text-body-lg font-semibold">
                       {m.title}
                     </p>
-                    <p className="mt-0.5 text-cap text-brand">
+                    <p className="mt-0.5 text-cap text-accent">
                       {fmtMeetupShort(m.startAt)}
                     </p>
                     <p className="mt-0.5 line-clamp-1 text-cap text-ink-mute">

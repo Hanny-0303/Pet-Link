@@ -74,7 +74,7 @@ export default function PostDetailPage() {
               href={`/meetups/${meetup.id}`}
               className="mt-3 block rounded-card bg-cream px-3 py-3"
             >
-              <p className="flex items-center gap-1 text-micro text-brand">
+              <p className="flex items-center gap-1 text-micro text-accent">
                 <Sparkles size={10} strokeWidth={2.6} /> 相关活动
               </p>
               <p className="mt-1 line-clamp-1 text-body font-medium">{meetup.title}</p>
@@ -93,10 +93,10 @@ export default function PostDetailPage() {
                 size={17}
                 strokeWidth={2.2}
                 className={
-                  isLiked ? "heart-pop fill-brand text-brand" : "text-ink-mute"
+                  isLiked ? "heart-pop fill-brand text-accent" : "text-ink-mute"
                 }
               />
-              <span className={isLiked ? "font-semibold text-brand" : "text-ink-mute"}>
+              <span className={isLiked ? "font-semibold text-accent" : "text-ink-mute"}>
                 {post.likes + (isLiked ? 1 : 0)}
               </span>
             </button>

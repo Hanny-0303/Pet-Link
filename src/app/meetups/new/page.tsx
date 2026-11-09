@@ -90,7 +90,7 @@ export default function NewMeetupPage() {
                   onClick={() => setKind(k)}
                   className={`shrink-0 rounded-full px-3.5 py-2 text-note font-medium transition ${
                     on
-                      ? "bg-brand text-white"
+                      ? "bg-brand text-ink"
                       : "bg-white text-ink-soft shadow-soft"
                   }`}
                 >
@@ -152,7 +152,7 @@ export default function NewMeetupPage() {
                   onClick={() => toggleSize(s)}
                   className={`flex-1 rounded-full py-2.5 text-body font-medium transition ${
                     on
-                      ? "bg-brand text-white"
+                      ? "bg-brand text-ink"
                       : "bg-white text-ink-soft shadow-soft"
                   }`}
                 >
@@ -172,7 +172,7 @@ export default function NewMeetupPage() {
               max={30}
               value={capacity}
               onChange={(e) => setCapacity(Number(e.target.value))}
-              className="w-[60%] accent-[#ff6b4a]"
+              className="w-[60%] accent-[#ffa62b]"
             />
           </div>
         </Field>
@@ -188,14 +188,14 @@ export default function NewMeetupPage() {
         </Field>
 
         {error && (
-          <p className="rounded-xl bg-brand-soft px-3 py-2 text-note font-medium text-brand">
+          <p className="rounded-xl bg-brand-soft px-3 py-2 text-note font-medium text-accent">
             {error}
           </p>
         )}
 
         <button
           type="submit"
-          className="mt-2 h-[52px] w-full rounded-full bg-brand text-lead font-semibold text-white shadow-[0_8px_24px_rgba(255,107,74,0.3)] tap-soft"
+          className="mt-2 h-[52px] w-full rounded-full bg-brand text-lead font-semibold text-white shadow-[0_8px_24px_rgba(255,166,43,0.35)] tap-soft"
         >
           发布这个局
         </button>

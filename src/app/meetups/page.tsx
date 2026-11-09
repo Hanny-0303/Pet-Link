@@ -96,7 +96,7 @@ export default function MeetupsPage() {
             onClick={() => f.set(!f.on)}
             className={`tap rounded-full border px-3 py-[5px] text-cap font-medium ${
               f.on
-                ? "border-brand bg-brand-soft text-brand"
+                ? "border-brand bg-brand-soft text-accent"
                 : "border-line bg-transparent text-ink-soft"
             }`}
           >
@@ -143,7 +143,7 @@ export default function MeetupsPage() {
               </div>
 
               <div className="p-4">
-                <div className="flex items-center gap-1 text-cap font-semibold text-brand">
+                <div className="flex items-center gap-1 text-cap font-semibold text-accent">
                   <Clock size={11} strokeWidth={2.6} />
                   {fmtMeetup(m.startAt)}
                 </div>
@@ -182,7 +182,7 @@ export default function MeetupsPage() {
         {list.length === 0 && (
           <div className="rounded-block border border-dashed border-line py-14 text-center">
             <p className="text-body text-ink-mute">这一类暂时还没有局</p>
-            <Link href="/meetups/new" className="mt-2 inline-block text-body font-medium text-brand">
+            <Link href="/meetups/new" className="mt-2 inline-block text-body font-medium text-accent">
               发起一个 →
             </Link>
           </div>

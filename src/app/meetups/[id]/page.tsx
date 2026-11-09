@@ -31,7 +31,7 @@ export default function MeetupDetailPage() {
     return (
       <div className="px-5 pt-24 text-center">
         <p className="text-body-lg text-ink-soft">这个活动不存在或已结束</p>
-        <Link href="/meetups" className="mt-3 inline-block text-body font-medium text-brand">
+        <Link href="/meetups" className="mt-3 inline-block text-body font-medium text-accent">
           返回活动列表
         </Link>
       </div>
@@ -164,7 +164,7 @@ export default function MeetupDetailPage() {
                   key={s}
                   className={`rounded-full px-3 py-1.5 text-note font-medium ${
                     ok
-                      ? "bg-brand-soft text-brand"
+                      ? "bg-brand-soft text-accent"
                       : "bg-line/50 text-ink-mute"
                   }`}
                 >
@@ -229,12 +229,12 @@ export default function MeetupDetailPage() {
         <button
           onClick={() => join(meetup.id)}
           disabled={full && !isJoined}
-          className={`flex h-[52px] w-full items-center justify-center gap-2 rounded-full text-lead font-semibold shadow-[0_8px_24px_rgba(255,107,74,0.32)] tap-soft ${
+          className={`flex h-[52px] w-full items-center justify-center gap-2 rounded-full text-lead font-semibold shadow-[0_8px_24px_rgba(255,166,43,0.35)] tap-soft ${
             isJoined
               ? "bg-white text-ink shadow-card"
               : full
                 ? "cursor-not-allowed bg-line text-ink-mute shadow-none"
-                : "bg-brand text-white"
+                : "bg-brand text-ink"
           }`}
         >
           {isJoined ? (

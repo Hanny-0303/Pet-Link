@@ -2,15 +2,20 @@
 
 /* ── 设计变量：改这里就能整体换肤 ───────────────────────── */
 @theme {
-  --color-cream: #fdf8f3; /* 页面底色 */
-  --color-ink: #1c1917; /* 主文字 */
-  --color-ink-soft: #6b625b; /* 次文字 */
-  --color-ink-mute: #a9a09a; /* 弱文字 */
-  --color-line: #ece2d8; /* 分割线 / 占位 */
-  --color-brand: #ff6b4a; /* 主色：珊瑚橙 */
-  --color-brand-soft: #ffece5; /* 主色浅底 */
-  --color-mint: #0f9d78; /* 辅助色：薄荷绿 */
-  --color-mint-soft: #e4f6ef;
+  --color-cream: #fdfaf1; /* 页面底色（Cream Gelato 提亮） */
+  --color-ink: #1b2434; /* 主文字：偏冷的近黑，配蓝更协调 */
+  --color-ink-soft: #5a6478; /* 次文字 */
+  --color-ink-mute: #98a1b0; /* 弱文字 */
+  --color-line: #ece3cf; /* 分割线 / 占位 */
+  --color-brand: #ffa62b; /* Citrus Zest：只做填充，配深色文字 */
+  --color-brand-soft: #fff2d9; /* 主色浅底 */
+  --color-accent: #2e5aa7; /* Amalfi Tile：文字强调 / 链接 / 认证 */
+  --color-accent-soft: #e7eef9;
+  --color-sea: #86c5ff; /* Sea Breeze：次要标记 */
+  --color-sea-soft: #eaf4ff;
+  --color-sand: #f8e6a0; /* Cream Gelato：高亮底 */
+  --color-mint: #2e5aa7; /* 兼容旧命名，指向强调蓝 */
+  --color-mint-soft: #e7eef9;
 
 
   /* ── 设计 token：圆角 / 字号 / 阴影，只保留这几档 ────────── */

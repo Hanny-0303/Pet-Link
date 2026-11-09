@@ -132,13 +132,13 @@ export default function LocationPage() {
             <span className="text-title">🇨🇳</span>
             <span
               className={`flex-1 text-left text-body-lg font-semibold ${
-                !location ? "text-brand" : ""
+                !location ? "text-accent" : ""
               }`}
             >
               全国
             </span>
             <span className="text-cap text-ink-mute">{pets.length}</span>
-            {!location && <Check size={15} strokeWidth={2.8} className="text-brand" />}
+            {!location && <Check size={15} strokeWidth={2.8} className="text-accent" />}
           </button>
 
           {groupByLetter(DIVISIONS, (p) => p.name).map((g) => (
@@ -190,7 +190,7 @@ export default function LocationPage() {
                         {c.name}
                       </span>
                       {n > 0 && (
-                        <span className="shrink-0 rounded-full bg-brand-soft px-1.5 text-micro font-semibold text-brand">
+                        <span className="shrink-0 rounded-full bg-brand-soft px-1.5 text-micro font-semibold text-accent">
                           {n}
                         </span>
                       )}

@@ -85,7 +85,7 @@ export default function HomePage() {
               href="/location"
               className="flex items-center gap-1 text-body font-medium text-ink-soft active:opacity-60"
             >
-              <MapPin size={13} strokeWidth={2.4} className="text-brand" />
+              <MapPin size={13} strokeWidth={2.4} className="text-accent" />
               {locationLabel(location)}
               <ChevronDown size={13} strokeWidth={2.4} />
             </Link>
@@ -106,12 +106,12 @@ export default function HomePage() {
                 onClick={() => setFilterOpen(true)}
                 aria-label="筛选"
                 className={`hit relative grid h-9 w-9 place-items-center rounded-full shadow-card tap ${
-                  countActive(filters) > 0 ? "bg-brand text-white" : "bg-white"
+                  countActive(filters) > 0 ? "bg-brand text-ink" : "bg-white"
                 }`}
               >
                 <SlidersHorizontal size={16} strokeWidth={2.2} />
                 {countActive(filters) > 0 && (
-                  <span className="absolute -top-1 -right-1 grid h-4 min-w-4 place-items-center rounded-full bg-white px-1 text-micro font-bold text-brand shadow">
+                  <span className="absolute -top-1 -right-1 grid h-4 min-w-4 place-items-center rounded-full bg-white px-1 text-micro font-bold text-accent shadow">
                     {countActive(filters)}
                   </span>
                 )}
@@ -146,7 +146,7 @@ export default function HomePage() {
           href="/species"
           className="tap flex items-center gap-1.5 rounded-full bg-white px-3.5 py-2 text-body font-medium shadow-card"
         >
-          <PawPrint size={13} strokeWidth={2.2} className="text-brand" />
+          <PawPrint size={13} strokeWidth={2.2} className="text-accent" />
           {species === "all" ? "全部宠物" : SPECIES_LABEL[species as Species]}
           <span className="text-cap text-ink-mute">{list.length}</span>
           <ChevronDown size={13} strokeWidth={2.6} className="text-ink-mute" />
@@ -169,7 +169,7 @@ export default function HomePage() {
               {location && (
                 <Link
                   href="/location"
-                  className="rounded-full bg-brand px-4 py-2 text-note font-medium text-white shadow-[0_4px_14px_rgba(255,107,74,0.28)]"
+                  className="rounded-full bg-brand px-4 py-2 text-note font-medium text-white shadow-[0_4px_14px_rgba(255,166,43,0.32)]"
                 >
                   换个地区
                 </Link>
@@ -318,7 +318,7 @@ function PetSlide({
         {/* 顶部：距离 / 推荐 / 图集指示点 */}
         {showDistance && (
           <div className="pointer-events-none absolute top-3 left-3 flex items-center gap-1 rounded-full bg-white/85 px-2 py-1 text-cap font-medium backdrop-blur">
-            <MapPin size={10} strokeWidth={2.6} className="text-brand" />
+            <MapPin size={10} strokeWidth={2.6} className="text-accent" />
             {pet.distanceKm} km
           </div>
         )}
@@ -359,7 +359,7 @@ function PetSlide({
               <Heart
                 size={11}
                 strokeWidth={2.4}
-                className={liked ? "heart-pop fill-white text-white" : ""}
+                className={liked ? "heart-pop fill-ink text-ink" : ""}
               />
               {likes} 人喜欢
               {reason && <span className="text-white/45">· {reason}</span>}
@@ -380,7 +380,7 @@ function PetSlide({
             onClick={onGreet}
             aria-label="打招呼"
             className={`absolute right-5 bottom-5 grid h-12 w-12 place-items-center rounded-full shadow-lg transition active:scale-90 ${
-              greeted ? "bg-white text-ink-mute" : "bg-brand text-white"
+              greeted ? "bg-white text-ink-mute" : "bg-brand text-ink"
             }`}
           >
             {greeted ? (
@@ -478,7 +478,7 @@ function PetTile({
             size={9}
             strokeWidth={2.6}
             className={
-              liked ? "heart-pop fill-brand text-brand" : "text-ink-mute"
+              liked ? "heart-pop fill-brand text-accent" : "text-ink-mute"
             }
           />
           <span className="text-micro text-ink-mute">{likes}</span>
@@ -492,7 +492,7 @@ function PetTile({
           ))}
         </div>
         {reason && (
-          <p className="mt-1 truncate text-micro text-brand">{reason}</p>
+          <p className="mt-1 truncate text-micro text-accent">{reason}</p>
         )}
       </div>
     </div>

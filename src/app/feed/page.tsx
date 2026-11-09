@@ -114,7 +114,7 @@ export default function FeedPage() {
                   <span className="line-clamp-1 text-note font-medium text-ink-soft">
                     #{meetup.title}
                   </span>
-                  <span className="shrink-0 text-cap text-brand">去看看</span>
+                  <span className="shrink-0 text-cap text-accent">去看看</span>
                 </Link>
               )}
 
@@ -129,10 +129,10 @@ export default function FeedPage() {
                     size={15}
                     strokeWidth={2.2}
                     className={
-                      isLiked ? "heart-pop fill-brand text-brand" : "text-ink-mute"
+                      isLiked ? "heart-pop fill-brand text-accent" : "text-ink-mute"
                     }
                   />
-                  <span className={isLiked ? "font-semibold text-brand" : "text-ink-mute"}>
+                  <span className={isLiked ? "font-semibold text-accent" : "text-ink-mute"}>
                     {post.likes + (isLiked ? 1 : 0)}
                   </span>
                 </button>

@@ -29,7 +29,7 @@ export default function GreetedPetsPage() {
           </p>
           <Link
             href="/"
-            className="mt-5 inline-block rounded-full bg-brand px-5 py-2.5 text-body font-semibold text-white shadow-[0_6px_18px_rgba(255,107,74,0.28)]"
+            className="mt-5 inline-block rounded-full bg-brand px-5 py-2.5 text-body font-semibold text-white shadow-[0_6px_18px_rgba(255,166,43,0.32)]"
           >
             去首页看看
           </Link>

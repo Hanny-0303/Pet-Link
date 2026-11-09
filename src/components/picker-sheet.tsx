@@ -65,7 +65,7 @@ export default function PickerSheet({
               >
                 <span
                   className={`flex-1 text-body-lg ${
-                    on ? "font-semibold text-brand" : "text-ink"
+                    on ? "font-semibold text-accent" : "text-ink"
                   }`}
                 >
                   {o.label}
@@ -73,7 +73,7 @@ export default function PickerSheet({
                 {typeof o.count === "number" && (
                   <span className="text-cap text-ink-mute">{o.count}</span>
                 )}
-                {on && <Check size={15} strokeWidth={2.8} className="text-brand" />}
+                {on && <Check size={15} strokeWidth={2.8} className="text-accent" />}
               </button>
             );
           })}

@@ -58,3 +58,52 @@ body {
   70% { transform: scale(1); opacity: 1; }
   100% { transform: scale(1.05); opacity: 0; }
 }
+
+/* ── 视觉细节 ───────────────────────────────────────────── */
+
+/* 图片渐显：加载时先是一块暖色底，解码完淡入，避免"啪"地跳出来 */
+@keyframes imgIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+img {
+  background-color: var(--color-line);
+  animation: imgIn 0.45s ease-out both;
+}
+
+/* 统一的按压反馈 */
+.tap {
+  transition: transform 0.16s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.16s ease;
+  -webkit-user-select: none;
+  user-select: none;
+}
+.tap:active {
+  transform: scale(0.97);
+}
+
+/* 点赞时心形弹一下 */
+@keyframes heartPop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.35); }
+  70% { transform: scale(0.92); }
+  100% { transform: scale(1); }
+}
+.heart-pop {
+  animation: heartPop 0.42s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* 页面切换：只动透明度。
+   不要用 translateY —— 带 transform 的祖先会让 fixed 子元素失去视口定位，
+   详情页的悬浮按钮会被困在里面（之前踩过）。 */
+@keyframes pageIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.page-in {
+  animation: pageIn 0.32s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* 滚动更顺滑 */
+html {
+  scroll-behavior: smooth;
+}

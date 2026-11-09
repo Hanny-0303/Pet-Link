@@ -93,7 +93,7 @@ export default function HomePage() {
 
   return (
     <>
-      <div className="flex h-[calc(100dvh-5rem)] flex-col overflow-hidden">
+      <div className="rise flex h-[calc(100dvh-5rem)] flex-col overflow-hidden">
         {/* 顶栏 */}
         <header className="shrink-0 px-5 pt-6">
           <div className="flex items-center justify-between">
@@ -160,7 +160,7 @@ export default function HomePage() {
       <div className="mt-3 flex shrink-0 items-center px-5 pb-2">
         <Link
           href="/species"
-          className="flex items-center gap-1.5 rounded-full bg-white px-3.5 py-2 text-[13px] font-medium shadow-[0_2px_10px_rgba(80,60,40,0.06)] active:scale-95"
+          className="tap flex items-center gap-1.5 rounded-full bg-white px-3.5 py-2 text-[13px] font-medium shadow-[0_2px_10px_rgba(80,60,40,0.06)]"
         >
           <PawPrint size={13} strokeWidth={2.2} className="text-brand" />
           {species === "all" ? "全部宠物" : SPECIES_LABEL[species as Species]}
@@ -374,7 +374,7 @@ function PetSlide({
               <Heart
                 size={11}
                 strokeWidth={2.4}
-                className={liked ? "fill-white text-white" : ""}
+                className={liked ? "heart-pop fill-white text-white" : ""}
               />
               {likes} 人喜欢
               {reason && <span className="text-white/45">· {reason}</span>}
@@ -447,7 +447,7 @@ function PetTile({
   return (
     <div
       onClick={onTap}
-      className="mb-2 block cursor-pointer break-inside-avoid overflow-hidden rounded-[16px] bg-white shadow-[0_2px_12px_rgba(80,60,40,0.06)] active:opacity-95"
+      className="tap mb-2 block cursor-pointer break-inside-avoid overflow-hidden rounded-[16px] bg-white shadow-[0_2px_12px_rgba(80,60,40,0.06)]"
     >
       <div className="relative w-full" style={{ paddingBottom: "118%" }}>
         <img
@@ -489,7 +489,9 @@ function PetTile({
           <Heart
             size={9}
             strokeWidth={2.6}
-            className={liked ? "fill-brand text-brand" : "text-ink-mute"}
+            className={
+              liked ? "heart-pop fill-brand text-brand" : "text-ink-mute"
+            }
           />
           <span className="text-[9.5px] text-ink-mute">{likes}</span>
           {pet.personality.slice(0, 1).map((t) => (

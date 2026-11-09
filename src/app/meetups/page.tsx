@@ -93,7 +93,7 @@ export default function MeetupsPage() {
           <button
             key={f.label}
             onClick={() => f.set(!f.on)}
-            className={`rounded-full border px-3 py-[5px] text-[11px] font-medium transition ${
+            className={`tap rounded-full border px-3 py-[5px] text-[11px] font-medium ${
               f.on
                 ? "border-brand bg-brand-soft text-brand"
                 : "border-line bg-transparent text-ink-soft"

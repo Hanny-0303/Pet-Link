@@ -92,7 +92,9 @@ export default function PostDetailPage() {
               <Heart
                 size={17}
                 strokeWidth={2.2}
-                className={isLiked ? "fill-brand text-brand" : "text-ink-mute"}
+                className={
+                  isLiked ? "heart-pop fill-brand text-brand" : "text-ink-mute"
+                }
               />
               <span className={isLiked ? "font-semibold text-brand" : "text-ink-mute"}>
                 {post.likes + (isLiked ? 1 : 0)}

@@ -76,7 +76,9 @@ export default function PetDetailPage() {
           <Heart
             size={15}
             strokeWidth={2.4}
-            className={liked ? "fill-white text-white" : "text-ink-soft"}
+            className={
+              liked ? "heart-pop fill-white text-white" : "text-ink-soft"
+            }
           />
           <span className="text-[11.5px] font-semibold">{likes}</span>
         </button>

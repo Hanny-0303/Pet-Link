@@ -7,7 +7,10 @@ import type {
   Peer,
   Size,
   Sociability,
+  Pet,
+  Species,
 } from "./types";
+import type { Location } from "./location";
 
 export type Filters = {
   sizes: Size[];
@@ -70,3 +73,47 @@ export const DISTANCE_OPTIONS: { label: string; value: number | null }[] = [
   { label: "5km 内", value: 5 },
   { label: "10km 内", value: 10 },
 ];
+
+/** 单只宠物是否命中当前条件（首页和筛选面板共用同一套判断） */
+export function matchPet(
+  p: Pet,
+  f: Filters,
+  species: Species | "all",
+  location: Location | null
+): boolean {
+  if (
+    location &&
+    (p.province !== location.province ||
+      p.city !== location.city ||
+      (location.area !== null && p.area !== location.area))
+  )
+    return false;
+
+  if (species !== "all" && p.species !== species) return false;
+  if (f.sizes.length && !f.sizes.includes(p.size)) return false;
+  if (f.ages.length && !f.ages.includes(p.ageBand)) return false;
+  if (f.breeds.length && !f.breeds.includes(p.breed)) return false;
+  if (f.gender !== "all" && p.gender !== f.gender) return false;
+  if (f.neutered !== "all" && (f.neutered === "yes") !== p.neutered) return false;
+  if (f.social !== "all" && p.social !== f.social) return false;
+  if (f.energy !== "all" && p.energy !== f.energy) return false;
+  if (f.peer !== "all" && p.peer !== f.peer) return false;
+  if (f.bold !== "all" && p.bold !== f.bold) return false;
+  if (f.obey !== "all" && p.obey !== f.obey) return false;
+  if (f.maxKm !== null && p.distanceKm > f.maxKm) return false;
+  if (f.traits.length && !f.traits.some((t) => p.traits.includes(t))) return false;
+  return true;
+}
+
+export function filterPets(
+  list: Pet[],
+  f: Filters,
+  species: Species | "all",
+  location: Location | null,
+  onlyRecommended: Record<string, string>
+): Pet[] {
+  return list.filter((p) => {
+    if (f.onlyRecommended && !(p.id in onlyRecommended)) return false;
+    return matchPet(p, f, species, location);
+  });
+}

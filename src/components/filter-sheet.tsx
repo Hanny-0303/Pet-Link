@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { Check, X, Sparkles } from "lucide-react";
-import { pets } from "@/lib/data";
+import { getPet, pets } from "@/lib/data";
 import {
   AGE_LABEL,
   BOLD_LABEL,
@@ -22,7 +22,15 @@ import {
   type Species,
   type Sociability,
 } from "@/lib/types";
-import { DISTANCE_OPTIONS, EMPTY_FILTERS, countActive, type Filters } from "@/lib/filters";
+import {
+  DISTANCE_OPTIONS,
+  EMPTY_FILTERS,
+  countActive,
+  matchPet,
+  type Filters,
+} from "@/lib/filters";
+import { buildRecommendations } from "@/lib/pet";
+import { useAppStore } from "@/components/store";
 
 /** 自由标签：从数据里按出现次数取前 12 个 */
 const TRAITS = (() => {
@@ -73,6 +81,7 @@ export default function FilterSheet({
   onApply: (f: Filters) => void;
   onClose: () => void;
 }) {
+  const { location } = useAppStore();
   const [draft, setDraft] = useState<Filters>(value);
   const [lastOpen, setLastOpen] = useState(open);
   const [scope, setScope] = useState<Species | "all">(species);
@@ -113,6 +122,15 @@ export default function FilterSheet({
   }
 
   const active = countActive(draft);
+
+  // 实时预览：按当前草稿条件能筛出几只
+  const me = getPet("p1");
+  const recs = me ? buildRecommendations(me) : {};
+  const preview = pets.filter(
+    (p) =>
+      (!draft.onlyRecommended || p.id in recs) &&
+      matchPet(p, draft, species, location)
+  ).length;
 
   return (
     <div className="fixed inset-0 z-[60]">
@@ -371,7 +389,9 @@ export default function FilterSheet({
             }}
             className="h-[50px] w-full rounded-full bg-brand text-lead font-semibold text-white shadow-[0_8px_24px_rgba(255,107,74,0.28)] tap-soft"
           >
-            {active > 0 ? `应用筛选 · ${active} 个条件` : "应用筛选"}
+            {active > 0
+              ? `应用筛选 · 剩 ${preview} 只`
+              : `应用筛选 · 共 ${preview} 只`}
           </button>
         </div>
       </div>

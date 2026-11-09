@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import {
@@ -26,7 +26,7 @@ import {
 } from "@/lib/types";
 import { useAppStore } from "@/components/store";
 import FilterSheet from "@/components/filter-sheet";
-import { EMPTY_FILTERS, countActive, type Filters } from "@/lib/filters";
+import { EMPTY_FILTERS, countActive, filterPets, type Filters } from "@/lib/filters";
 import { buildRecommendations, likeCount } from "@/lib/pet";
 import { locationLabel } from "@/lib/location";
 
@@ -49,6 +49,14 @@ export default function HomePage() {
   const [filterOpen, setFilterOpen] = useState(false);
   const [mode, setMode] = useState<ViewMode>("swipe");
 
+  // 首次进入提示一次"双击点赞"，不然没人会发现这个隐藏操作
+  useEffect(() => {
+    if (sessionStorage.getItem("likeHintSeen")) return;
+    sessionStorage.setItem("likeHintSeen", "1");
+    const t = window.setTimeout(() => showToast("双击图片，给它点个赞 ❤️"), 700);
+    return () => window.clearTimeout(t);
+  }, [showToast]);
+
   // 基于「我的宠物豆豆」算出的推荐名单：id -> 推荐理由
   const me = getPet("p1");
   const recommendations = useMemo(
@@ -56,34 +64,10 @@ export default function HomePage() {
     [me]
   );
 
-  const list = useMemo(() => {
-    return pets.filter((p) => {
-      if (
-        location &&
-        (p.province !== location.province ||
-          p.city !== location.city ||
-          (location.area !== null && p.area !== location.area))
-      )
-        return false;
-      if (species !== "all" && p.species !== species) return false;
-      if (filters.sizes.length && !filters.sizes.includes(p.size)) return false;
-      if (filters.ages.length && !filters.ages.includes(p.ageBand)) return false;
-      if (filters.breeds.length && !filters.breeds.includes(p.breed)) return false;
-      if (filters.gender !== "all" && p.gender !== filters.gender) return false;
-      if (filters.neutered !== "all" && (filters.neutered === "yes") !== p.neutered)
-        return false;
-      if (filters.social !== "all" && p.social !== filters.social) return false;
-      if (filters.energy !== "all" && p.energy !== filters.energy) return false;
-      if (filters.peer !== "all" && p.peer !== filters.peer) return false;
-      if (filters.bold !== "all" && p.bold !== filters.bold) return false;
-      if (filters.obey !== "all" && p.obey !== filters.obey) return false;
-      if (filters.maxKm !== null && p.distanceKm > filters.maxKm) return false;
-      if (filters.traits.length && !filters.traits.some((t) => p.traits.includes(t)))
-        return false;
-      if (filters.onlyRecommended && !(p.id in recommendations)) return false;
-      return true;
-    });
-  }, [species, location, filters, recommendations]);
+  const list = useMemo(
+    () => filterPets(pets, filters, species, location, recommendations),
+    [species, location, filters, recommendations]
+  );
 
   function handleGreet(pet: Pet) {
     const done = greeted.includes(pet.id);

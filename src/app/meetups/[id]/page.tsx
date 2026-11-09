@@ -233,7 +233,7 @@ export default function MeetupDetailPage() {
             isJoined
               ? "bg-white text-ink shadow-card"
               : full
-                ? "bg-line text-ink-mute shadow-none"
+                ? "cursor-not-allowed bg-line text-ink-mute shadow-none"
                 : "bg-brand text-white"
           }`}
         >

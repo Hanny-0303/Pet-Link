@@ -23,22 +23,21 @@ import {
   type Species,
 } from "@/lib/types";
 import { useAppStore } from "@/components/store";
-import LocationSheet from "@/components/location-sheet";
 import FilterSheet from "@/components/filter-sheet";
 import { EMPTY_FILTERS, countActive, type Filters } from "@/lib/filters";
 import { buildRecommendations } from "@/lib/pet";
+import { locationLabel } from "@/lib/location";
 
 const QUICK_SPECIES: (Species | "all")[] = ["all", ...COMMON_SPECIES];
 
 type ViewMode = "swipe" | "grid";
 
 export default function HomePage() {
-  const { greeted, greet, district, showToast, prefs, species, setSpecies } =
+  const { greeted, greet, location, showToast, prefs, species, setSpecies } =
     useAppStore();
 
   const [filters, setFilters] = useState<Filters>(EMPTY_FILTERS);
   const [filterOpen, setFilterOpen] = useState(false);
-  const [locationOpen, setLocationOpen] = useState(false);
   const [mode, setMode] = useState<ViewMode>("swipe");
 
   // 基于「我的宠物豆豆」算出的推荐名单：id -> 推荐理由
@@ -50,7 +49,13 @@ export default function HomePage() {
 
   const list = useMemo(() => {
     return pets.filter((p) => {
-      if (district && p.district !== district) return false;
+      if (
+        location &&
+        (p.province !== location.province ||
+          p.city !== location.city ||
+          (location.area !== null && p.area !== location.area))
+      )
+        return false;
       if (species !== "all" && p.species !== species) return false;
       if (filters.sizes.length && !filters.sizes.includes(p.size)) return false;
       if (filters.ages.length && !filters.ages.includes(p.ageBand)) return false;
@@ -66,7 +71,7 @@ export default function HomePage() {
       if (filters.onlyRecommended && !(p.id in recommendations)) return false;
       return true;
     });
-  }, [species, district, filters, recommendations]);
+  }, [species, location, filters, recommendations]);
 
   function handleGreet(pet: Pet) {
     const done = greeted.includes(pet.id);
@@ -80,14 +85,14 @@ export default function HomePage() {
         {/* 顶栏 */}
         <header className="shrink-0 px-5 pt-6">
           <div className="flex items-center justify-between">
-            <button
-              onClick={() => setLocationOpen(true)}
+            <Link
+              href="/location"
               className="flex items-center gap-1 text-[13px] font-medium text-ink-soft active:opacity-60"
             >
               <MapPin size={13} strokeWidth={2.4} className="text-brand" />
-              {district ?? "全国"}
+              {locationLabel(location)}
               <ChevronDown size={13} strokeWidth={2.4} />
-            </button>
+            </Link>
 
             <div className="flex items-center gap-2">
               <button
@@ -133,7 +138,7 @@ export default function HomePage() {
                 哪个小家伙？
               </h1>
               <p className="mt-1 text-[12px] text-ink-mute">
-                {district ? `这个区域有 ${list.length} 只小伙伴` : `附近有 ${list.length} 只小伙伴`}
+                {location ? `${locationLabel(location)} 有 ${list.length} 只小伙伴` : `附近有 ${list.length} 只小伙伴`}
               </p>
             </div>
           )}
@@ -178,14 +183,29 @@ export default function HomePage() {
           <div className="flex flex-1 flex-col items-center justify-center px-8 text-center">
             <PawPrint size={26} strokeWidth={1.6} className="text-ink-mute/70" />
             <p className="mt-3 text-[13.5px] font-medium text-ink-soft">
-              这个条件下还没有小伙伴
+              {location ? "这里还没有小伙伴" : "这个条件下还没有小伙伴"}
             </p>
-            <button
-              onClick={() => setFilters(EMPTY_FILTERS)}
-              className="mt-4 rounded-full bg-white px-4 py-2 text-[12px] font-medium text-ink-soft shadow-[0_2px_10px_rgba(80,60,40,0.06)]"
-            >
-              清空筛选
-            </button>
+            <p className="mt-1 px-4 text-[11px] leading-relaxed text-ink-mute">
+              {location
+                ? "产品刚起步，先从有人的城市看起吧"
+                : "试试放宽筛选条件"}
+            </p>
+            <div className="mt-4 flex gap-2">
+              {location && (
+                <Link
+                  href="/location"
+                  className="rounded-full bg-brand px-4 py-2 text-[12px] font-medium text-white shadow-[0_4px_14px_rgba(255,107,74,0.28)]"
+                >
+                  换个地区
+                </Link>
+              )}
+              <button
+                onClick={() => setFilters(EMPTY_FILTERS)}
+                className="rounded-full bg-white px-4 py-2 text-[12px] font-medium text-ink-soft shadow-[0_2px_10px_rgba(80,60,40,0.06)]"
+              >
+                清空筛选
+              </button>
+            </div>
           </div>
         ) : mode === "swipe" ? (
           <div className="no-scrollbar min-h-0 flex-1 snap-y snap-mandatory overflow-y-auto">
@@ -234,7 +254,6 @@ export default function HomePage() {
         )}
       </div>
 
-      <LocationSheet open={locationOpen} onClose={() => setLocationOpen(false)} />
       <FilterSheet
         open={filterOpen}
         species={species}

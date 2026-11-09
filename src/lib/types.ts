@@ -38,7 +38,12 @@ export interface Pet {
   photos: string[];
   bio: string;
   ownerName: string;
+  /** 展示用短标签，如「浦东 · 花木」 */
   district: string;
+  province: string;
+  city: string;
+  /** 区/县，用于按地区筛选 */
+  area: string;
   distanceKm: number;
 }
 

@@ -9,6 +9,7 @@ import {
   type ReactNode,
 } from "react";
 import type { Meetup, Species } from "@/lib/types";
+import type { Location } from "@/lib/location";
 
 /**
  * 极简"全局状态"。
@@ -33,8 +34,8 @@ type Store = {
   greeted: string[];
   liked: string[];
   extraMeetups: Meetup[];
-  /** 当前选中的区域，null 表示全部区域 */
-  district: string | null;
+  /** 当前选中的地区，null 表示全国 */
+  location: Location | null;
   /** 当前选中的物种，all 表示全部 */
   species: Species | "all";
   profile: Profile;
@@ -45,7 +46,7 @@ type Store = {
   greet: (id: string) => void;
   like: (id: string) => void;
   addMeetup: (m: Meetup) => void;
-  setDistrict: (d: string | null) => void;
+  setLocation: (l: Location | null) => void;
   setSpecies: (s: Species | "all") => void;
   setProfile: (p: Profile) => void;
   togglePref: (k: keyof Prefs) => void;
@@ -76,7 +77,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
   const [greeted, setGreeted] = useState<string[]>([]);
   const [liked, setLiked] = useState<string[]>([]);
   const [extraMeetups, setExtraMeetups] = useState<Meetup[]>([]);
-  const [district, setDistrict] = useState<string | null>(null);
+  const [location, setLocation] = useState<Location | null>(null);
   const [species, setSpecies] = useState<Species | "all">("all");
   const [profile, setProfile] = useState<Profile>(DEFAULT_PROFILE);
   const [prefs, setPrefs] = useState<Prefs>(DEFAULT_PREFS);
@@ -94,7 +95,7 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
     setGreeted([]);
     setLiked([]);
     setExtraMeetups([]);
-    setDistrict(null);
+    setLocation(null);
     setSpecies("all");
     setProfile(DEFAULT_PROFILE);
     setPrefs(DEFAULT_PREFS);
@@ -108,12 +109,12 @@ export function AppStoreProvider({ children }: { children: ReactNode }) {
         greeted,
         liked,
         extraMeetups,
-        district,
+        location,
         species,
         profile,
         prefs,
         toast,
-        setDistrict,
+        setLocation,
         setSpecies,
         setProfile,
         resetAll,

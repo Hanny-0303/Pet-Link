@@ -34,6 +34,7 @@ const petSeeds: PetSeed[] = [
     traits: ["吃货"],
     bio: "见谁都摇尾巴，对球没有抵抗力。每天傍晚在小区门口等遛。",
     ownerName: "小鹿", district: "浦东 · 花木", distanceKm: 0.8,
+    province: "上海市", city: "上海市", area: "浦东新区",
   },
   {
     name: "奶盖", img: "dog-2", species: "dog", breed: "柴犬", gender: "girl",
@@ -43,6 +44,7 @@ const petSeeds: PetSeed[] = [
     traits: [],
     bio: "第一次见面会装高冷，混熟了就躺平给你摸肚子。",
     ownerName: "阿曼", district: "浦东 · 花木", distanceKm: 1.2,
+    province: "上海市", city: "上海市", area: "浦东新区",
   },
   {
     name: "可乐", img: "dog-3", species: "dog", breed: "金毛", gender: "boy",
@@ -52,6 +54,7 @@ const petSeeds: PetSeed[] = [
     traits: ["爱游泳"],
     bio: "全场最外向的狗，见到水就控制不住自己。",
     ownerName: "老周", district: "徐汇 · 衡山路", distanceKm: 2.4,
+    province: "上海市", city: "上海市", area: "徐汇区",
   },
   {
     name: "布丁", img: "dog-4", species: "dog", breed: "泰迪", gender: "girl",
@@ -61,6 +64,7 @@ const petSeeds: PetSeed[] = [
     traits: ["爱叫", "护食"],
     bio: "体型小嗓门大，需要一个能包容她的朋友。",
     ownerName: "Yuki", district: "杨浦 · 五角场", distanceKm: 3.1,
+    province: "上海市", city: "上海市", area: "杨浦区",
   },
   {
     name: "土豆", img: "dog-5", species: "dog", breed: "法斗", gender: "boy",
@@ -70,6 +74,7 @@ const petSeeds: PetSeed[] = [
     traits: [],
     bio: "走三步喘五步，但我打呼噜的样子很可爱。",
     ownerName: "大鹏", district: "长宁 · 中山公园", distanceKm: 1.9,
+    province: "上海市", city: "上海市", area: "长宁区",
   },
   {
     name: "麻薯", img: "dog-6", species: "dog", breed: "边牧", gender: "girl",
@@ -79,6 +84,7 @@ const petSeeds: PetSeed[] = [
     traits: ["聪明"],
     bio: "会接飞盘会绕腿，就是精力实在用不完。",
     ownerName: "阿榆", district: "浦东 · 花木", distanceKm: 0.6,
+    province: "上海市", city: "上海市", area: "浦东新区",
   },
   {
     name: "元宝", img: "dog-7", species: "dog", breed: "阿拉斯加", gender: "boy",
@@ -88,6 +94,7 @@ const petSeeds: PetSeed[] = [
     traits: [],
     bio: "看着凶，其实胆子比谁都小，听到吸尘器就躲。",
     ownerName: "老陈", district: "普陀 · 长风公园", distanceKm: 4.2,
+    province: "上海市", city: "上海市", area: "普陀区",
   },
   {
     name: "芝麻", img: "dog-8", species: "dog", breed: "比熊", gender: "girl",
@@ -97,6 +104,7 @@ const petSeeds: PetSeed[] = [
     traits: [],
     bio: "只要坐下来，她三秒就会爬到腿上。",
     ownerName: "栗子", district: "浦东 · 花木", distanceKm: 0.5,
+    province: "上海市", city: "上海市", area: "浦东新区",
   },
   {
     name: "花卷", img: "dog-9", species: "dog", breed: "萨摩耶", gender: "boy",
@@ -106,6 +114,7 @@ const petSeeds: PetSeed[] = [
     traits: ["掉毛"],
     bio: "微笑天使，但请做好抱他一整身白毛的准备。",
     ownerName: "小满", district: "虹口 · 鲁迅公园", distanceKm: 5.0,
+    province: "上海市", city: "上海市", area: "虹口区",
   },
   {
     name: "拿铁", img: "dog-10", species: "dog", breed: "哈士奇", gender: "boy",
@@ -115,6 +124,7 @@ const petSeeds: PetSeed[] = [
     traits: [],
     bio: "一天不出门就拆沙发，求一个能把他遛累的朋友。",
     ownerName: "阿凯", district: "杨浦 · 五角场", distanceKm: 3.6,
+    province: "上海市", city: "上海市", area: "杨浦区",
   },
   {
     name: "栗子", img: "dog-11", species: "dog", breed: "博美", gender: "girl",
@@ -124,6 +134,7 @@ const petSeeds: PetSeed[] = [
     traits: [],
     bio: "三斤的狗，三十斤的胆，见谁都敢叫板。",
     ownerName: "Momo", district: "浦东 · 花木", distanceKm: 1.1,
+    province: "上海市", city: "上海市", area: "浦东新区",
   },
   {
     name: "旺仔", img: "dog-12", species: "dog", breed: "田园犬", gender: "boy",
@@ -133,6 +144,7 @@ const petSeeds: PetSeed[] = [
     traits: [],
     bio: "从救助站领回来的第五年，脾气好到能带小孩。",
     ownerName: "张阿姨", district: "普陀 · 长风公园", distanceKm: 3.8,
+    province: "上海市", city: "上海市", area: "普陀区",
   },
   {
     name: "阿福", img: "dog-13", species: "dog", breed: "拉布拉多", gender: "boy",
@@ -142,6 +154,7 @@ const petSeeds: PetSeed[] = [
     traits: ["吃货"],
     bio: "永远吃不饱，但永远愿意分你一半快乐。",
     ownerName: "大头", district: "长宁 · 中山公园", distanceKm: 2.2,
+    province: "上海市", city: "上海市", area: "长宁区",
   },
   {
     name: "小七", img: "dog-14", species: "dog", breed: "柯基", gender: "girl",
@@ -151,6 +164,7 @@ const petSeeds: PetSeed[] = [
     traits: ["爱叫"],
     bio: "屁股一扭一扭，走两步就要回头看你有没有跟上。",
     ownerName: "七七", district: "徐汇 · 衡山路", distanceKm: 2.7,
+    province: "上海市", city: "上海市", area: "徐汇区",
   },
   {
     name: "团子", img: "dog-15", species: "dog", breed: "比熊", gender: "boy",
@@ -160,6 +174,7 @@ const petSeeds: PetSeed[] = [
     traits: [],
     bio: "熟了之后会一直跟着你，像个小尾巴。",
     ownerName: "小北", district: "浦东 · 花木", distanceKm: 0.9,
+    province: "上海市", city: "上海市", area: "浦东新区",
   },
   {
     name: "雪球", img: "dog-16", species: "dog", breed: "萨摩耶", gender: "girl",
@@ -169,6 +184,7 @@ const petSeeds: PetSeed[] = [
     traits: [],
     bio: "见到别的狗会直接躺下翻肚皮，社交方式很直接。",
     ownerName: "阿桑", district: "浦东 · 世纪公园", distanceKm: 1.5,
+    province: "上海市", city: "上海市", area: "浦东新区",
   },
   {
     name: "咖啡", img: "dog-17", species: "dog", breed: "法斗", gender: "girl",
@@ -178,6 +194,7 @@ const petSeeds: PetSeed[] = [
     traits: [],
     bio: "需要一点时间的女孩子，别急着摸她。",
     ownerName: "小可", district: "虹口 · 鲁迅公园", distanceKm: 4.8,
+    province: "上海市", city: "上海市", area: "虹口区",
   },
   {
     name: "阿黄", img: "dog-18", species: "dog", breed: "田园犬", gender: "boy",
@@ -187,6 +204,7 @@ const petSeeds: PetSeed[] = [
     traits: ["护食"],
     bio: "老伙计了，散步永远走在我左手边。",
     ownerName: "老吴", district: "普陀 · 长风公园", distanceKm: 5.5,
+    province: "上海市", city: "上海市", area: "普陀区",
   },
   {
     name: "闪电", img: "dog-19", species: "dog", breed: "边牧", gender: "boy",
@@ -196,6 +214,7 @@ const petSeeds: PetSeed[] = [
     traits: ["聪明"],
     bio: "会自己开冰箱门，冷静点说这是缺点。",
     ownerName: "阿泽", district: "浦东 · 世纪公园", distanceKm: 1.8,
+    province: "上海市", city: "上海市", area: "浦东新区",
   },
   {
     name: "奶球", img: "dog-20", species: "dog", breed: "泰迪", gender: "boy",
@@ -205,6 +224,7 @@ const petSeeds: PetSeed[] = [
     traits: [],
     bio: "被剪成了小狮子，很委屈，但我不打算改。",
     ownerName: "九九", district: "杨浦 · 五角场", distanceKm: 2.9,
+    province: "上海市", city: "上海市", area: "杨浦区",
   },
   {
     name: "咪咪", img: "cat-1", species: "cat", breed: "英国短毛猫", gender: "girl",
@@ -214,6 +234,7 @@ const petSeeds: PetSeed[] = [
     traits: ["吃货"],
     bio: "不主动，不拒绝，但会准时出现在饭盆前。",
     ownerName: "阿罗", district: "浦东 · 花木", distanceKm: 0.6,
+    province: "上海市", city: "上海市", area: "浦东新区",
   },
   {
     name: "橘子", img: "cat-2", species: "cat", breed: "橘猫", gender: "boy",
@@ -223,6 +244,7 @@ const petSeeds: PetSeed[] = [
     traits: ["贪吃"],
     bio: "一只会开柜门的橘，家里零食已全部转移。",
     ownerName: "汤圆", district: "徐汇 · 衡山路", distanceKm: 2.1,
+    province: "上海市", city: "上海市", area: "徐汇区",
   },
   {
     name: "布布", img: "cat-3", species: "cat", breed: "布偶猫", gender: "girl",
@@ -232,6 +254,7 @@ const petSeeds: PetSeed[] = [
     traits: [],
     bio: "被称为「小狗猫」，会跟着你从客厅走到厨房。",
     ownerName: "小满", district: "长宁 · 中山公园", distanceKm: 1.7,
+    province: "上海市", city: "上海市", area: "长宁区",
   },
   {
     name: "暹罗", img: "cat-4", species: "cat", breed: "暹罗猫", gender: "boy",
@@ -241,6 +264,7 @@ const petSeeds: PetSeed[] = [
     traits: ["爱叫", "话痨"],
     bio: "一天要跟你聊三小时，不理他就拆纸巾。",
     ownerName: "老白", district: "杨浦 · 五角场", distanceKm: 3.3,
+    province: "上海市", city: "上海市", area: "杨浦区",
   },
   {
     name: "芝麻糊", img: "cat-5", species: "cat", breed: "英国短毛猫", gender: "boy",
@@ -250,6 +274,7 @@ const petSeeds: PetSeed[] = [
     traits: [],
     bio: "一天睡二十小时，剩下四小时用来监督我工作。",
     ownerName: "阿柚", district: "浦东 · 花木", distanceKm: 1.0,
+    province: "上海市", city: "上海市", area: "浦东新区",
   },
   {
     name: "雪糕", img: "cat-6", species: "cat", breed: "银渐层", gender: "girl",
@@ -259,6 +284,7 @@ const petSeeds: PetSeed[] = [
     traits: [],
     bio: "生人面前躲床底，生人走后立刻来蹭手心。",
     ownerName: "小野", district: "浦东 · 世纪公园", distanceKm: 1.4,
+    province: "上海市", city: "上海市", area: "浦东新区",
   },
   {
     name: "雪团", img: "rabbit-1", species: "rabbit", breed: "垂耳兔", gender: "girl",
@@ -268,6 +294,7 @@ const petSeeds: PetSeed[] = [
     traits: [],
     bio: "会自己跳到沙发上要摸头，被摸的时候会磨牙表示舒服。",
     ownerName: "阿梨", district: "浦东 · 花木", distanceKm: 1.1,
+    province: "上海市", city: "上海市", area: "浦东新区",
   },
   {
     name: "灰灰", img: "rabbit-2", species: "rabbit", breed: "侏儒兔", gender: "boy",
@@ -277,6 +304,7 @@ const petSeeds: PetSeed[] = [
     traits: [],
     bio: "听到塑料袋就冲过来，但伸手摸他又立刻跑掉。",
     ownerName: "小满", district: "徐汇 · 衡山路", distanceKm: 2.6,
+    province: "上海市", city: "上海市", area: "徐汇区",
   },
   {
     name: "汤圆", img: "hamster-1", species: "smallpet", breed: "金丝熊仓鼠", gender: "girl",
@@ -286,6 +314,7 @@ const petSeeds: PetSeed[] = [
     traits: ["夜猫子", "贪吃"],
     bio: "凌晨三点在跑轮上跑步，白天怎么叫都不醒。",
     ownerName: "阿豆", district: "杨浦 · 五角场", distanceKm: 3.0,
+    province: "上海市", city: "上海市", area: "杨浦区",
   },
   {
     name: "毛球", img: "chinchilla-1", species: "smallpet", breed: "龙猫", gender: "boy",
@@ -295,6 +324,7 @@ const petSeeds: PetSeed[] = [
     traits: ["爱洗澡"],
     bio: "一天洗三次沙浴，洗完还要抖你一身沙。",
     ownerName: "小野", district: "长宁 · 中山公园", distanceKm: 1.9,
+    province: "上海市", city: "上海市", area: "长宁区",
   },
   {
     name: "啾啾", img: "bird-1", species: "bird", breed: "虎皮鹦鹉", gender: "boy",
@@ -304,6 +334,7 @@ const petSeeds: PetSeed[] = [
     traits: ["话多"],
     bio: "会学门铃声和微波炉响，就是不肯学说话。",
     ownerName: "阿柚", district: "浦东 · 花木", distanceKm: 1.3,
+    province: "上海市", city: "上海市", area: "浦东新区",
   },
   {
     name: "桃桃", img: "bird-2", species: "bird", breed: "玄凤鹦鹉", gender: "girl",
@@ -313,6 +344,7 @@ const petSeeds: PetSeed[] = [
     traits: ["会吹口哨"],
     bio: "会吹《小星星》的前两句，第三句永远跑调。",
     ownerName: "老K", district: "徐汇 · 衡山路", distanceKm: 2.8,
+    province: "上海市", city: "上海市", area: "徐汇区",
   },
   {
     name: "大福", img: "reptile-1", species: "reptile", breed: "鬃狮蜥", gender: "boy",
@@ -322,6 +354,7 @@ const petSeeds: PetSeed[] = [
     traits: ["爱晒太阳"],
     bio: "一天有十个小时在灯下摊成一张饼，剩下的时间在等杜比亚。",
     ownerName: "小林", district: "杨浦 · 五角场", distanceKm: 3.4,
+    province: "上海市", city: "上海市", area: "杨浦区",
   },
   {
     name: "面条", img: "reptile-2", species: "reptile", breed: "玉米蛇", gender: "girl",
@@ -331,6 +364,7 @@ const petSeeds: PetSeed[] = [
     traits: ["夜行"],
     bio: "一周吃一次，其余时间在躲避穴里思考人生。很好养，但请先说服家人。",
     ownerName: "阿树", district: "长宁 · 中山公园", distanceKm: 2.0,
+    province: "上海市", city: "上海市", area: "长宁区",
   },
   {
     name: "煤球", img: "exotic-1", species: "exotic", breed: "蜜袋鼯", gender: "boy",
@@ -340,6 +374,7 @@ const petSeeds: PetSeed[] = [
     traits: ["夜猫子"],
     bio: "必须两只一起养，单独一只会抑郁。晚上八点准时在笼子里开演唱会。",
     ownerName: "小满", district: "静安 · 南京西路", distanceKm: 4.1,
+    province: "上海市", city: "上海市", area: "静安区",
   },
   {
     name: "刺球", img: "exotic-2", species: "exotic", breed: "非洲迷你刺猬", gender: "girl",
@@ -349,6 +384,56 @@ const petSeeds: PetSeed[] = [
     traits: ["爱打洞"],
     bio: "刚到家时会炸刺，熟了之后会把肚子翻给你。冬天要开加热垫。",
     ownerName: "阿豆", district: "虹口 · 鲁迅公园", distanceKm: 4.6,
+    province: "上海市", city: "上海市", area: "虹口区",
+  },
+
+  {
+    name: "豆汁", img: "bj-1", species: "dog", breed: "柴犬", gender: "boy",
+    ageText: "2岁", size: "small", weightKg: 10,
+    social: "friendly", energy: "active", traits: ["吃货", "爱叫"],
+    bio: "胡同里长大的柴，见谁都笑，但护食。",
+    ownerName: "阿京", district: "朝阳 · 三里屯", distanceKm: 2.1,
+    province: "北京市", city: "北京市", area: "朝阳区",
+  },
+  {
+    name: "京京", img: "bj-2", species: "dog", breed: "边牧", gender: "girl",
+    ageText: "1岁10个月", size: "medium", weightKg: 17,
+    social: "reserved", energy: "active", traits: ["聪明", "运动狂"],
+    bio: "第一次见面要先观察十分钟，熟了就赖着不走。",
+    ownerName: "小海", district: "海淀 · 中关村", distanceKm: 3.4,
+    province: "北京市", city: "北京市", area: "海淀区",
+  },
+  {
+    name: "花椒", img: "cd-1", species: "dog", breed: "田园犬", gender: "boy",
+    ageText: "3岁", size: "medium", weightKg: 15,
+    social: "friendly", energy: "calm", traits: ["稳重", "护食"],
+    bio: "从救助站领回来的第三年，脾气好到能陪小孩写作业。",
+    ownerName: "阿川", district: "武侯 · 玉林", distanceKm: 1.7,
+    province: "四川省", city: "成都市", area: "武侯区",
+  },
+  {
+    name: "火锅", img: "cd-2", species: "dog", breed: "金毛", gender: "girl",
+    ageText: "2岁4个月", size: "medium", weightKg: 26,
+    social: "friendly", energy: "calm", traits: ["爱游泳", "吃货"],
+    bio: "夏天在府南河边不肯上岸，能泡一下午。",
+    ownerName: "阿锦", district: "锦江 · 春熙路", distanceKm: 2.9,
+    province: "四川省", city: "成都市", area: "锦江区",
+  },
+  {
+    name: "龙井", img: "hz-1", species: "dog", breed: "萨摩耶", gender: "boy",
+    ageText: "2岁6个月", size: "large", weightKg: 23,
+    social: "friendly", energy: "active", traits: ["掉毛", "社交达人"],
+    bio: "西湖边散步的常客，见人就翻肚皮，回头率极高。",
+    ownerName: "阿杭", district: "西湖 · 龙井路", distanceKm: 1.4,
+    province: "浙江省", city: "杭州市", area: "西湖区",
+  },
+  {
+    name: "小笼", img: "hz-2", species: "dog", breed: "柯基", gender: "girl",
+    ageText: "1岁5个月", size: "small", weightKg: 9,
+    social: "reserved", energy: "calm", traits: ["胆大", "好奇"],
+    bio: "短腿但不认输，遇到大狗也敢站定不动。",
+    ownerName: "小笼包", district: "余杭 · 未来科技城", distanceKm: 4.2,
+    province: "浙江省", city: "杭州市", area: "余杭区",
   },
 
 ];

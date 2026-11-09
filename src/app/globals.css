@@ -2,20 +2,22 @@
 
 /* ── 设计变量：改这里就能整体换肤 ───────────────────────── */
 @theme {
-  --color-cream: #fbf4e2; /* 页面底：压深一点的奶油，让白卡浮起来 */
-  --color-ink: #0e1526; /* 近黑（冷调），文字对比更强 */
-  --color-ink-soft: #4a5568;
-  --color-ink-mute: #98a1b0;
-  --color-line: #efe3c6;
-  --color-brand: #ffc300; /* 狗能看见的黄：主行动，配深色文字 12:1 */
-  --color-brand-soft: #fff3c4;
-  --color-accent: #1b4fd8; /* 狗能看见的蓝：文字强调 / 链接 / 认证 */
-  --color-accent-soft: #e3ebff;
-  --color-sea: #4da8ff; /* 亮蓝：次要标记 */
-  --color-sea-soft: #e6f2ff;
-  --color-sand: #ffe9a8; /* 高亮底 */
-  --color-mint: #1b4fd8; /* 兼容旧命名 */
-  --color-mint-soft: #e3ebff;
+  --color-canvas: #e6f0ff; /* 页面画布：浅蓝，狗能看见的那一侧 */
+  --color-cream: #e6f0ff; /* 旧名兼容 */
+  --color-ink: #0b1220; /* 近黑，文字对比最强 */
+  --color-ink-soft: #46536b;
+  --color-ink-mute: #7f8da6;
+  --color-line: #d3e1f7;
+  --color-brand: #ffc300; /* 主行动：饱和黄，配深色文字 12:1 */
+  --color-brand-soft: #ffe9a8; /* 次级：浅黄 */
+  --color-accent: #1342c4; /* 文字强调 / 链接 / 认证 */
+  --color-accent-soft: #dbe6ff;
+  --color-sea: #4da8ff;
+  --color-sea-soft: #dcecff;
+  --color-sand: #ffe9a8;
+  --color-mint: #1342c4;
+  --color-mint-soft: #dbe6ff;
+  --color-white: #ffffff;
 
 
   /* ── 设计 token：圆角 / 字号 / 阴影，只保留这几档 ────────── */
@@ -34,8 +36,8 @@
   --text-stat: 21px;
   --text-page: 26px;
 
-  --shadow-soft: 0 1px 6px rgba(80, 60, 40, 0.05);   /* 贴地的小块 */
-  --shadow-card: 0 2px 12px rgba(80, 60, 40, 0.07);  /* 卡片 */
+  --shadow-soft: 0 1px 6px rgba(20, 55, 120, 0.08);   /* 贴地的小块 */
+  --shadow-card: 0 2px 12px rgba(20, 55, 120, 0.10);  /* 卡片 */
   --shadow-float: 0 -8px 40px rgba(0, 0, 0, 0.15);   /* 浮层 */
 
   /* 动效曲线：进场"快起慢收"，退场"慢起快收"，两者不能共用一条 */
@@ -52,7 +54,7 @@
 }
 
 body {
-  background-color: #e8e1d9;
+  background-color: #cfdff5;
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;

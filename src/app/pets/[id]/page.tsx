@@ -100,7 +100,7 @@ export default function PetDetailPage() {
         </div>
       </div>
 
-      <div className="-mt-5 rounded-t-hero bg-cream px-5 pt-5">
+      <div className="-mt-5 rounded-t-hero bg-canvas px-5 pt-5">
         {/* 性格图谱：五个互斥维度，一眼看出偏哪边 */}
         <div className="rounded-card bg-white p-4 shadow-card">
           <div className="flex items-baseline justify-between">
@@ -152,7 +152,7 @@ export default function PetDetailPage() {
                 {pet.traits.map((t) => (
                   <span
                     key={t}
-                    className="rounded-full bg-cream px-2.5 py-1 text-cap font-medium text-ink-soft"
+                    className="rounded-full bg-canvas px-2.5 py-1 text-cap font-medium text-ink-soft"
                   >
                     {t}
                   </span>

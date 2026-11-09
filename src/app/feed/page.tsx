@@ -32,7 +32,7 @@ export default function FeedPage() {
         </p>
       </header>
 
-      <div className="sticky top-0 z-20 -mb-1 bg-cream/95 px-5 pt-3 pb-2 backdrop-blur-xl">
+      <div className="sticky top-0 z-20 -mb-1 bg-canvas/95 px-5 pt-3 pb-2 backdrop-blur-xl">
         <button
           onClick={() => setPickerOpen(true)}
           className="flex items-center gap-1.5 rounded-full bg-white px-3.5 py-2 text-body font-medium shadow-soft tap"
@@ -64,7 +64,7 @@ export default function FeedPage() {
                   <p className="text-cap text-ink-mute">
                     {post.petName}的主人 · {post.timeText}
                     {post.topic !== "daily" && !meetup && (
-                      <span className="ml-1.5 rounded-full bg-cream px-1.5 py-[1px] text-micro font-medium text-ink-soft">
+                      <span className="ml-1.5 rounded-full bg-canvas px-1.5 py-[1px] text-micro font-medium text-ink-soft">
                         {TOPIC_LABEL[post.topic]}
                       </span>
                     )}
@@ -109,7 +109,7 @@ export default function FeedPage() {
               {meetup && (
                 <Link
                   href={`/meetups/${meetup.id}`}
-                  className="mt-3 flex items-center justify-between rounded-card bg-cream px-3 py-2.5"
+                  className="mt-3 flex items-center justify-between rounded-card bg-canvas px-3 py-2.5"
                 >
                   <span className="line-clamp-1 text-note font-medium text-ink-soft">
                     #{meetup.title}

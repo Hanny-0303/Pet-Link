@@ -25,7 +25,7 @@ export default function EditProfilePage() {
   }
 
   return (
-    <div className="min-h-dvh bg-cream pb-16">
+    <div className="min-h-dvh bg-canvas pb-16">
       <SubPageHeader title="编辑资料" subtitle="改完立刻生效，刷新会还原" />
 
       <div className="mt-3 px-5">

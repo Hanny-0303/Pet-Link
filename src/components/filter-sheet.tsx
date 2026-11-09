@@ -136,7 +136,7 @@ export default function FilterSheet({
     <div className="fixed inset-0 z-[60]">
       <div className="backdrop-in absolute inset-0 bg-ink/35 backdrop-blur-[2px]" onClick={onClose} />
 
-      <div className="sheet-in absolute inset-x-0 bottom-0 mx-auto flex max-h-[88vh] max-w-[430px] flex-col rounded-t-hero bg-cream pb-[env(safe-area-inset-bottom)] shadow-float">
+      <div className="sheet-in absolute inset-x-0 bottom-0 mx-auto flex max-h-[88vh] max-w-[430px] flex-col rounded-t-hero bg-canvas pb-[env(safe-area-inset-bottom)] shadow-float">
         <div className="flex items-center justify-between px-5 pt-5 pb-2">
           <h2 className="text-title font-semibold tracking-tight">筛选</h2>
           <div className="flex items-center gap-3">
@@ -210,7 +210,7 @@ export default function FilterSheet({
                     key={s}
                     onClick={() => setScope(s)}
                     className={`shrink-0 rounded-full px-2.5 py-[5px] text-cap font-medium tap ${
-                      on ? "bg-ink text-cream" : "bg-white text-ink-soft"
+                      on ? "bg-ink text-canvas" : "bg-white text-ink-soft"
                     }`}
                   >
                     {s === "all" ? "全部" : SPECIES_LABEL[s]}

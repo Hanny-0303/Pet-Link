@@ -58,9 +58,9 @@ export default function SearchPage() {
   const total = petHits.length + meetupHits.length;
 
   return (
-    <div className="min-h-dvh bg-cream">
+    <div className="min-h-dvh bg-canvas">
       {/* 搜索栏 */}
-      <div className="sticky top-0 z-30 bg-cream/95 px-4 pt-5 pb-3 backdrop-blur-xl">
+      <div className="sticky top-0 z-30 bg-canvas/95 px-4 pt-5 pb-3 backdrop-blur-xl">
         <div className="flex items-center gap-2.5">
           <button
             onClick={() => router.back()}

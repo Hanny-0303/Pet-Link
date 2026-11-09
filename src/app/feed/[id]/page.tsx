@@ -17,7 +17,7 @@ export default function PostDetailPage() {
   const post = posts.find((p) => p.id === id);
   if (!post) {
     return (
-      <div className="min-h-dvh bg-cream">
+      <div className="min-h-dvh bg-canvas">
         <SubPageHeader title="帖子" />
         <p className="px-5 pt-16 text-center text-body text-ink-soft">
           这条帖子不存在或已被删除
@@ -30,7 +30,7 @@ export default function PostDetailPage() {
   const meetup = post.meetupId ? getMeetup(post.meetupId) : undefined;
 
   return (
-    <div className="min-h-dvh bg-cream pb-10">
+    <div className="min-h-dvh bg-canvas pb-10">
       <SubPageHeader title="帖子" />
 
       <article className="mt-2 px-5">
@@ -43,7 +43,7 @@ export default function PostDetailPage() {
                 {post.petName}的主人 · {post.timeText}
               </p>
             </div>
-            <span className="flex shrink-0 items-center gap-1 rounded-full bg-cream px-2 py-1 text-micro font-medium text-ink-soft">
+            <span className="flex shrink-0 items-center gap-1 rounded-full bg-canvas px-2 py-1 text-micro font-medium text-ink-soft">
               {TOPIC_EMOJI[post.topic]} {TOPIC_LABEL[post.topic]}
             </span>
           </div>
@@ -72,7 +72,7 @@ export default function PostDetailPage() {
           {meetup && (
             <Link
               href={`/meetups/${meetup.id}`}
-              className="mt-3 block rounded-card bg-cream px-3 py-3"
+              className="mt-3 block rounded-card bg-canvas px-3 py-3"
             >
               <p className="flex items-center gap-1 text-micro text-accent">
                 <Sparkles size={10} strokeWidth={2.6} /> 相关活动

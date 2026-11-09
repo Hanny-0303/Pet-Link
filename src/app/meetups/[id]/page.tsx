@@ -109,7 +109,7 @@ export default function MeetupDetailPage() {
         </div>
       </div>
 
-      <div className="-mt-4 rounded-t-hero bg-cream px-5 pt-5">
+      <div className="-mt-4 rounded-t-hero bg-canvas px-5 pt-5">
         {/* 主办方 */}
         <div className="flex items-center gap-2.5">
           <Avatar name={meetup.hostName} tint={meetup.type === "brand" ? "#BBD3FF" : "#FFE28A"} size={38} />
@@ -225,7 +225,7 @@ export default function MeetupDetailPage() {
       </div>
 
       {/* 底部操作 */}
-      <div className="fixed inset-x-0 bottom-[62px] z-40 mx-auto max-w-[430px] bg-gradient-to-t from-cream via-cream/95 to-transparent px-4 pt-10 pb-3">
+      <div className="fixed inset-x-0 bottom-[62px] z-40 mx-auto max-w-[430px] bg-gradient-to-t from-canvas via-canvas/95 to-transparent px-4 pt-10 pb-3">
         <button
           onClick={() => join(meetup.id)}
           disabled={full && !isJoined}

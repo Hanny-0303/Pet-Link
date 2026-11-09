@@ -8,7 +8,7 @@ export default function Toaster() {
   if (!toast) return null;
 
   return (
-    <div className="pointer-events-none fixed bottom-24 left-1/2 z-[70] w-max max-w-[80vw] -translate-x-1/2 rounded-full bg-ink/88 px-4 py-2 text-center text-note font-medium text-cream shadow-xl backdrop-blur">
+    <div className="pointer-events-none fixed bottom-24 left-1/2 z-[70] w-max max-w-[80vw] -translate-x-1/2 rounded-full bg-ink/88 px-4 py-2 text-center text-note font-medium text-canvas shadow-xl backdrop-blur">
       {toast}
     </div>
   );

@@ -38,7 +38,7 @@ export default function SettingsSheet({
     <div className="fixed inset-0 z-[60]">
       <div className="backdrop-in absolute inset-0 bg-ink/35 backdrop-blur-[2px]" onClick={onClose} />
 
-      <div className="sheet-in absolute inset-x-0 bottom-0 mx-auto max-w-[430px] rounded-t-hero bg-cream pb-[env(safe-area-inset-bottom)] shadow-float">
+      <div className="sheet-in absolute inset-x-0 bottom-0 mx-auto max-w-[430px] rounded-t-hero bg-canvas pb-[env(safe-area-inset-bottom)] shadow-float">
         <div className="flex items-center justify-between px-5 pt-5 pb-3">
           <h2 className="text-title font-semibold tracking-tight">设置</h2>
           <button

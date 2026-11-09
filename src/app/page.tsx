@@ -485,7 +485,7 @@ function PetTile({
           {pet.personality.slice(0, 1).map((t) => (
             <span
               key={t}
-              className="ml-1 rounded-full bg-cream px-1.5 py-[2px] text-micro text-ink-soft"
+              className="ml-1 rounded-full bg-canvas px-1.5 py-[2px] text-micro text-ink-soft"
             >
               {t}
             </span>

@@ -62,14 +62,14 @@ export default function MeetupsPage() {
         </div>
         <Link
           href="/meetups/new"
-          className="hit mt-1 grid h-9 w-9 place-items-center rounded-full bg-ink text-cream shadow-md tap"
+          className="hit mt-1 grid h-9 w-9 place-items-center rounded-full bg-ink text-canvas shadow-md tap"
           aria-label="发起活动"
         >
           <Plus size={18} strokeWidth={2.6} />
         </Link>
       </header>
 
-      <div className="sticky top-0 z-20 -mb-1 bg-cream/95 px-5 pt-3 backdrop-blur-xl">
+      <div className="sticky top-0 z-20 -mb-1 bg-canvas/95 px-5 pt-3 backdrop-blur-xl">
       <div className="no-scrollbar flex gap-2 overflow-x-auto pb-2">
         <button
           onClick={() => setCatOpen(true)}

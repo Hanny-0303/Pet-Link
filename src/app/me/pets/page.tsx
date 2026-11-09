@@ -12,7 +12,7 @@ export default function MyPetsPage() {
   const mine = pets.filter((p) => p.ownerName === "小鹿");
 
   return (
-    <div className="min-h-dvh bg-cream pb-16">
+    <div className="min-h-dvh bg-canvas pb-16">
       <SubPageHeader
         title="我的宠物档案"
         subtitle={`${mine.length} 只已收录`}
@@ -20,7 +20,7 @@ export default function MyPetsPage() {
           <button
             onClick={() => showToast("演示版：暂只支持一只宠物")}
             aria-label="添加宠物"
-            className="hit mt-0.5 grid h-9 w-9 place-items-center rounded-full bg-ink text-cream shadow-md tap"
+            className="hit mt-0.5 grid h-9 w-9 place-items-center rounded-full bg-ink text-canvas shadow-md tap"
           >
             <Plus size={17} strokeWidth={2.6} />
           </button>

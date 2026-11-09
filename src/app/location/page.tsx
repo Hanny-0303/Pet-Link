@@ -55,9 +55,9 @@ export default function LocationPage() {
       : "选择地区";
 
   return (
-    <div className="min-h-dvh bg-cream pb-10">
+    <div className="min-h-dvh bg-canvas pb-10">
       {/* 顶栏 */}
-      <header className="sticky top-0 z-30 bg-cream/95 px-4 pt-5 pb-3 backdrop-blur-xl">
+      <header className="sticky top-0 z-30 bg-canvas/95 px-4 pt-5 pb-3 backdrop-blur-xl">
         <div className="flex items-center gap-2.5">
           <button
             onClick={() => {

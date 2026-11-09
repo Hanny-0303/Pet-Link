@@ -12,7 +12,7 @@ export default function GreetedPetsPage() {
   const list = pets.filter((p) => greeted.includes(p.id));
 
   return (
-    <div className="min-h-dvh bg-cream pb-16">
+    <div className="min-h-dvh bg-canvas pb-16">
       <SubPageHeader
         title="打过招呼的宠物"
         subtitle={list.length ? `共 ${list.length} 只` : "还没有打招呼"}

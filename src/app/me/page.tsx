@@ -209,7 +209,7 @@ function MenuRow({
   return (
     <Link
       href={href}
-      className="tap flex items-center gap-3 px-4 py-3.5 active:bg-cream/60"
+      className="tap flex items-center gap-3 px-4 py-3.5 active:bg-canvas/60"
     >
       <span className="text-ink-mute">{icon}</span>
       <span className="flex-1 text-body font-medium">{label}</span>

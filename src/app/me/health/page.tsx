@@ -54,7 +54,7 @@ export default function HealthPage() {
   const pet = getPet("p1");
 
   return (
-    <div className="min-h-dvh bg-cream pb-16">
+    <div className="min-h-dvh bg-canvas pb-16">
       <SubPageHeader
         title="疫苗与健康记录"
         subtitle={pet ? `${pet.name} · ${pet.ageText}` : undefined}
@@ -76,7 +76,7 @@ export default function HealthPage() {
                 i > 0 ? "border-t border-line/70" : ""
               }`}
             >
-              <span className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-cream text-ink-soft">
+              <span className="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-full bg-canvas text-ink-soft">
                 <r.Icon size={14} strokeWidth={2.2} />
               </span>
               <div className="min-w-0 flex-1">

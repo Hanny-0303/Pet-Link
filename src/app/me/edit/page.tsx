@@ -30,7 +30,7 @@ export default function EditProfilePage() {
 
       <div className="mt-3 px-5">
         <div className="flex flex-col items-center rounded-block bg-white py-6 shadow-card">
-          <Avatar name={name || "我"} tint="#ffb4a2" size={64} />
+          <Avatar name={name || "我"} tint="#CFE0FF" size={64} />
           <p className="mt-2.5 text-body font-semibold">{name || "未命名"}</p>
           <p className="mt-0.5 text-cap text-ink-mute">
             演示版：头像暂不支持上传

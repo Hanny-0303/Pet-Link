@@ -1,6 +1,6 @@
 export default function Avatar({
   name,
-  tint = "#ffd6a5",
+  tint = "#FFE28A",
   size = 36,
 }: {
   name: string;

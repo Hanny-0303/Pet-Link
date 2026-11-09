@@ -2,20 +2,20 @@
 
 /* ── 设计变量：改这里就能整体换肤 ───────────────────────── */
 @theme {
-  --color-cream: #fdfaf1; /* 页面底色（Cream Gelato 提亮） */
-  --color-ink: #1b2434; /* 主文字：偏冷的近黑，配蓝更协调 */
-  --color-ink-soft: #5a6478; /* 次文字 */
-  --color-ink-mute: #98a1b0; /* 弱文字 */
-  --color-line: #ece3cf; /* 分割线 / 占位 */
-  --color-brand: #ffa62b; /* Citrus Zest：只做填充，配深色文字 */
-  --color-brand-soft: #fff2d9; /* 主色浅底 */
-  --color-accent: #2e5aa7; /* Amalfi Tile：文字强调 / 链接 / 认证 */
-  --color-accent-soft: #e7eef9;
-  --color-sea: #86c5ff; /* Sea Breeze：次要标记 */
-  --color-sea-soft: #eaf4ff;
-  --color-sand: #f8e6a0; /* Cream Gelato：高亮底 */
-  --color-mint: #2e5aa7; /* 兼容旧命名，指向强调蓝 */
-  --color-mint-soft: #e7eef9;
+  --color-cream: #fbf4e2; /* 页面底：压深一点的奶油，让白卡浮起来 */
+  --color-ink: #0e1526; /* 近黑（冷调），文字对比更强 */
+  --color-ink-soft: #4a5568;
+  --color-ink-mute: #98a1b0;
+  --color-line: #efe3c6;
+  --color-brand: #ffc300; /* 狗能看见的黄：主行动，配深色文字 12:1 */
+  --color-brand-soft: #fff3c4;
+  --color-accent: #1b4fd8; /* 狗能看见的蓝：文字强调 / 链接 / 认证 */
+  --color-accent-soft: #e3ebff;
+  --color-sea: #4da8ff; /* 亮蓝：次要标记 */
+  --color-sea-soft: #e6f2ff;
+  --color-sand: #ffe9a8; /* 高亮底 */
+  --color-mint: #1b4fd8; /* 兼容旧命名 */
+  --color-mint-soft: #e3ebff;
 
 
   /* ── 设计 token：圆角 / 字号 / 阴影，只保留这几档 ────────── */

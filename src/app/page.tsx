@@ -48,6 +48,8 @@ export default function HomePage() {
   const [filters, setFilters] = useState<Filters>(EMPTY_FILTERS);
   const [filterOpen, setFilterOpen] = useState(false);
   const [mode, setMode] = useState<ViewMode>("swipe");
+  // 左右滑走（喜欢/跳过）的卡片，只存在这次会话里
+  const [dismissed, setDismissed] = useState<{ id: string; name: string; dir: "left" | "right" }[]>([]);
 
   // 首次进入提示一次"双击点赞"，不然没人会发现这个隐藏操作
   useEffect(() => {
@@ -64,10 +66,14 @@ export default function HomePage() {
     [me]
   );
 
-  const list = useMemo(
+  const matched = useMemo(
     () => filterPets(pets, filters, species, location, recommendations),
     [species, location, filters, recommendations]
   );
+  const list = useMemo(() => {
+    const gone = new Set(dismissed.map((d) => d.id));
+    return matched.filter((p) => !gone.has(p.id));
+  }, [matched, dismissed]);
 
   // 网格模式：两列各自独立排（左列 1,3,5…，右列 2,4,6…）
   // 用 CSS columns 会变成"左列填满再填右列"，滚动顺序是 1,22,2,23…
@@ -77,6 +83,11 @@ export default function HomePage() {
     list.forEach((p, i) => (i % 2 === 0 ? left : right).push(p));
     return [left, right];
   }, [list]);
+
+  function handleSwipe(pet: Pet, dir: "left" | "right") {
+    if (dir === "right" && !likedPets.includes(pet.id)) likePet(pet.id);
+    setDismissed((d) => [...d, { id: pet.id, name: pet.name, dir }]);
+  }
 
   function handleGreet(pet: Pet) {
     const done = greeted.includes(pet.id);
@@ -167,7 +178,11 @@ export default function HomePage() {
           <div className="flex flex-1 flex-col items-center justify-center px-8 text-center">
             <PawPrint size={26} strokeWidth={1.6} className="text-ink-mute/70" />
             <p className="mt-3 text-body-lg font-medium text-ink-soft">
-              {location ? "这里还没有小伙伴" : "这个条件下还没有小伙伴"}
+              {dismissed.length > 0 && matched.length > 0
+                ? "附近都看完了"
+                : location
+                  ? "这里还没有小伙伴"
+                  : "这个条件下还没有小伙伴"}
             </p>
             <p className="mt-1 px-4 text-cap leading-relaxed text-ink-mute">
               {location
@@ -175,6 +190,14 @@ export default function HomePage() {
                 : "试试放宽筛选条件"}
             </p>
             <div className="mt-4 flex gap-2">
+              {dismissed.length > 0 && matched.length > 0 && (
+                <button
+                  onClick={() => setDismissed([])}
+                  className="tap rounded-full bg-brand px-4 py-2 text-note font-semibold text-on-brand"
+                >
+                  重新开始
+                </button>
+              )}
               {location && (
                 <Link
                   href="/location"
@@ -204,6 +227,7 @@ export default function HomePage() {
                 showDistance={prefs.showDistance}
                 onGreet={() => handleGreet(pet)}
                 onLike={() => likePet(pet.id)}
+                onSwipe={(dir) => handleSwipe(pet, dir)}
               />
             ))}
           </div>
@@ -231,6 +255,22 @@ export default function HomePage() {
         )}
       </div>
 
+      {dismissed.length > 0 && (
+        <button
+          onClick={() => setDismissed((d) => d.slice(0, -1))}
+          className="fixed bottom-[88px] left-1/2 z-40 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full border border-white/15 bg-surface px-4 py-2 text-note shadow-card active:scale-95"
+        >
+          <span className="text-ink-soft">
+            {dismissed[dismissed.length - 1].dir === "right" ? "已喜欢" : "已跳过"}{" "}
+            <span className="font-semibold text-ink">
+              {dismissed[dismissed.length - 1].name}
+            </span>
+          </span>
+          <span className="h-3 w-px bg-line" />
+          <span className="font-semibold text-brand">撤销</span>
+        </button>
+      )}
+
       <FilterSheet
         open={filterOpen}
         species={species}
@@ -251,6 +291,7 @@ function PetSlide({
   showDistance,
   onGreet,
   onLike,
+  onSwipe,
 }: {
   pet: Pet;
   reason?: string;
@@ -260,14 +301,72 @@ function PetSlide({
   showDistance: boolean;
   onGreet: () => void;
   onLike: () => void;
+  onSwipe: (dir: "left" | "right") => void;
 }) {
-  const [idx, setIdx] = useState(0);
+  const [photo, setPhoto] = useState(0);
+  const [dx, setDx] = useState(0);
+  const [exiting, setExiting] = useState<null | "left" | "right">(null);
   const [burst, setBurst] = useState(false);
   const router = useRouter();
-  const tap = useRef({ x: 0, y: 0 });
+  const cardRef = useRef<HTMLDivElement>(null);
   const clickTimer = useRef<number | null>(null);
+  const drag = useRef({ x: 0, y: 0, lock: null as null | "x" | "y", moved: false });
+  const dxRef = useRef(0);
 
-  // 单击进主页，双击点赞（等 280ms 判断是不是第二下）
+  function commit(dir: "left" | "right") {
+    setExiting(dir);
+    // 等飞出动画走完再从列表移除（由父组件负责）
+    window.setTimeout(() => onSwipe(dir), 240);
+  }
+
+  function onPointerDown(e: React.PointerEvent) {
+    drag.current = { x: e.clientX, y: e.clientY, lock: null, moved: false };
+  }
+
+  function onPointerMove(e: React.PointerEvent) {
+    if (exiting) return;
+    const ddx = e.clientX - drag.current.x;
+    const ddy = e.clientY - drag.current.y;
+
+    // 方向锁定：先动的那一轴说了算，避免横向滑动和纵向滚动打架
+    if (!drag.current.lock) {
+      if (Math.abs(ddx) < 8 && Math.abs(ddy) < 8) return;
+      drag.current.lock = Math.abs(ddx) > Math.abs(ddy) ? "x" : "y";
+      // 只要动了就不算"单击"，否则纵向滚动结束时会误触进主页
+      drag.current.moved = true;
+    }
+    if (drag.current.lock !== "x") return;
+
+    dxRef.current = ddx;
+    setDx(ddx);
+  }
+
+  function onPointerUp(e: React.PointerEvent) {
+    if (exiting) return;
+    const lock = drag.current.lock;
+    const off = dxRef.current;
+    drag.current.lock = null;
+
+    // 只要真的横向拖了，就按滑动处理——不管起点落在链接还是按钮上
+    // （触摸有隐式指针捕获，松手时 target 未必是手指下的元素）
+    if (lock === "x" && Math.abs(off) > 4) {
+      const w = cardRef.current?.offsetWidth ?? 320;
+      if (Math.abs(off) > w * 0.3) {
+        commit(off > 0 ? "right" : "left");
+      } else {
+        dxRef.current = 0;
+        setDx(0);
+      }
+      return;
+    }
+
+    // 没拖动 = 点击。点在链接/按钮上就交给它们自己
+    if ((e.target as HTMLElement).closest("a, button")) return;
+    if (lock === "y" || drag.current.moved) return; // 滚动过，不算单击
+    onTap();
+  }
+
+  // 单击进主页，双击点赞
   function onTap() {
     if (clickTimer.current !== null) {
       window.clearTimeout(clickTimer.current);
@@ -283,38 +382,38 @@ function PetSlide({
     }, 280);
   }
 
+  const likeOpacity = Math.min(1, Math.max(0, dx / 90));
+  const passOpacity = Math.min(1, Math.max(0, -dx / 90));
+
   return (
-    <article className="h-full w-full snap-start px-4 pb-2">
-      <div className="relative h-full overflow-hidden rounded-hero bg-line">
-        {/* 横向图集 */}
-        <div
-          className="no-scrollbar flex h-full w-full snap-x snap-mandatory overflow-x-auto"
-          onScroll={(e) => {
-            const el = e.currentTarget;
-            const i = Math.round(el.scrollLeft / el.clientWidth);
-            if (i !== idx) setIdx(i);
-          }}
-          onPointerDown={(e) => {
-            tap.current = { x: e.clientX, y: e.clientY };
-          }}
-          onPointerUp={(e) => {
-            // 轻点：进主页 / 双击：点赞；横向拖动翻照片时不触发
-            const dx = Math.abs(e.clientX - tap.current.x);
-            const dy = Math.abs(e.clientY - tap.current.y);
-            if (dx < 8 && dy < 8) onTap();
-          }}
-        >
-          {pet.photos.map((src, i) => (
-            <div key={i} className="h-full w-full shrink-0 snap-center">
-              <img
-                src={src}
-                alt={`${pet.name} 照片 ${i + 1}`}
-                className="h-full w-full object-cover"
-                draggable={false}
-              />
-            </div>
-          ))}
-        </div>
+    <article
+      ref={cardRef}
+      className="h-full w-full snap-start px-4 pb-2"
+      style={{ touchAction: "pan-y" }}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
+      onPointerCancel={onPointerUp}
+    >
+      <div
+        className="relative h-full overflow-hidden rounded-hero bg-line"
+        style={{
+          transform: exiting
+            ? `translateX(${exiting === "right" ? 130 : -130}%) rotate(${exiting === "right" ? 14 : -14}deg)`
+            : `translateX(${dx}px) rotate(${dx / 45}deg)`,
+          transition: exiting
+            ? "transform 0.24s ease-in"
+            : dx
+              ? "none"
+              : "transform 0.24s var(--ease-out)",
+        }}
+      >
+        <img
+          src={pet.photos[photo]}
+          alt={`${pet.name} 照片 ${photo + 1}`}
+          className="h-full w-full object-cover"
+          draggable={false}
+        />
 
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-black/10" />
 
@@ -328,35 +427,53 @@ function PetSlide({
           </div>
         )}
 
-        {/* 顶部：距离 / 推荐 / 图集指示点 */}
+        {/* 左右滑动时的判定提示 */}
+        <div
+          className="pointer-events-none absolute top-6 left-4 rotate-[-12deg] rounded-xl border-2 border-brand px-3 py-1.5 text-title font-bold tracking-wider text-brand"
+          style={{ opacity: likeOpacity }}
+        >
+          喜欢
+        </div>
+        <div
+          className="pointer-events-none absolute top-6 right-4 rotate-[12deg] rounded-xl border-2 border-white/70 px-3 py-1.5 text-title font-bold tracking-wider text-white/80"
+          style={{ opacity: passOpacity }}
+        >
+          跳过
+        </div>
+
         {showDistance && (
-          <div className="pointer-events-none absolute top-3 left-3 flex items-center gap-1 rounded-full bg-surface-2/95 px-2 py-1 text-cap font-medium backdrop-blur">
-            <MapPin size={10} strokeWidth={2.6} className="text-accent" />
+          <div className="pointer-events-none absolute top-3 left-3 flex items-center gap-1 rounded-full bg-black/45 px-2 py-1 text-cap font-medium backdrop-blur">
+            <MapPin size={10} strokeWidth={2.6} className="text-brand" />
             {pet.distanceKm} km
           </div>
         )}
 
         {reason && (
-          <div className="pointer-events-none absolute top-3 right-3 flex items-center gap-1 rounded-full bg-brand px-2 py-1 text-micro font-semibold text-white shadow-lg">
+          <div className="pointer-events-none absolute top-3 right-3 flex items-center gap-1 rounded-full bg-brand px-2 py-1 text-micro font-semibold text-on-brand shadow-lg">
             <Sparkles size={10} strokeWidth={2.8} />
             推荐
           </div>
         )}
 
+        {/* 照片切换：左右滑已经给了"喜欢/跳过"，这里改成点圆点 */}
         {pet.photos.length > 1 && (
-          <div className="pointer-events-none absolute inset-x-0 top-4 flex justify-center gap-1.5">
+          <div className="absolute inset-x-0 top-14 flex justify-center gap-2">
             {pet.photos.map((_, i) => (
-              <span
+              <button
                 key={i}
-                className={`h-[5px] rounded-full transition-all ${
-                  i === idx ? "w-4 bg-white" : "w-[5px] bg-white/40"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setPhoto(i);
+                }}
+                aria-label={`第 ${i + 1} 张`}
+                className={`h-[6px] rounded-full transition-all ${
+                  i === photo ? "w-5 bg-white" : "w-[6px] bg-white/45"
                 }`}
               />
             ))}
           </div>
         )}
 
-        {/* 底部信息 */}
         <div className="absolute inset-x-0 bottom-0 p-5">
           <Link href={`/pets/${pet.id}`} className="block">
             <div className="flex items-center gap-1.5">
@@ -372,7 +489,7 @@ function PetSlide({
               <Heart
                 size={11}
                 strokeWidth={2.4}
-                className={liked ? "heart-pop fill-on-brand text-ink" : ""}
+                className={liked ? "heart-pop fill-white text-white" : ""}
               />
               {likes} 人喜欢
               {reason && <span className="text-white/45">· {reason}</span>}
@@ -381,7 +498,7 @@ function PetSlide({
               {pet.personality.slice(0, 3).map((t) => (
                 <span
                   key={t}
-                  className="rounded-full bg-white/15 px-2 py-[3px] text-cap text-white backdrop-blur-sm"
+                  className="rounded-full bg-white/20 px-2 py-[3px] text-cap text-white backdrop-blur-sm"
                 >
                   {t}
                 </span>
@@ -393,7 +510,7 @@ function PetSlide({
             onClick={onGreet}
             aria-label="打招呼"
             className={`absolute right-5 bottom-5 grid h-12 w-12 place-items-center rounded-full shadow-lg transition active:scale-90 ${
-              greeted ? "bg-surface text-ink-mute" : "bg-brand text-on-brand"
+              greeted ? "bg-white text-ink-mute" : "bg-brand text-on-brand"
             }`}
           >
             {greeted ? (

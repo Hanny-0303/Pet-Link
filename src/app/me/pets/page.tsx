@@ -20,7 +20,7 @@ export default function MyPetsPage() {
           <button
             onClick={() => showToast("演示版：暂只支持一只宠物")}
             aria-label="添加宠物"
-            className="mt-0.5 grid h-9 w-9 place-items-center rounded-full bg-ink text-cream shadow-md active:scale-95"
+            className="hit mt-0.5 grid h-9 w-9 place-items-center rounded-full bg-ink text-cream shadow-md tap"
           >
             <Plus size={17} strokeWidth={2.6} />
           </button>

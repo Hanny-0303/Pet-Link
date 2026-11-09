@@ -110,7 +110,7 @@ export default function HomePage() {
               <button
                 onClick={() => setMode(mode === "swipe" ? "grid" : "swipe")}
                 aria-label={mode === "swipe" ? "切换到网格" : "切换到单张"}
-                className="grid h-9 w-9 place-items-center rounded-full bg-white shadow-card active:scale-95"
+                className="hit grid h-9 w-9 place-items-center rounded-full bg-white shadow-card tap"
               >
                 {mode === "swipe" ? (
                   <LayoutGrid size={16} strokeWidth={2.2} />
@@ -121,7 +121,7 @@ export default function HomePage() {
               <button
                 onClick={() => setFilterOpen(true)}
                 aria-label="筛选"
-                className={`relative grid h-9 w-9 place-items-center rounded-full shadow-card active:scale-95 ${
+                className={`hit relative grid h-9 w-9 place-items-center rounded-full shadow-card tap ${
                   countActive(filters) > 0 ? "bg-brand text-white" : "bg-white"
                 }`}
               >
@@ -135,7 +135,7 @@ export default function HomePage() {
               <Link
                 href="/search"
                 aria-label="搜索"
-                className="grid h-9 w-9 place-items-center rounded-full bg-white shadow-card active:scale-95"
+                className="hit grid h-9 w-9 place-items-center rounded-full bg-white shadow-card tap"
               >
                 <Search size={16} strokeWidth={2.2} />
               </Link>

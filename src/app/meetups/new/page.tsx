@@ -64,7 +64,7 @@ export default function NewMeetupPage() {
         <button
           type="button"
           onClick={() => router.back()}
-          className="grid h-9 w-9 place-items-center rounded-full bg-white shadow-card"
+          className="hit grid h-9 w-9 place-items-center rounded-full bg-white shadow-card"
         >
           <ArrowLeft size={17} strokeWidth={2.4} />
         </button>
@@ -195,7 +195,7 @@ export default function NewMeetupPage() {
 
         <button
           type="submit"
-          className="mt-2 h-[52px] w-full rounded-full bg-brand text-lead font-semibold text-white shadow-[0_8px_24px_rgba(255,107,74,0.3)] active:scale-[0.98]"
+          className="mt-2 h-[52px] w-full rounded-full bg-brand text-lead font-semibold text-white shadow-[0_8px_24px_rgba(255,107,74,0.3)] tap-soft"
         >
           发布这个局
         </button>

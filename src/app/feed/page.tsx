@@ -35,7 +35,7 @@ export default function FeedPage() {
       <div className="mt-4 px-5">
         <button
           onClick={() => setPickerOpen(true)}
-          className="flex items-center gap-1.5 rounded-full bg-white px-3.5 py-2 text-body font-medium shadow-soft active:scale-95"
+          className="flex items-center gap-1.5 rounded-full bg-white px-3.5 py-2 text-body font-medium shadow-soft tap"
         >
           {topic === "all" ? "全部话题" : TOPIC_LABEL[topic]}
           <span className="text-cap text-ink-mute">

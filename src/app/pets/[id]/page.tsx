@@ -61,7 +61,7 @@ export default function PetDetailPage() {
         <button
           onClick={() => router.back()}
           aria-label="返回"
-          className="absolute top-5 left-4 grid h-9 w-9 place-items-center rounded-full bg-white/85 backdrop-blur active:scale-95"
+          className="hit absolute top-5 left-4 grid h-9 w-9 place-items-center rounded-full bg-white/85 backdrop-blur tap"
         >
           <ArrowLeft size={17} strokeWidth={2.4} />
         </button>
@@ -69,7 +69,7 @@ export default function PetDetailPage() {
         <button
           onClick={() => likePet(pet.id)}
           aria-label={liked ? "取消点赞" : "点赞"}
-          className={`absolute top-5 right-4 flex items-center gap-1.5 rounded-full px-3 py-1.5 backdrop-blur active:scale-95 ${
+          className={`absolute top-5 right-4 flex items-center gap-1.5 rounded-full px-3 py-1.5 backdrop-blur tap ${
             liked ? "bg-brand text-white" : "bg-white/85 text-ink-soft"
           }`}
         >
@@ -193,7 +193,7 @@ export default function PetDetailPage() {
           </div>
           <button
             onClick={() => greet(pet.id)}
-            className={`flex items-center gap-1.5 rounded-full px-4 py-2 text-body font-semibold transition active:scale-95 ${
+            className={`flex items-center gap-1.5 rounded-full px-4 py-2 text-body font-semibold tap ${
               done ? "bg-white text-ink-mute shadow-inner" : "bg-brand text-white shadow-[0_6px_18px_rgba(255,107,74,0.3)]"
             }`}
           >

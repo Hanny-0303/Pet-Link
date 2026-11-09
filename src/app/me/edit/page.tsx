@@ -84,7 +84,7 @@ export default function EditProfilePage() {
 
         <button
           onClick={save}
-          className="mt-6 h-[50px] w-full rounded-full bg-brand text-lead font-semibold text-white shadow-[0_8px_24px_rgba(255,107,74,0.3)] active:scale-[0.98]"
+          className="mt-6 h-[50px] w-full rounded-full bg-brand text-lead font-semibold text-white shadow-[0_8px_24px_rgba(255,107,74,0.3)] tap-soft"
         >
           保存
         </button>

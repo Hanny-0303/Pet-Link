@@ -74,14 +74,14 @@ export default function MeetupDetailPage() {
           <button
             onClick={() => router.back()}
             aria-label="返回"
-            className="grid h-9 w-9 place-items-center rounded-full bg-white/85 backdrop-blur active:scale-95"
+            className="hit grid h-9 w-9 place-items-center rounded-full bg-white/85 backdrop-blur tap"
           >
             <ArrowLeft size={17} strokeWidth={2.4} />
           </button>
           <button
             onClick={share}
             aria-label="分享"
-            className="grid h-9 w-9 place-items-center rounded-full bg-white/85 backdrop-blur active:scale-95"
+            className="hit grid h-9 w-9 place-items-center rounded-full bg-white/85 backdrop-blur tap"
           >
             <Share2 size={16} strokeWidth={2.2} />
           </button>
@@ -195,7 +195,7 @@ export default function MeetupDetailPage() {
             ))}
             {Array.from({ length: Math.max(0, meetup.capacity - people) }).slice(0, 3).map((_, i) => (
               <span key={i} className="flex w-10 flex-col items-center gap-1">
-                <span className="grid h-9 w-9 place-items-center rounded-full border border-dashed border-line text-body text-ink-mute">
+                <span className="hit grid h-9 w-9 place-items-center rounded-full border border-dashed border-line text-body text-ink-mute">
                   +
                 </span>
                 <span className="text-micro text-ink-mute">待加入</span>
@@ -229,7 +229,7 @@ export default function MeetupDetailPage() {
         <button
           onClick={() => join(meetup.id)}
           disabled={full && !isJoined}
-          className={`flex h-[52px] w-full items-center justify-center gap-2 rounded-full text-lead font-semibold shadow-[0_8px_24px_rgba(255,107,74,0.32)] transition active:scale-[0.98] ${
+          className={`flex h-[52px] w-full items-center justify-center gap-2 rounded-full text-lead font-semibold shadow-[0_8px_24px_rgba(255,107,74,0.32)] tap-soft ${
             isJoined
               ? "bg-white text-ink shadow-card"
               : full

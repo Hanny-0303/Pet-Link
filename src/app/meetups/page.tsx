@@ -62,7 +62,7 @@ export default function MeetupsPage() {
         </div>
         <Link
           href="/meetups/new"
-          className="mt-1 grid h-9 w-9 place-items-center rounded-full bg-ink text-cream shadow-md active:scale-95"
+          className="hit mt-1 grid h-9 w-9 place-items-center rounded-full bg-ink text-cream shadow-md tap"
           aria-label="发起活动"
         >
           <Plus size={18} strokeWidth={2.6} />
@@ -72,7 +72,7 @@ export default function MeetupsPage() {
       <div className="no-scrollbar mt-4 flex gap-2 overflow-x-auto px-5">
         <button
           onClick={() => setCatOpen(true)}
-          className="flex items-center gap-1.5 rounded-full bg-white px-3.5 py-[7px] text-body font-medium shadow-soft active:scale-95"
+          className="flex items-center gap-1.5 rounded-full bg-white px-3.5 py-[7px] text-body font-medium shadow-soft tap"
         >
           {kind === "all" ? "全部分类" : KIND_LABEL[kind]}
           <span className="text-cap text-ink-mute">
@@ -115,7 +115,7 @@ export default function MeetupsPage() {
             <Link
               key={m.id}
               href={`/meetups/${m.id}`}
-              className="block overflow-hidden rounded-block bg-white shadow-card active:scale-[0.995]"
+              className="block overflow-hidden rounded-block bg-white shadow-card tap-soft"
             >
               <div className="relative aspect-[16/9] overflow-hidden bg-line">
                 <img

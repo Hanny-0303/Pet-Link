@@ -67,7 +67,7 @@ export default function LocationPage() {
               router.back();
             }}
             aria-label="返回"
-            className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white shadow-card"
+            className="hit grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white shadow-card"
           >
             <ArrowLeft size={17} strokeWidth={2.4} />
           </button>
@@ -151,7 +151,7 @@ export default function LocationPage() {
                   <button
                     key={p.name}
                     onClick={() => setProvince(p.name)}
-                    className="rounded-chip bg-white px-2 py-2.5 text-body font-medium shadow-soft active:scale-95"
+                    className="rounded-chip bg-white px-2 py-2.5 text-body font-medium shadow-soft tap"
                   >
                     {shortProvince(p.name)}
                   </button>
@@ -184,7 +184,7 @@ export default function LocationPage() {
                     <button
                       key={c.name}
                       onClick={() => setCity(c.name)}
-                      className="flex items-center gap-2 rounded-chip bg-white px-3 py-2.5 text-left shadow-soft active:scale-[0.98]"
+                      className="flex items-center gap-2 rounded-chip bg-white px-3 py-2.5 text-left shadow-soft tap-soft"
                     >
                       <span className="min-w-0 flex-1 truncate text-body font-medium">
                         {c.name}
@@ -229,7 +229,7 @@ export default function LocationPage() {
                   onClick={() =>
                     pick({ province: currentProvince.name, city: currentCity.name, area: a })
                   }
-                  className={`flex items-center gap-2 rounded-chip px-3 py-2.5 text-left active:scale-[0.98] ${
+                  className={`flex items-center gap-2 rounded-chip px-3 py-2.5 text-left tap-soft ${
                     n > 0
                       ? "bg-white shadow-card"
                       : "bg-white/60"

@@ -65,7 +65,7 @@ export default function SearchPage() {
           <button
             onClick={() => router.back()}
             aria-label="返回"
-            className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white shadow-card"
+            className="hit grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white shadow-card"
           >
             <ArrowLeft size={17} strokeWidth={2.4} />
           </button>
@@ -97,7 +97,7 @@ export default function SearchPage() {
               <button
                 key={t}
                 onClick={() => setQuery(t)}
-                className="rounded-full bg-white px-3.5 py-[7px] text-body font-medium text-ink-soft shadow-soft active:scale-95"
+                className="rounded-full bg-white px-3.5 py-[7px] text-body font-medium text-ink-soft shadow-soft tap"
               >
                 {t}
               </button>

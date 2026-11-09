@@ -44,7 +44,7 @@ export default function SettingsSheet({
           <button
             onClick={onClose}
             aria-label="关闭"
-            className="grid h-8 w-8 place-items-center rounded-full bg-white shadow-card"
+            className="hit grid h-8 w-8 place-items-center rounded-full bg-white shadow-card"
           >
             <X size={15} strokeWidth={2.4} />
           </button>

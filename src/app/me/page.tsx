@@ -35,7 +35,7 @@ export default function MePage() {
             <button
               onClick={() => setSettingsOpen(true)}
               aria-label="设置"
-              className="grid h-9 w-9 place-items-center rounded-full bg-white shadow-card active:scale-95"
+              className="hit grid h-9 w-9 place-items-center rounded-full bg-white shadow-card tap"
             >
               <Settings size={16} strokeWidth={2.2} />
             </button>
@@ -58,7 +58,7 @@ export default function MePage() {
           </div>
           <Link
             href="/me/edit"
-            className="shrink-0 rounded-full border border-line px-3 py-1.5 text-cap font-medium text-ink-soft active:scale-95"
+            className="shrink-0 rounded-full border border-line px-3 py-1.5 text-cap font-medium text-ink-soft tap"
           >
             编辑
           </Link>

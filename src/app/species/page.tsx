@@ -56,7 +56,7 @@ export default function SpeciesPage() {
           <button
             onClick={() => router.back()}
             aria-label="返回"
-            className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white shadow-card"
+            className="hit grid h-9 w-9 shrink-0 place-items-center rounded-full bg-white shadow-card"
           >
             <ArrowLeft size={17} strokeWidth={2.4} />
           </button>
@@ -108,7 +108,7 @@ export default function SpeciesPage() {
                   <button
                     key={s}
                     onClick={() => pick(s)}
-                    className={`flex items-center gap-2.5 rounded-card px-3.5 py-3 text-left transition active:scale-[0.98] ${
+                    className={`flex items-center gap-2.5 rounded-card px-3.5 py-3 text-left tap-soft ${
                       active
                         ? "bg-brand-soft ring-1 ring-brand/30"
                         : "bg-white shadow-card"

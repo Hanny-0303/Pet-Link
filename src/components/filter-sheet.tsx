@@ -131,7 +131,7 @@ export default function FilterSheet({
             <button
               onClick={onClose}
               aria-label="关闭"
-              className="grid h-8 w-8 place-items-center rounded-full bg-white shadow-card"
+              className="hit grid h-8 w-8 place-items-center rounded-full bg-white shadow-card"
             >
               <X size={15} strokeWidth={2.4} />
             </button>
@@ -191,7 +191,7 @@ export default function FilterSheet({
                   <button
                     key={s}
                     onClick={() => setScope(s)}
-                    className={`shrink-0 rounded-full px-2.5 py-[5px] text-cap font-medium transition ${
+                    className={`shrink-0 rounded-full px-2.5 py-[5px] text-cap font-medium tap ${
                       on ? "bg-ink text-cream" : "bg-white text-ink-soft"
                     }`}
                   >
@@ -369,7 +369,7 @@ export default function FilterSheet({
               onApply(draft);
               onClose();
             }}
-            className="h-[50px] w-full rounded-full bg-brand text-lead font-semibold text-white shadow-[0_8px_24px_rgba(255,107,74,0.28)] active:scale-[0.98]"
+            className="h-[50px] w-full rounded-full bg-brand text-lead font-semibold text-white shadow-[0_8px_24px_rgba(255,107,74,0.28)] tap-soft"
           >
             {active > 0 ? `应用筛选 · ${active} 个条件` : "应用筛选"}
           </button>
@@ -411,7 +411,7 @@ function Chip({
   return (
     <button
       onClick={onClick}
-      className={`flex items-center gap-1 rounded-full px-3 py-[7px] text-note font-medium transition active:scale-95 ${
+      className={`flex items-center gap-1 rounded-full px-3 py-[7px] text-note font-medium tap ${
         on ? "bg-brand text-white" : "bg-white text-ink-soft shadow-soft"
       }`}
     >

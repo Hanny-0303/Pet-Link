@@ -2,24 +2,31 @@
 
 /* ── 设计变量：改这里就能整体换肤 ───────────────────────── */
 @theme {
-  --color-canvas: #0b1c3d; /* 深蓝画布 */
-  --color-cream: #0b1c3d; /* 旧名兼容 */
-  --color-surface: #16305e; /* 卡片 */
-  --color-surface-2: #1d3a70; /* 卡片里的块 */
-  --color-ink: #eef3ff; /* 主文字：浅色 */
-  --color-ink-soft: #a8b8d8;
-  --color-ink-mute: #6f83a8;
-  --color-line: #26406e;
-  --color-brand: #ffc300; /* 饱和黄：只表示"选中/主行动" */
-  --color-brand-soft: #3b3210; /* 深琥珀软底 */
-  --color-on-brand: #0b1220; /* 黄底上的文字 */
-  --color-accent: #7fb2ff; /* 深底上的链接蓝 */
-  --color-accent-soft: #1b3a6b;
-  --color-sea: #4da8ff;
-  --color-sea-soft: #16345f;
-  --color-sand: #3b3210;
-  --color-mint: #7fb2ff;
-  --color-mint-soft: #1b3a6b;
+  /* ── 严格取自色卡的四个颜色 ────────────────────────────
+     CITRUS ZEST  #FFA62B  → 主行动 / 选中
+     SEA BREEZE   #86C5FF  → 辅助面 / 浅标记
+     AMALFI TILE  #2E5AA7  → 文字强调 / 链接 / 认证
+     CREAM GELATO #F8E6A0  → 画布
+     另外补两个中性色（文字、卡片），否则整套无法阅读
+     ──────────────────────────────────────────────────── */
+  --color-canvas: #f8e6a0; /* CREAM GELATO：画布 */
+  --color-cream: #f8e6a0; /* 旧名兼容 */
+  --color-surface: #fffdf7; /* 卡片：奶白，比纯白更配 */
+  --color-surface-2: #fff8e0; /* 卡片里的块 */
+  --color-ink: #15223b; /* 正文：取自 AMALFI 的深色版 */
+  --color-ink-soft: #4c5b7a;
+  --color-ink-mute: #626a7e;
+  --color-line: #ecd9a1;
+  --color-brand: #ffa62b; /* CITRUS ZEST：填充 / 选中 */
+  --color-brand-soft: #ffe6bd;
+  --color-on-brand: #15223b; /* 橙底上的文字 */
+  --color-accent: #2e5aa7; /* AMALFI TILE：文字强调 */
+  --color-accent-soft: #dfe9f8;
+  --color-sea: #86c5ff; /* SEA BREEZE */
+  --color-sea-soft: #e5f1ff;
+  --color-sand: #f8e6a0;
+  --color-mint: #2e5aa7;
+  --color-mint-soft: #dfe9f8;
   --color-white: #ffffff;
 
 
@@ -39,8 +46,8 @@
   --text-stat: 21px;
   --text-page: 26px;
 
-  --shadow-soft: 0 1px 0 rgba(255, 255, 255, 0.04);   /* 贴地的小块 */
-  --shadow-card: 0 2px 0 rgba(0, 0, 0, 0.18);  /* 卡片 */
+  --shadow-soft: 0 1px 6px rgba(90, 70, 20, 0.06);   /* 贴地的小块 */
+  --shadow-card: 0 2px 12px rgba(90, 70, 20, 0.10);  /* 卡片 */
   --shadow-float: 0 -8px 40px rgba(0, 0, 0, 0.15);   /* 浮层 */
 
   /* 动效曲线：进场"快起慢收"，退场"慢起快收"，两者不能共用一条 */
@@ -57,7 +64,7 @@
 }
 
 body {
-  background-color: #07132b;
+  background-color: #e2cf8c;
   color: var(--color-ink);
   font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;

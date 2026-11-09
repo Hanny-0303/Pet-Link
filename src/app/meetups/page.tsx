@@ -69,7 +69,8 @@ export default function MeetupsPage() {
         </Link>
       </header>
 
-      <div className="no-scrollbar mt-4 flex gap-2 overflow-x-auto px-5">
+      <div className="sticky top-0 z-20 -mb-1 bg-cream/95 px-5 pt-3 backdrop-blur-xl">
+      <div className="no-scrollbar flex gap-2 overflow-x-auto pb-2">
         <button
           onClick={() => setCatOpen(true)}
           className="flex items-center gap-1.5 rounded-full bg-white px-3.5 py-[7px] text-body font-medium shadow-soft tap"
@@ -83,7 +84,7 @@ export default function MeetupsPage() {
       </div>
 
       {/* 快捷筛选 */}
-      <div className="mt-2 flex gap-2 px-5">
+      <div className="flex gap-2 pb-2">
         {[
           { on: todayOnly, set: setTodayOnly, label: "今天" },
           { on: freeOnly, set: setFreeOnly, label: "免费" },
@@ -102,6 +103,7 @@ export default function MeetupsPage() {
             {f.label}
           </button>
         ))}
+      </div>
       </div>
 
       <div className="mt-4 space-y-3.5 px-5">

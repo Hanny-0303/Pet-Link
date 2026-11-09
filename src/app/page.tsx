@@ -201,7 +201,7 @@ export default function HomePage() {
         ) : (
           <div className="no-scrollbar min-h-0 flex-1 overflow-y-auto px-3 pb-4">
           <div className="columns-2 gap-2">
-            {list.map((pet) => (
+            {list.map((pet, i) => (
               <PetTile
                 key={pet.id}
                 pet={pet}
@@ -210,6 +210,7 @@ export default function HomePage() {
                 likes={likeCount(pet) + (likedPets.includes(pet.id) ? 1 : 0)}
                 showDistance={prefs.showDistance}
                 onLike={() => likePet(pet.id)}
+                delay={Math.min(i, 6) * 45}
               />
             ))}
           </div>
@@ -401,6 +402,7 @@ function PetTile({
   likes,
   showDistance,
   onLike,
+  delay = 0,
 }: {
   pet: Pet;
   reason?: string;
@@ -408,6 +410,7 @@ function PetTile({
   likes: number;
   showDistance: boolean;
   onLike: () => void;
+  delay?: number;
 }) {
   const router = useRouter();
   const timer = useRef<number | null>(null);
@@ -431,7 +434,8 @@ function PetTile({
   return (
     <div
       onClick={onTap}
-      className="tap mb-2 block cursor-pointer break-inside-avoid overflow-hidden rounded-card bg-white shadow-card"
+      className="stagger tap mb-2 block cursor-pointer break-inside-avoid overflow-hidden rounded-card bg-white shadow-card"
+      style={{ animationDelay: `${delay}ms` }}
     >
       <div className="relative w-full" style={{ paddingBottom: "118%" }}>
         <img

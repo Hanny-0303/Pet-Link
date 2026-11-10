@@ -9,6 +9,7 @@ import type {
   Sociability,
   Pet,
   Species,
+  Trait,
 } from "./types";
 import type { Location } from "./location";
 
@@ -27,7 +28,7 @@ export type Filters = {
   bold: Boldness | "all";
   obey: Obedience | "all";
   /** 自由标签，可多选 */
-  traits: string[];
+  traits: Trait[];
   /** 只看为我推荐的 */
   onlyRecommended: boolean;
 };

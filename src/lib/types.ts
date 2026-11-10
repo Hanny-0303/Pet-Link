@@ -40,7 +40,7 @@ export interface Pet {
   /** 互斥维度：听话 / 随性 */
   obey: Obedience;
   /** 自由标签：吃货、运动狂、爱游泳… 可以多选 */
-  traits: string[];
+  traits: Trait[];
   /** 展示用：由上面三项拼出来的标签串（如 ["亲人","活泼","吃货"]） */
   personality: string[];
   vaccinated: boolean;
@@ -180,6 +180,27 @@ export const OBEY_LABEL: Record<Obedience, string> = {
 };
 
 /** 五个互斥维度，顺序固定，用于筛选面板和性格图谱 */
+/** 自由标签的唯一来源：宠物的标签和筛选面板都从这里取，
+ *  不在清单里的标签写不进 Pet.traits（编译期就会报错） */
+export const TRAITS = [
+  "吃货",
+  "爱叫",
+  "护食",
+  "聪明",
+  "爱游泳",
+  "掉毛",
+  "夜行",
+  "爱洗澡",
+  "爱晒太阳",
+  "爱打洞",
+  "运动狂",
+  "稳重",
+  "社交达人",
+  "好奇",
+] as const;
+
+export type Trait = (typeof TRAITS)[number];
+
 export const DIMENSIONS = [
   { key: "social", label: "对人", left: "亲人", right: "慢热" },
   { key: "peer", label: "对同类", left: "友好", right: "戒备" },

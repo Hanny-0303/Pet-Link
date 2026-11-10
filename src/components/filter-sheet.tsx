@@ -12,6 +12,7 @@ import {
   SIZE_LABEL,
   SOCIAL_LABEL,
   SPECIES_LABEL,
+  TRAITS,
   type AgeBand,
   type Boldness,
   type Energy,
@@ -21,6 +22,7 @@ import {
   type Size,
   type Species,
   type Sociability,
+  type Trait,
 } from "@/lib/types";
 import {
   DISTANCE_OPTIONS,
@@ -31,42 +33,7 @@ import {
 } from "@/lib/filters";
 import { buildRecommendations } from "@/lib/pet";
 import { useAppStore } from "@/components/store";
-
-/** 自由标签：从数据里按出现次数取前 12 个 */
-const TRAITS = (() => {
-  const c = new Map<string, number>();
-  for (const p of pets) for (const t of p.traits) c.set(t, (c.get(t) ?? 0) + 1);
-  return [...c.entries()].sort((a, b) => b[1] - a[1]).slice(0, 12).map(([t]) => t);
-})();
-
-/** 品种首字母，用于按拼音分组 */
-const BREED_LETTER: Record<string, string> = {
-  阿拉斯加: "A",
-  边牧: "B", 比熊: "B", 博美: "B", 布偶猫: "B",
-  垂耳兔: "C", 柴犬: "C",
-  法斗: "F", 非洲迷你刺猬: "F",
-  哈士奇: "H", 虎皮鹦鹉: "H",
-  金毛: "J", 金丝熊仓鼠: "J", 橘猫: "J",
-  柯基: "K",
-  拉布拉多: "L", 龙猫: "L",
-  蜜袋鼯: "M",
-  萨摩耶: "S",
-  泰迪: "T", 田园犬: "T",
-  暹罗猫: "X", 玄凤鹦鹉: "X",
-  银渐层: "Y", 英国短毛猫: "Y", 玉米蛇: "Y",
-  鬃狮蜥: "Z", 侏儒兔: "Z",
-};
-
-const SCOPE: (Species | "all")[] = [
-  "all",
-  "dog",
-  "cat",
-  "rabbit",
-  "smallpet",
-  "bird",
-  "reptile",
-  "exotic",
-];
+import BreedSheet from "@/components/breed-sheet";
 
 export default function FilterSheet({
   open,
@@ -84,36 +51,14 @@ export default function FilterSheet({
   const { location } = useAppStore();
   const [draft, setDraft] = useState<Filters>(value);
   const [lastOpen, setLastOpen] = useState(open);
-  const [scope, setScope] = useState<Species | "all">(species);
+  const [breedOpen, setBreedOpen] = useState(false);
 
   if (open !== lastOpen) {
     setLastOpen(open);
     if (open) {
       setDraft(value);
-      setScope(species);
     }
   }
-
-  // 先大类，再小类：品种列表跟着 scope 走
-  // 注意：这段必须在 `if (!open) return null` 之前算，
-  // 否则 Hook 会在打开时凭空多出来，React 直接报错。
-  const scoped = scope === "all" ? pets : pets.filter((p) => p.species === scope);
-  const breedGroups = (() => {
-    const count = new Map<string, number>();
-    for (const p of scoped) count.set(p.breed, (count.get(p.breed) ?? 0) + 1);
-    const byLetter = new Map<string, { breed: string; n: number }[]>();
-    for (const [breed, n] of count) {
-      const letter = BREED_LETTER[breed] ?? "#";
-      if (!byLetter.has(letter)) byLetter.set(letter, []);
-      byLetter.get(letter)!.push({ breed, n });
-    }
-    return [...byLetter.entries()]
-      .sort((a, b) => a[0].localeCompare(b[0]))
-      .map(([letter, items]) => ({
-        letter,
-        items: items.sort((a, b) => a.breed.localeCompare(b.breed, "zh")),
-      }));
-  })();
 
   if (!open) return null;
 
@@ -195,35 +140,32 @@ export default function FilterSheet({
             </span>
           </button>
 
-          <Section title="距离">
-            {DISTANCE_OPTIONS.map((o) =>
-              // 「不限」是默认值，和其他分组保持一致：白底灰字 + 勾
-              o.value === null ? (
-                <button
-                  key={o.label}
-                  onClick={() => setDraft({ ...draft, maxKm: null })}
-                  className={`tap flex items-center gap-1 rounded-full px-3 py-[7px] text-note font-medium ${
-                    draft.maxKm === null
-                      ? "border border-line bg-surface text-ink-mute"
-                      : "border border-transparent bg-surface/60 text-ink-mute"
-                  }`}
-                >
-                  {draft.maxKm === null && (
-                    <Check size={11} strokeWidth={3} className="text-ink-mute" />
-                  )}
-                  {o.label}
-                </button>
-              ) : (
-                <Chip
-                  key={o.label}
-                  on={draft.maxKm === o.value}
-                  onClick={() => setDraft({ ...draft, maxKm: o.value })}
-                >
-                  {o.label}
-                </Chip>
-              )
-            )}
-          </Section>
+          <div className="mt-2.5 flex items-start gap-2">
+            <h3 className="w-[52px] shrink-0 pt-[7px] text-note font-semibold text-ink-soft">
+              距离
+            </h3>
+            <div className="min-w-0 flex-1">
+              <div className="flex items-baseline justify-between">
+                <span className="text-note font-semibold text-brand">
+                  {draft.maxKm === null ? "不限" : `${draft.maxKm} km 内`}
+                </span>
+                <span className="text-micro text-ink-mute">拖到最右 = 不限</span>
+              </div>
+              <input
+                type="range"
+                min={1}
+                max={20}
+                step={1}
+                value={draft.maxKm ?? 20}
+                onChange={(e) => {
+                  const v = Number(e.target.value);
+                  setDraft({ ...draft, maxKm: v >= 20 ? null : v });
+                }}
+                aria-label="距离范围"
+                className="slider mt-1 w-full"
+              />
+            </div>
+          </div>
           <Section title="体型">
             {(["small", "medium", "large"] as const).map((s) => (
               <Chip
@@ -246,7 +188,7 @@ export default function FilterSheet({
               </Chip>
             ))}
           </Section>
-          <Section title="对人" hint="二选一">
+          <Section title="对人">
             <SingleChips
               options={[
                 { v: "all", label: "不限" },
@@ -257,7 +199,7 @@ export default function FilterSheet({
               onChange={(v) => setDraft({ ...draft, social: v as Sociability | "all" })}
             />
           </Section>
-          <Section title="对同类" hint="一起玩最关键的一项">
+          <Section title="对同类">
             <SingleChips
               options={[
                 { v: "all", label: "不限" },
@@ -324,65 +266,30 @@ export default function FilterSheet({
             />
           </Section>
 
-          {/* 品种：先大类，再按首字母排的小类 */}
-          <div className="mt-4">
-            <div className="mb-2 flex items-baseline gap-1.5">
-              <h3 className="text-note font-semibold text-ink-soft">品种</h3>
-              <span className="text-micro text-ink-mute">先选大类，再选品种</span>
-            </div>
-
-            <div className="no-scrollbar -mx-1 flex gap-1.5 overflow-x-auto px-1 pb-2">
-              {SCOPE.map((s) => {
-                const on = scope === s;
-                return (
-                  <button
-                    key={s}
-                    onClick={() => setScope(s)}
-                    className={`shrink-0 rounded-full px-2.5 py-[5px] text-cap font-medium tap ${
-                      on ? "bg-brand text-on-brand" : "bg-surface text-ink-soft"
-                    }`}
-                  >
-                    {s === "all" ? "全部" : SPECIES_LABEL[s]}
-                  </button>
-                );
-              })}
-            </div>
-
-            {scope === "all" && (
-              <p className="rounded-chip bg-white/10 px-3 py-3 text-center text-note text-ink-mute">
-                先选一个大类，再看具体品种
-              </p>
-            )}
-
-            {scope !== "all" && breedGroups.map((g) => (
-              <div key={g.letter} className="mb-2">
-                <p className="mb-1 px-0.5 text-micro font-semibold text-ink-mute">
-                  {g.letter}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {g.items.map(({ breed, n }) => (
-                    <Chip
-                      key={breed}
-                      on={draft.breeds.includes(breed)}
-                      onClick={() =>
-                        setDraft({ ...draft, breeds: toggleIn(draft.breeds, breed) })
-                      }
-                    >
-                      {breed}
-                      <span className="text-micro opacity-60">{n}</span>
-                    </Chip>
-                  ))}
-                </div>
-              </div>
-            ))}
+          <div className="mt-2.5 flex items-start gap-2">
+            <h3 className="w-[52px] shrink-0 pt-[7px] text-note font-semibold text-ink-soft">
+              品种
+            </h3>
+            <button
+              onClick={() => setBreedOpen(true)}
+              className="tap flex min-w-0 flex-1 items-center gap-2 rounded-full bg-surface px-3 py-[7px] text-left text-note shadow-soft"
+            >
+              <span className={`min-w-0 flex-1 truncate ${draft.breeds.length ? "text-ink" : "text-ink-mute"}`}>
+                {draft.breeds.length ? draft.breeds.join("、") : "不限"}
+              </span>
+              {draft.breeds.length > 0 && (
+                <span className="shrink-0 text-micro text-brand">{draft.breeds.length}</span>
+              )}
+              <span className="shrink-0 text-ink-mute">›</span>
+            </button>
           </div>
 
-          <Section title="其他特点" hint="可以多选">
+          <Section title="其他特点">
             {TRAITS.map((t) => (
               <Chip
                 key={t}
                 on={draft.traits.includes(t)}
-                onClick={() => setDraft({ ...draft, traits: toggleIn(draft.traits, t) })}
+                onClick={() => setDraft({ ...draft, traits: toggleIn(draft.traits, t as Trait) })}
               >
                 {t}
               </Chip>
@@ -404,6 +311,13 @@ export default function FilterSheet({
           </button>
         </div>
       </div>
+
+      <BreedSheet
+        open={breedOpen}
+        selected={draft.breeds}
+        onApply={(breeds) => setDraft({ ...draft, breeds })}
+        onClose={() => setBreedOpen(false)}
+      />
     </div>
   );
 }
@@ -418,12 +332,12 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <div className="mt-4">
-      <div className="mb-2 flex items-baseline gap-1.5">
-        <h3 className="text-note font-semibold text-ink-soft">{title}</h3>
-        {hint && <span className="text-micro text-ink-mute">{hint}</span>}
-      </div>
-      <div className="flex flex-wrap gap-2">{children}</div>
+    <div className="mt-2.5 flex items-start gap-2">
+      <h3 className="w-[52px] shrink-0 pt-[7px] text-note font-semibold text-ink-soft">
+        {title}
+        {hint && <span className="block text-micro font-normal text-ink-mute">{hint}</span>}
+      </h3>
+      <div className="flex min-w-0 flex-1 flex-wrap gap-1.5">{children}</div>
     </div>
   );
 }

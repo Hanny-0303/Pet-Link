@@ -142,6 +142,24 @@ export default function FilterSheet({
 
           <div className="mt-2.5 flex items-start gap-2">
             <h3 className="w-[52px] shrink-0 pt-[7px] text-note font-semibold text-ink-soft">
+              品种
+            </h3>
+            <button
+              onClick={() => setBreedOpen(true)}
+              className="tap flex min-w-0 flex-1 items-center gap-2 rounded-full bg-surface px-3 py-[7px] text-left text-note shadow-soft"
+            >
+              <span className={`min-w-0 flex-1 truncate ${draft.breeds.length ? "text-ink" : "text-ink-mute"}`}>
+                {draft.breeds.length ? draft.breeds.join("、") : "不限"}
+              </span>
+              {draft.breeds.length > 0 && (
+                <span className="shrink-0 text-micro text-brand">{draft.breeds.length}</span>
+              )}
+              <span className="shrink-0 text-ink-mute">›</span>
+            </button>
+          </div>
+
+          <div className="mt-2.5 flex items-start gap-2">
+            <h3 className="w-[52px] shrink-0 pt-[7px] text-note font-semibold text-ink-soft">
               距离
             </h3>
             <div className="min-w-0 flex-1">
@@ -149,17 +167,18 @@ export default function FilterSheet({
                 <span className="text-note font-semibold text-brand">
                   {draft.maxKm === null ? "不限" : `${draft.maxKm} km 内`}
                 </span>
-                <span className="text-micro text-ink-mute">拖到最右 = 不限</span>
+                <span className="text-micro text-ink-mute">往右拉 = 距离更远</span>
               </div>
               <input
                 type="range"
-                min={1}
+                min={0}
                 max={20}
                 step={1}
-                value={draft.maxKm ?? 20}
+                value={draft.maxKm ?? 0}
                 onChange={(e) => {
                   const v = Number(e.target.value);
-                  setDraft({ ...draft, maxKm: v >= 20 ? null : v });
+                  // 0 = 不限，往右是越来越远的距离
+                  setDraft({ ...draft, maxKm: v === 0 ? null : v });
                 }}
                 aria-label="距离范围"
                 className="slider mt-1 w-full"
@@ -266,23 +285,7 @@ export default function FilterSheet({
             />
           </Section>
 
-          <div className="mt-2.5 flex items-start gap-2">
-            <h3 className="w-[52px] shrink-0 pt-[7px] text-note font-semibold text-ink-soft">
-              品种
-            </h3>
-            <button
-              onClick={() => setBreedOpen(true)}
-              className="tap flex min-w-0 flex-1 items-center gap-2 rounded-full bg-surface px-3 py-[7px] text-left text-note shadow-soft"
-            >
-              <span className={`min-w-0 flex-1 truncate ${draft.breeds.length ? "text-ink" : "text-ink-mute"}`}>
-                {draft.breeds.length ? draft.breeds.join("、") : "不限"}
-              </span>
-              {draft.breeds.length > 0 && (
-                <span className="shrink-0 text-micro text-brand">{draft.breeds.length}</span>
-              )}
-              <span className="shrink-0 text-ink-mute">›</span>
-            </button>
-          </div>
+
 
           <Section title="其他特点">
             {TRAITS.map((t) => (

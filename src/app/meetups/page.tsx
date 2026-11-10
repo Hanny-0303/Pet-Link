@@ -117,7 +117,7 @@ export default function MeetupsPage() {
             <Link
               key={m.id}
               href={`/meetups/${m.id}`}
-              className="block overflow-hidden rounded-block bg-surface shadow-card tap-soft"
+              className="block select-none overflow-hidden rounded-block bg-surface shadow-card tap-soft"
             >
               <div className="relative aspect-[16/9] overflow-hidden bg-line">
                 <img
@@ -169,9 +169,9 @@ export default function MeetupsPage() {
                       <Users size={10} strokeWidth={2.4} />
                       {people}/{m.capacity} 人
                     </span>
-                    <span className={full ? "text-ink-mute" : "text-ink-mute"}>
-                      {full ? "已满员" : `还差 ${m.capacity - people} 人`}
-                    </span>
+                    {/* 进度条已经表达了"还差几个"；"已报名"图片上已有角标，
+                        这里只补一个列表页看不到的状态：满员 */}
+                    {!isJoined && full && <span className="text-ink-mute">已满员</span>}
                   </div>
                 </div>
               </div>

@@ -290,7 +290,7 @@ function PetSlide({
   }
 
   return (
-    <article className="h-full w-full snap-start px-5 pb-2">
+    <article className="h-full w-full snap-start select-none px-5 pb-2">
       <div className="relative h-full overflow-hidden rounded-hero bg-line">
         {/* 横向图集 */}
         <div
@@ -439,7 +439,7 @@ function PetTile({
   return (
     <div
       onClick={onTap}
-      className="stagger tap block cursor-pointer overflow-hidden rounded-card bg-surface shadow-card"
+      className="stagger tap block cursor-pointer select-none overflow-hidden rounded-card bg-surface shadow-card"
       style={{ animationDelay: `${delay}ms` }}
     >
       <div className="relative w-full" style={{ paddingBottom: "125%" }}  /* 4:5，和宠物主页统一 */>

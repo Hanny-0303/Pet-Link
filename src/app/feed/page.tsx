@@ -53,7 +53,7 @@ export default function FeedPage() {
           return (
             <article
               key={post.id}
-              className="stagger overflow-hidden rounded-block bg-surface p-4 shadow-card"
+              className="stagger select-none overflow-hidden rounded-block bg-surface p-4 shadow-card"
               style={{ animationDelay: `${Math.min(i, 6) * 45}ms` }}
             >
               <Link href={`/feed/${post.id}`} className="tap block">

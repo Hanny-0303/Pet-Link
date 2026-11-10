@@ -44,7 +44,7 @@ export default function MePage() {
 
         {/* 个人信息 */}
         <div className="mx-5 mt-4 flex items-center gap-3 rounded-block bg-surface p-4 shadow-card">
-          <Avatar name={profile.name} tint="#CFE0FF" size={52} />
+          <Avatar name={profile.name} tint="#ffb4a2" size={52} />
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1.5">
               <p className="text-title font-semibold">{profile.name}</p>

@@ -839,7 +839,7 @@ export const posts: Post[] = [
     topic: "recap",
     authorName: "阿榆",
     petName: "麻薯",
-    tint: "#CFE0FF",
+    tint: "#ffb4a2",
     images: ["/img/dog-6.jpg", "/img/dog-19.jpg"],
     content:
       "今天世纪公园的草坪太适合奔跑了。麻薯和闪电追了四十分钟，回家直接在电梯里睡着。\n\n下次周六还是七点半，来的朋友记得带水。",
@@ -853,7 +853,7 @@ export const posts: Post[] = [
     topic: "daily",
     authorName: "小鹿",
     petName: "豆豆",
-    tint: "#FFE28A",
+    tint: "#ffd6a5",
     images: ["/img/dog-1.jpg"],
     content: "豆豆今天第一次下水，表情从「我不要」变成「再来一次」，中间只用了三秒。",
     meetupId: "m3",
@@ -866,7 +866,7 @@ export const posts: Post[] = [
     topic: "recap",
     authorName: "张阿姨",
     petName: "旺仔",
-    tint: "#D6E4FF",
+    tint: "#b8e0d2",
     images: ["/img/dog-12.jpg"],
     content:
       "慢走团第三周了。旺仔走完全程没有停下来喘，比上个月好太多。\n\n老年犬真的需要同伴，它们互相看着就不会偷懒。",
@@ -880,7 +880,7 @@ export const posts: Post[] = [
     topic: "daily",
     authorName: "Momo",
     petName: "栗子",
-    tint: "#FFE9A8",
+    tint: "#fdffb6",
     images: ["/img/dog-11.jpg"],
     content: "三斤的狗在草坪上对着三十斤的阿拉斯加叫了整整两分钟。它赢了，对方走了。",
     likes: 233,
@@ -892,7 +892,7 @@ export const posts: Post[] = [
     topic: "recap",
     authorName: "小满",
     petName: "布布",
-    tint: "#BBD3FF",
+    tint: "#caffbf",
     images: ["/img/cat-3.jpg"],
     content:
       "布布是猫，但它坚持要参加狗的活动。今天在中山公园的嗅闻游戏里，它找零食的速度比所有狗都快。",
@@ -906,7 +906,7 @@ export const posts: Post[] = [
     topic: "recap",
     authorName: "阿凯",
     petName: "拿铁",
-    tint: "#FFD866",
+    tint: "#9bf6ff",
     images: ["/img/dog-10.jpg", "/img/dog-7.jpg"],
     content:
       "拆家联盟第一次聚会，四条哈士奇在草坪上疯跑，场面一度失控但很快乐。\n\n顺便交流了一下修复沙发的经验，收获很大。",
@@ -920,7 +920,7 @@ export const posts: Post[] = [
     topic: "daily",
     authorName: "小野",
     petName: "雪糕",
-    tint: "#DCE8FF",
+    tint: "#a0c4ff",
     content:
       "带雪糕去看了一场宠物友好市集，全程躲在我怀里，只有看到罐头的时候探出头。\n\n社交这个事真的急不来。",
     images: ["/img/cat-6.jpg"],
@@ -933,7 +933,7 @@ export const posts: Post[] = [
     topic: "recap",
     authorName: "老周",
     petName: "可乐",
-    tint: "#FFDF7A",
+    tint: "#ffadad",
     images: ["/img/dog-3.jpg"],
     content:
       "金毛的社交能力是天赋。今天在泳池边认识了三个新朋友，其中一个还分了他半根火腿肠。\n\n他交朋友比我还快。",
@@ -947,7 +947,7 @@ export const posts: Post[] = [
     topic: "daily",
     authorName: "大鹏",
     petName: "土豆",
-    tint: "#FFE28A",
+    tint: "#ffd6a5",
     images: ["/img/dog-5.jpg"],
     content: "土豆的社交方式是原地躺下，等别人来闻他。有效率。",
     likes: 89,
@@ -959,7 +959,7 @@ export const posts: Post[] = [
     topic: "daily",
     authorName: "阿泽",
     petName: "闪电",
-    tint: "#BBD3FF",
+    tint: "#caffbf",
     images: ["/img/dog-19.jpg"],
     content:
       "给闪电报了个飞盘体验课，教练说他的问题不是不会，是太想赢。\n\n和我一样。",
@@ -972,7 +972,7 @@ export const posts: Post[] = [
     topic: "recap",
     authorName: "阿罗",
     petName: "咪咪",
-    tint: "#C9DCFF",
+    tint: "#bdb2ff",
     images: ["/img/cat-1.jpg"],
     content: "带猫参加狗的活动，被发现后全程被围观。咪咪很配合，一动不动地当了一小时雕塑。",
     meetupId: "m6",
@@ -985,7 +985,7 @@ export const posts: Post[] = [
     topic: "daily",
     authorName: "小北",
     petName: "团子",
-    tint: "#D6E4FF",
+    tint: "#b8e0d2",
     images: ["/img/dog-15.jpg"],
     content:
       "团子以前见到别的狗就躲，今天主动去闻了一只柯基。\n\n对别人来说很小的一步，对我来说等了大半年。",
@@ -998,7 +998,7 @@ export const posts: Post[] = [
     topic: "medical",
     authorName: "小鹿",
     petName: "豆豆",
-    tint: "#FFE28A",
+    tint: "#ffd6a5",
     images: ["/img/dog-1.jpg"],
     content:
       "记一次胰腺炎，给同样养柯基的人提个醒。\n\n上周三豆豆突然不吃东西，趴着不动，摸肚子会躲。我以为是吃撑了，拖了一天。第二天开始吐黄水，去医院查血，淀粉酶和脂肪酶都超标，确诊胰腺炎，直接住院输液三天。\n\n医生问了饮食，问题出在我每周给它加的那顿水煮鸡胸——高蛋白 + 突然加量。柯基这个体型特别容易中招。\n\n现在的规矩：低脂粮，零食只在训练时给，绝不加餐。它现在恢复得挺好，但那一周的住院费够我买半年狗粮了。",
@@ -1012,7 +1012,7 @@ export const posts: Post[] = [
     authorName: "阿梨",
     petName: "雪团",
     images: ["/img/rabbit-1.jpg"],
-    tint: "#FFE9A8",
+    tint: "#fdffb6",
     content:
       "兔子不拉屎超过 12 小时，请立刻去医院，不要等。\n\n兔子的肠胃是停不得的，一旦停止蠕动（胃肠停滞），24 小时内就可能没救。表现是不吃不喝、缩在角落、便便变小或完全没有。\n\n我那次是凌晨发现的，送去急诊打了促胃肠动力针 + 皮下补液，第二天才拉出第一颗。\n\n预防比治疗重要：无限量提摩西草、每天换水、少喂水果。别信「兔子只吃胡萝卜」这种话。",
     likes: 356,
@@ -1024,7 +1024,7 @@ export const posts: Post[] = [
     topic: "care",
     authorName: "小林",
     petName: "大福",
-    tint: "#BBD3FF",
+    tint: "#caffbf",
     images: ["/img/reptile-1.jpg"],
     content:
       "养鬃狮蜥一年，踩过的 5 个坑。\n\n1. 只喂面包虫 —— 脂肪太高，会脂肪肝。主食应该是杜比亚或蟋蟀，虫子要裹钙粉。\n2. 不装 UVB 灯 —— 缺 D3 就不吸收钙，会软骨、站不起来。这个最致命。\n3. 用沙子垫材 —— 幼体误食会肠梗阻，用厨房纸最安全。\n4. 冬天不加温 —— 温度低于 30℃ 就不消化，食物会在胃里烂掉。\n5. 天天上手 —— 它是观赏动物，不是猫，逼着玩只会应激。\n\n现在大福三岁，体检一切正常。爬宠不是「放那儿不管」，是「环境对了它就没事」。",
@@ -1037,7 +1037,7 @@ export const posts: Post[] = [
     topic: "care",
     authorName: "小满",
     petName: "煤球",
-    tint: "#FFD866",
+    tint: "#9bf6ff",
     images: ["/img/exotic-1.jpg"],
     content:
       "很多人不知道：蜜袋鼯不能单独养。\n\n它们是高度社会化的动物，野外都是成群活动的。单独一只会自残——咬自己的尾巴、拔毛、甚至绝食。这不是「心情不好」，是抑郁。\n\n要么养两只以上，要么每天至少花两小时陪它。而且它们晚上活跃，白天基本在睡，和上班族的作息是反的。\n\n所以每次有人问「蜜袋鼯可爱吗好不好养」，我都会先说这三件事：要一对、要夜陪、能活 12 年。",
@@ -1050,7 +1050,7 @@ export const posts: Post[] = [
     topic: "adopt",
     authorName: "老K",
     petName: "桃桃",
-    tint: "#FFDF7A",
+    tint: "#ffadad",
     images: ["/img/bird-2.jpg"],
     content:
       "桃桃是去年在领养日遇到的。前主人搬家，把它连笼子一起放在了小区门口。\n\n刚来的时候它一句话不说，见到手就咬。我用了三个月，每天在笼子边上坐着看手机，让它习惯我的存在。\n\n现在它会吹《小星星》，会在我回家的时候叫两声。\n\n领养不是捡便宜，是接手别人不要的责任。想清楚再养。",
@@ -1063,7 +1063,7 @@ export const posts: Post[] = [
     topic: "daily",
     authorName: "阿豆",
     petName: "刺球",
-    tint: "#D6E4FF",
+    tint: "#b8e0d2",
     images: ["/img/exotic-2.jpg"],
     content:
       "很多人以为刺猬摸起来扎手，其实它的刺是可以放下来的。\n\n刚到家那两周它一碰就炸成一个球，我只能在旁边放件旧 T 恤让它熟悉气味。现在熟了，它会先把刺放平，再把肚子翻给我。\n\n不过还是得戴手套摸——它偶尔会突然想起来自己是只刺猬。",

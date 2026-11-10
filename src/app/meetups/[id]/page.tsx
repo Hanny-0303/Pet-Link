@@ -112,7 +112,7 @@ export default function MeetupDetailPage() {
       <div className="-mt-4 rounded-t-hero bg-canvas px-5 pt-5">
         {/* 主办方 */}
         <div className="flex items-center gap-2.5">
-          <Avatar name={meetup.hostName} tint={meetup.type === "brand" ? "#BBD3FF" : "#FFE28A"} size={38} />
+          <Avatar name={meetup.hostName} tint={meetup.type === "brand" ? "#caffbf" : "#ffd6a5"} size={38} />
           <div className="min-w-0 flex-1">
             <div className="flex items-center gap-1">
               <p className="text-body-lg font-semibold">{meetup.hostName}</p>
@@ -183,14 +183,14 @@ export default function MeetupDetailPage() {
           </div>
           <div className="mt-2.5 flex flex-wrap gap-x-4 gap-y-3 rounded-card bg-surface p-4 shadow-card">
             {isJoined && (
-              <Person name="我" petName={me?.name ?? "我的狗"} tint="#CFE0FF" highlight />
+              <Person name="我" petName={me?.name ?? "我的狗"} tint="#ffb4a2" highlight />
             )}
             {meetup.participants.map((p, i) => (
               <Person
                 key={`${p.name}-${i}`}
                 name={p.name}
                 petName={p.petName}
-                tint={["#FFE28A", "#BBD3FF", "#FFD866", "#C9DCFF", "#FFDF7A", "#D6E4FF"][i % 6]}
+                tint={["#ffd6a5", "#caffbf", "#9bf6ff", "#bdb2ff", "#ffadad", "#b8e0d2"][i % 6]}
               />
             ))}
             {Array.from({ length: Math.max(0, meetup.capacity - people) }).slice(0, 3).map((_, i) => (

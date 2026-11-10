@@ -186,7 +186,7 @@ export default function PetDetailPage() {
 
         {/* 主人 */}
         <div className="mt-5 flex items-center gap-2.5 rounded-card bg-surface p-3.5 shadow-card">
-          <Avatar name={pet.ownerName} tint="#FFE28A" size={38} />
+          <Avatar name={pet.ownerName} tint="#ffd6a5" size={38} />
           <div className="flex-1">
             <p className="text-body font-semibold">{pet.ownerName}</p>
             <p className="text-cap text-ink-mute">同城 · 已实名认证</p>

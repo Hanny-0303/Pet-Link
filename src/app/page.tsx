@@ -69,12 +69,29 @@ export default function HomePage() {
     [species, location, filters, recommendations]
   );
 
-  // 网格模式：两列各自独立排（左列 1,3,5…，右列 2,4,6…）
-  // 用 CSS columns 会变成"左列填满再填右列"，滚动顺序是 1,22,2,23…
+  // 网格模式：两列各自独立排列，谁矮往谁那放
+  // （用 CSS columns 会变成"左列填满再填右列"，滚动顺序会串）
   const gridColumns = useMemo(() => {
     const left: typeof list = [];
     const right: typeof list = [];
-    list.forEach((p, i) => (i % 2 === 0 ? left : right).push(p));
+    let leftH = 0;
+    let rightH = 0;
+
+    for (const p of list) {
+      // 估算这一张的高度：图片 125（4:5）+ 信息区
+      // 品种/年龄文字长的时候会多一行，按长度粗略补偿
+      const metaLen = p.breed.length + p.ageText.length + 6;
+      const infoH = metaLen > 16 ? 96 : 80;
+      const h = 125 + infoH;
+
+      if (leftH <= rightH) {
+        left.push(p);
+        leftH += h;
+      } else {
+        right.push(p);
+        rightH += h;
+      }
+    }
     return [left, right];
   }, [list]);
 
@@ -450,7 +467,7 @@ function PetTile({
       className="stagger tap block cursor-pointer overflow-hidden rounded-card bg-surface shadow-card"
       style={{ animationDelay: `${delay}ms` }}
     >
-      <div className="relative w-full" style={{ paddingBottom: "118%" }}>
+      <div className="relative w-full" style={{ paddingBottom: "125%" }}  /* 4:5，和宠物主页统一 */>
         <img
           src={pet.photos[0]}
           alt={pet.name}

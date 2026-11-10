@@ -148,8 +148,11 @@ html {
   scroll-behavior: smooth;
 }
 
-/* 44×44 虚拟热区：图标可以画得小，但手指够得着 */
-.hit {
+/* 44×44 虚拟热区：图标可以画得小，但手指够得着。
+   注意：不能无条件写 position: relative——那会覆盖 Tailwind 的
+   absolute，把悬浮按钮顶回文档流里（返回按钮就是这么消失的）。
+   只对没有定位的元素补 relative。 */
+.hit:not(.absolute):not(.fixed):not(.sticky):not(.relative) {
   position: relative;
 }
 .hit::after {

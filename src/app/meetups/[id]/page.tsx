@@ -87,7 +87,7 @@ export default function MeetupDetailPage() {
           </button>
         </div>
 
-        <div className="absolute inset-x-0 bottom-0 p-5">
+        <div className="absolute inset-x-0 bottom-0 p-4">
           <div className="mb-2 flex items-center gap-1.5">
             {meetup.type === "brand" ? (
               <span className="flex items-center gap-1 rounded-full bg-surface-2/95 px-2 py-[3px] text-micro font-semibold">

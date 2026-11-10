@@ -32,7 +32,7 @@ export default function MyPetsPage() {
           <Link
             key={p.id}
             href={`/pets/${p.id}`}
-            className="flex items-center gap-3 rounded-block bg-surface p-3 shadow-card"
+            className="flex items-center gap-3 rounded-block bg-surface p-4 shadow-card"
           >
             <img
               src={p.photos[0]}

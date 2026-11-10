@@ -106,7 +106,7 @@ export default function MeetupsPage() {
       </div>
       </div>
 
-      <div className="mt-4 space-y-3.5 px-5">
+      <div className="mt-4 space-y-3 px-5">
         {list.map((m) => {
           const isJoined = joined.includes(m.id);
           const people = m.participants.length + (isJoined ? 1 : 0);

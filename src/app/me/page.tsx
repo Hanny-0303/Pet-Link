@@ -86,7 +86,7 @@ export default function MePage() {
             </div>
             <Link
               href={`/pets/${myPet.id}`}
-              className="mt-2 flex items-center gap-3 rounded-block bg-surface p-3 shadow-card"
+              className="mt-2 flex items-center gap-3 rounded-block bg-surface p-4 shadow-card"
             >
               <img
                 src={myPet.photos[0]}
@@ -130,7 +130,7 @@ export default function MePage() {
               <PawPrint size={13} /> 还没报名，去找一个局 →
             </Link>
           ) : (
-            <div className="mt-2 space-y-2">
+            <div className="mt-2 space-y-3">
               {myMeetups.map((m) => (
                 <Link
                   key={m.id}

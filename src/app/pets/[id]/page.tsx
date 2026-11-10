@@ -83,7 +83,7 @@ export default function PetDetailPage() {
           <span className="text-note font-semibold">{likes}</span>
         </button>
 
-        <div className="absolute inset-x-0 bottom-0 p-5">
+        <div className="absolute inset-x-0 bottom-0 p-4">
           <div className="flex items-end gap-2">
             <h1 className="text-page font-bold text-white">{pet.name}</h1>
             <span className="pb-1 text-lead text-white/70">
@@ -214,7 +214,7 @@ export default function PetDetailPage() {
         {related.length > 0 && (
           <div className="mt-5">
             <h2 className="text-body-lg font-semibold">常出没的局</h2>
-            <div className="mt-2 space-y-2">
+            <div className="mt-2 space-y-3">
               {related.map((m) => (
                 <Link
                   key={m.id}
@@ -239,12 +239,12 @@ export default function PetDetailPage() {
         {relatedPosts.length > 0 && (
           <div className="mt-5">
             <h2 className="text-body-lg font-semibold">主人的动态</h2>
-            <div className="mt-2 space-y-2">
+            <div className="mt-2 space-y-3">
               {relatedPosts.map((p) => (
                 <Link
                   key={p.id}
                   href={`/feed/${p.id}`}
-                  className="block rounded-card bg-surface p-3 shadow-card active:opacity-90"
+                  className="block rounded-card bg-surface p-4 shadow-card active:opacity-90"
                 >
                   <p className="line-clamp-2 text-note leading-relaxed text-ink-soft">
                     {p.content}

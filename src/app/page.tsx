@@ -225,7 +225,7 @@ export default function HomePage() {
             ))}
           </div>
         ) : (
-          <div className="no-scrollbar min-h-0 flex-1 overflow-y-auto px-3 pb-4">
+          <div className="no-scrollbar min-h-0 flex-1 overflow-y-auto px-5 pb-4">
           <div className="flex gap-2">
             {gridColumns.map((col, ci) => (
               <div key={ci} className="flex min-w-0 flex-1 flex-col gap-2">
@@ -301,7 +301,7 @@ function PetSlide({
   }
 
   return (
-    <article className="h-full w-full snap-start px-4 pb-2">
+    <article className="h-full w-full snap-start px-5 pb-2">
       <div className="relative h-full overflow-hidden rounded-hero bg-line">
         {/* 横向图集 */}
         <div
@@ -374,7 +374,7 @@ function PetSlide({
         )}
 
         {/* 底部信息 */}
-        <div className="absolute inset-x-0 bottom-0 p-5">
+        <div className="absolute inset-x-0 bottom-0 p-4">
           <Link href={`/pets/${pet.id}`} className="block">
             <div className="flex items-center gap-1.5">
               <h2 className="text-page font-bold text-white">{pet.name}</h2>

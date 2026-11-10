@@ -9,6 +9,7 @@ import {
   PawPrint,
   Settings,
   ShieldCheck,
+  Info,
 } from "lucide-react";
 import { meetups as seedMeetups, pets } from "@/lib/data";
 import { fmtMeetupShort } from "@/lib/date";
@@ -173,6 +174,16 @@ export default function MePage() {
               icon={<ShieldCheck size={15} />}
               label="疫苗与健康记录"
               hint="已完善"
+            />
+          </div>
+
+          {/* 作品集入口：让人知道这是谁做的、怎么做的 */}
+          <div className="mt-3 overflow-hidden rounded-card bg-surface shadow-card">
+            <MenuRow
+              href="/about"
+              icon={<Info size={15} />}
+              label="关于这个项目"
+              hint="演示数据说明 · 怎么做的"
             />
           </div>
           <p className="mt-4 pb-2 text-center text-micro text-ink-mute">

@@ -279,25 +279,14 @@ function PetSlide({
   onLike: () => void;
 }) {
   const [idx, setIdx] = useState(0);
-  const [burst, setBurst] = useState(false);
   const router = useRouter();
   const tap = useRef({ x: 0, y: 0 });
-  const clickTimer = useRef<number | null>(null);
 
-  // 单击进主页，双击点赞（等 280ms 判断是不是第二下）
+  // 单击立刻进主页。原来的"双击点赞"要等 280ms 判断第二下，
+  // 代价是每一次点击都慢半拍——隐藏手势不值得这个延迟，
+  // 改成卡片上放一个看得见的爱心按钮。
   function onTap() {
-    if (clickTimer.current !== null) {
-      window.clearTimeout(clickTimer.current);
-      clickTimer.current = null;
-      if (!liked) onLike();
-      setBurst(true);
-      window.setTimeout(() => setBurst(false), 700);
-      return;
-    }
-    clickTimer.current = window.setTimeout(() => {
-      clickTimer.current = null;
-      router.push(`/pets/${pet.id}`);
-    }, 280);
+    router.push(`/pets/${pet.id}`);
   }
 
   return (
@@ -334,16 +323,6 @@ function PetSlide({
         </div>
 
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/85 via-black/15 to-black/10" />
-
-        {burst && (
-          <div className="pointer-events-none absolute inset-0 grid place-items-center">
-            <Heart
-              size={110}
-              strokeWidth={0}
-              className="fill-white/90 text-white/90 [animation:pop_0.7s_ease-out]"
-            />
-          </div>
-        )}
 
         {/* 顶部：距离 / 推荐 / 图集指示点 */}
         {showDistance && (
@@ -407,6 +386,21 @@ function PetSlide({
           </Link>
 
           <button
+            onClick={onLike}
+            aria-label={liked ? "取消喜欢" : "喜欢"}
+            className="absolute right-[76px] bottom-[22px] flex h-9 items-center gap-1.5 rounded-full bg-black/35 px-3 backdrop-blur-sm active:scale-95"
+          >
+            <Heart
+              size={15}
+              strokeWidth={2.4}
+              className={liked ? "heart-pop fill-brand text-brand" : "text-white"}
+            />
+            <span className={`text-cap font-semibold ${liked ? "text-brand" : "text-white"}`}>
+              {likes}
+            </span>
+          </button>
+
+          <button
             onClick={onGreet}
             aria-label="打招呼"
             className={`absolute right-5 bottom-5 grid h-12 w-12 place-items-center rounded-full shadow-lg transition active:scale-90 ${
@@ -443,22 +437,9 @@ function PetTile({
   delay?: number;
 }) {
   const router = useRouter();
-  const timer = useRef<number | null>(null);
-  const [burst, setBurst] = useState(false);
 
   function onTap() {
-    if (timer.current !== null) {
-      window.clearTimeout(timer.current);
-      timer.current = null;
-      if (!liked) onLike();
-      setBurst(true);
-      window.setTimeout(() => setBurst(false), 700);
-      return;
-    }
-    timer.current = window.setTimeout(() => {
-      timer.current = null;
-      router.push(`/pets/${pet.id}`);
-    }, 280);
+    router.push(`/pets/${pet.id}`);
   }
 
   return (
@@ -473,15 +454,6 @@ function PetTile({
           alt={pet.name}
           className="absolute inset-0 h-full w-full object-cover"
         />
-        {burst && (
-          <div className="pointer-events-none absolute inset-0 grid place-items-center">
-            <Heart
-              size={64}
-              strokeWidth={0}
-              className="fill-white/90 text-white/90 [animation:pop_0.7s_ease-out]"
-            />
-          </div>
-        )}
         {reason && (
           <span className="absolute top-2 left-2 flex items-center gap-0.5 rounded-full bg-brand px-1.5 py-[3px] text-micro font-semibold text-white shadow">
             <Sparkles size={8} strokeWidth={3} /> 推荐
@@ -504,14 +476,23 @@ function PetTile({
           {pet.breed} · {pet.ageText} · {SIZE_LABEL[pet.size]}
         </p>
         <div className="mt-1.5 flex items-center gap-1">
-          <Heart
-            size={9}
-            strokeWidth={2.6}
-            className={
-              liked ? "heart-pop fill-brand text-accent" : "text-ink-mute"
-            }
-          />
-          <span className="text-micro text-ink-mute">{likes}</span>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onLike();
+            }}
+            aria-label={liked ? "取消喜欢" : "喜欢"}
+            className="flex items-center gap-1 active:scale-90"
+          >
+            <Heart
+              size={11}
+              strokeWidth={2.6}
+              className={liked ? "heart-pop fill-brand text-accent" : "text-ink-mute"}
+            />
+            <span className={`text-micro ${liked ? "text-accent" : "text-ink-mute"}`}>
+              {likes}
+            </span>
+          </button>
           {pet.personality.slice(0, 1).map((t) => (
             <span
               key={t}

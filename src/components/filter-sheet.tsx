@@ -195,6 +195,135 @@ export default function FilterSheet({
             </span>
           </button>
 
+          <Section title="距离">
+            {DISTANCE_OPTIONS.map((o) =>
+              // 「不限」是默认值，和其他分组保持一致：白底灰字 + 勾
+              o.value === null ? (
+                <button
+                  key={o.label}
+                  onClick={() => setDraft({ ...draft, maxKm: null })}
+                  className={`tap flex items-center gap-1 rounded-full px-3 py-[7px] text-note font-medium ${
+                    draft.maxKm === null
+                      ? "border border-line bg-surface text-ink-mute"
+                      : "border border-transparent bg-surface/60 text-ink-mute"
+                  }`}
+                >
+                  {draft.maxKm === null && (
+                    <Check size={11} strokeWidth={3} className="text-ink-mute" />
+                  )}
+                  {o.label}
+                </button>
+              ) : (
+                <Chip
+                  key={o.label}
+                  on={draft.maxKm === o.value}
+                  onClick={() => setDraft({ ...draft, maxKm: o.value })}
+                >
+                  {o.label}
+                </Chip>
+              )
+            )}
+          </Section>
+          <Section title="体型">
+            {(["small", "medium", "large"] as const).map((s) => (
+              <Chip
+                key={s}
+                on={draft.sizes.includes(s)}
+                onClick={() => setDraft({ ...draft, sizes: toggleIn(draft.sizes, s) })}
+              >
+                {SIZE_LABEL[s]}
+              </Chip>
+            ))}
+          </Section>
+          <Section title="年龄">
+            {(["baby", "adult", "senior"] as const).map((a) => (
+              <Chip
+                key={a}
+                on={draft.ages.includes(a)}
+                onClick={() => setDraft({ ...draft, ages: toggleIn(draft.ages, a) })}
+              >
+                {AGE_LABEL[a]}
+              </Chip>
+            ))}
+          </Section>
+          <Section title="对人" hint="二选一">
+            <SingleChips
+              options={[
+                { v: "all", label: "不限" },
+                { v: "friendly", label: SOCIAL_LABEL.friendly },
+                { v: "reserved", label: SOCIAL_LABEL.reserved },
+              ]}
+              value={draft.social}
+              onChange={(v) => setDraft({ ...draft, social: v as Sociability | "all" })}
+            />
+          </Section>
+          <Section title="对同类" hint="一起玩最关键的一项">
+            <SingleChips
+              options={[
+                { v: "all", label: "不限" },
+                { v: "social", label: PEER_LABEL.social },
+                { v: "guarded", label: PEER_LABEL.guarded },
+              ]}
+              value={draft.peer}
+              onChange={(v) => setDraft({ ...draft, peer: v as Peer | "all" })}
+            />
+          </Section>
+          <Section title="活力">
+            <SingleChips
+              options={[
+                { v: "all", label: "不限" },
+                { v: "active", label: ENERGY_LABEL.active },
+                { v: "calm", label: ENERGY_LABEL.calm },
+              ]}
+              value={draft.energy}
+              onChange={(v) => setDraft({ ...draft, energy: v as Energy | "all" })}
+            />
+          </Section>
+          <Section title="胆子">
+            <SingleChips
+              options={[
+                { v: "all", label: "不限" },
+                { v: "bold", label: BOLD_LABEL.bold },
+                { v: "timid", label: BOLD_LABEL.timid },
+              ]}
+              value={draft.bold}
+              onChange={(v) => setDraft({ ...draft, bold: v as Boldness | "all" })}
+            />
+          </Section>
+          <Section title="服从">
+            <SingleChips
+              options={[
+                { v: "all", label: "不限" },
+                { v: "trained", label: OBEY_LABEL.trained },
+                { v: "free", label: OBEY_LABEL.free },
+              ]}
+              value={draft.obey}
+              onChange={(v) => setDraft({ ...draft, obey: v as Obedience | "all" })}
+            />
+          </Section>
+          <Section title="性别">
+            <SingleChips
+              options={[
+                { v: "all", label: "不限" },
+                { v: "boy", label: "弟弟" },
+                { v: "girl", label: "妹妹" },
+              ]}
+              value={draft.gender}
+              onChange={(v) => setDraft({ ...draft, gender: v as Gender | "all" })}
+            />
+          </Section>
+          <Section title="绝育">
+            <SingleChips
+              options={[
+                { v: "all", label: "不限" },
+                { v: "yes", label: "已绝育" },
+                { v: "no", label: "未绝育" },
+              ]}
+              value={draft.neutered}
+              onChange={(v) => setDraft({ ...draft, neutered: v as "all" | "yes" | "no" })}
+            />
+          </Section>
+
           {/* 品种：先大类，再按首字母排的小类 */}
           <div className="mt-4">
             <div className="mb-2 flex items-baseline gap-1.5">
@@ -247,126 +376,6 @@ export default function FilterSheet({
               </div>
             ))}
           </div>
-
-          <Section title="体型">
-            {(["small", "medium", "large"] as const).map((s) => (
-              <Chip
-                key={s}
-                on={draft.sizes.includes(s)}
-                onClick={() => setDraft({ ...draft, sizes: toggleIn(draft.sizes, s) })}
-              >
-                {SIZE_LABEL[s]}
-              </Chip>
-            ))}
-          </Section>
-
-          <Section title="年龄">
-            {(["baby", "adult", "senior"] as const).map((a) => (
-              <Chip
-                key={a}
-                on={draft.ages.includes(a)}
-                onClick={() => setDraft({ ...draft, ages: toggleIn(draft.ages, a) })}
-              >
-                {AGE_LABEL[a]}
-              </Chip>
-            ))}
-          </Section>
-
-          <Section title="性别">
-            <SingleChips
-              options={[
-                { v: "all", label: "不限" },
-                { v: "boy", label: "弟弟" },
-                { v: "girl", label: "妹妹" },
-              ]}
-              value={draft.gender}
-              onChange={(v) => setDraft({ ...draft, gender: v as Gender | "all" })}
-            />
-          </Section>
-
-          <Section title="绝育">
-            <SingleChips
-              options={[
-                { v: "all", label: "不限" },
-                { v: "yes", label: "已绝育" },
-                { v: "no", label: "未绝育" },
-              ]}
-              value={draft.neutered}
-              onChange={(v) => setDraft({ ...draft, neutered: v as "all" | "yes" | "no" })}
-            />
-          </Section>
-
-          <Section title="对人" hint="二选一">
-            <SingleChips
-              options={[
-                { v: "all", label: "不限" },
-                { v: "friendly", label: SOCIAL_LABEL.friendly },
-                { v: "reserved", label: SOCIAL_LABEL.reserved },
-              ]}
-              value={draft.social}
-              onChange={(v) => setDraft({ ...draft, social: v as Sociability | "all" })}
-            />
-          </Section>
-
-          <Section title="对同类" hint="一起玩最关键的一项">
-            <SingleChips
-              options={[
-                { v: "all", label: "不限" },
-                { v: "social", label: PEER_LABEL.social },
-                { v: "guarded", label: PEER_LABEL.guarded },
-              ]}
-              value={draft.peer}
-              onChange={(v) => setDraft({ ...draft, peer: v as Peer | "all" })}
-            />
-          </Section>
-
-          <Section title="活力">
-            <SingleChips
-              options={[
-                { v: "all", label: "不限" },
-                { v: "active", label: ENERGY_LABEL.active },
-                { v: "calm", label: ENERGY_LABEL.calm },
-              ]}
-              value={draft.energy}
-              onChange={(v) => setDraft({ ...draft, energy: v as Energy | "all" })}
-            />
-          </Section>
-
-          <Section title="胆子">
-            <SingleChips
-              options={[
-                { v: "all", label: "不限" },
-                { v: "bold", label: BOLD_LABEL.bold },
-                { v: "timid", label: BOLD_LABEL.timid },
-              ]}
-              value={draft.bold}
-              onChange={(v) => setDraft({ ...draft, bold: v as Boldness | "all" })}
-            />
-          </Section>
-
-          <Section title="服从">
-            <SingleChips
-              options={[
-                { v: "all", label: "不限" },
-                { v: "trained", label: OBEY_LABEL.trained },
-                { v: "free", label: OBEY_LABEL.free },
-              ]}
-              value={draft.obey}
-              onChange={(v) => setDraft({ ...draft, obey: v as Obedience | "all" })}
-            />
-          </Section>
-
-          <Section title="距离">
-            {DISTANCE_OPTIONS.map((o) => (
-              <Chip
-                key={o.label}
-                on={draft.maxKm === o.value}
-                onClick={() => setDraft({ ...draft, maxKm: o.value })}
-              >
-                {o.label}
-              </Chip>
-            ))}
-          </Section>
 
           <Section title="其他特点" hint="可以多选">
             {TRAITS.map((t) => (

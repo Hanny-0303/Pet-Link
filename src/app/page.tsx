@@ -364,15 +364,9 @@ function PetSlide({
             <p className="mt-1 text-body text-white/85">
               {pet.breed} · {pet.ageText} · {SIZE_LABEL[pet.size]}
             </p>
-            <p className="mt-1 flex items-center gap-1 text-cap text-white/70">
-              <Heart
-                size={11}
-                strokeWidth={2.4}
-                className={liked ? "heart-pop fill-on-brand text-ink" : ""}
-              />
-              {likes} 人喜欢
-              {reason && <span className="text-white/45">· {reason}</span>}
-            </p>
+            {reason && (
+              <p className="mt-1 text-cap leading-snug text-white/55">{reason}</p>
+            )}
             <div className="mt-2.5 flex flex-wrap gap-1.5 pr-16">
               {pet.personality.slice(0, 3).map((t) => (
                 <span

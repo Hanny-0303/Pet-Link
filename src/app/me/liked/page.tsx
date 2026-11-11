@@ -6,6 +6,7 @@ import { pets } from "@/lib/data";
 import { SIZE_LABEL } from "@/lib/types";
 import { useAppStore } from "@/components/store";
 import SubPageHeader from "@/components/sub-header";
+import EmptyState from "@/components/empty-state";
 
 export default function GreetedPetsPage() {
   const { greeted } = useAppStore();
@@ -19,21 +20,18 @@ export default function GreetedPetsPage() {
       />
 
       {list.length === 0 ? (
-        <div className="mt-16 px-8 text-center">
-          <PawPrint size={26} strokeWidth={1.6} className="mx-auto text-ink-mute/70" />
-          <p className="mt-3 text-body-lg font-medium text-ink-soft">
-            你还没跟谁打过招呼
-          </p>
-          <p className="mt-1 text-note leading-relaxed text-ink-mute">
-            在首页刷到喜欢的小伙伴，点右下角那个爪印按钮
-          </p>
+        <EmptyState
+          icon={<PawPrint size={20} strokeWidth={1.8} />}
+          title="你还没跟谁打过招呼"
+          description="在首页刷到喜欢的小伙伴，点右下角那个爪印按钮"
+        >
           <Link
             href="/"
-            className="mt-5 inline-block rounded-full bg-brand px-5 py-2.5 text-body font-semibold text-white shadow-[0_6px_18px_rgba(255,166,43,0.32)]"
+            className="tap rounded-full bg-brand px-4 py-2 text-body font-semibold text-on-brand"
           >
-            去首页看看
+            去首页逛逛
           </Link>
-        </div>
+        </EmptyState>
       ) : (
         <div className="mt-2 px-5">
           {list.map((p) => (

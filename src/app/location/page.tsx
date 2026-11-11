@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Check, ChevronRight, MapPin, Search, X } from "lucide-react";
+import EmptyState from "@/components/empty-state";
 import { pets } from "@/lib/data";
 import {
   DIVISIONS,
@@ -96,9 +97,7 @@ export default function LocationPage() {
       {q ? (
         <div className="px-3">
           {results.length === 0 ? (
-            <p className="pt-12 text-center text-body text-ink-mute">
-              没有找到「{q}」
-            </p>
+            <EmptyState title={`没有找到「${q}」`} description="试试只输入前两个字" />
           ) : (
             results.map((e, i) => (
               <button

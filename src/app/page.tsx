@@ -26,6 +26,7 @@ import {
 } from "@/lib/types";
 import { useAppStore } from "@/components/store";
 import FilterSheet from "@/components/filter-sheet";
+import EmptyState from "@/components/empty-state";
 import { EMPTY_FILTERS, countActive, filterPets, type Filters } from "@/lib/filters";
 import { buildRecommendations, likeCount } from "@/lib/pet";
 import { locationLabel } from "@/lib/location";
@@ -48,6 +49,19 @@ export default function HomePage() {
   const [filters, setFilters] = useState<Filters>(EMPTY_FILTERS);
   const [filterOpen, setFilterOpen] = useState(false);
   const [mode, setMode] = useState<ViewMode>("swipe");
+
+  // 首页用的是内层滚动容器，浏览器的滚动恢复管不到，自己记一下
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    const saved = sessionStorage.getItem(`homeScroll:${mode}`);
+    if (el && saved) requestAnimationFrame(() => { el.scrollTop = Number(saved); });
+  }, [mode]);
+
+  function saveScroll(e: React.UIEvent<HTMLDivElement>) {
+    sessionStorage.setItem(`homeScroll:${mode}`, String(e.currentTarget.scrollTop));
+  }
 
   // 首次进入提示一次"双击点赞"，不然没人会发现这个隐藏操作
   useEffect(() => {
@@ -181,35 +195,36 @@ export default function HomePage() {
 
         {/* 内容 */}
         {list.length === 0 ? (
-          <div className="flex flex-1 flex-col items-center justify-center px-8 text-center">
-            <PawPrint size={26} strokeWidth={1.6} className="text-ink-mute/70" />
-            <p className="mt-3 text-body-lg font-medium text-ink-soft">
-              {location ? "这里还没有小伙伴" : "这个条件下还没有小伙伴"}
-            </p>
-            <p className="mt-1 px-4 text-cap leading-relaxed text-ink-mute">
-              {location
-                ? "产品刚起步，先从有人的城市看起吧"
-                : "试试放宽筛选条件"}
-            </p>
-            <div className="mt-4 flex gap-2">
+          <div className="flex flex-1 items-center justify-center">
+            <EmptyState
+              icon={<PawPrint size={20} strokeWidth={1.8} />}
+              title={location ? "这里还没有小伙伴" : "这个条件下还没有小伙伴"}
+              description={
+                location ? "产品刚起步，先从有人的城市看起吧" : "试试放宽筛选条件"
+              }
+            >
               {location && (
                 <Link
                   href="/location"
-                  className="rounded-full bg-brand px-4 py-2 text-note font-medium text-white shadow-[0_4px_14px_rgba(255,166,43,0.32)]"
+                  className="tap rounded-full bg-brand px-4 py-2 text-note font-semibold text-on-brand"
                 >
                   换个地区
                 </Link>
               )}
               <button
                 onClick={() => setFilters(EMPTY_FILTERS)}
-                className="rounded-full bg-surface px-4 py-2 text-note font-medium text-ink-soft shadow-card"
+                className="tap rounded-full bg-surface px-4 py-2 text-note font-medium text-ink-soft shadow-card"
               >
                 清空筛选
               </button>
-            </div>
+            </EmptyState>
           </div>
         ) : mode === "swipe" ? (
-          <div className="no-scrollbar min-h-0 flex-1 snap-y snap-mandatory overflow-y-auto">
+          <div
+            ref={scrollRef}
+            onScroll={saveScroll}
+            className="no-scrollbar min-h-0 flex-1 snap-y snap-mandatory overflow-y-auto"
+          >
             {list.map((pet) => (
               <PetSlide
                 key={pet.id}
@@ -225,7 +240,11 @@ export default function HomePage() {
             ))}
           </div>
         ) : (
-          <div className="no-scrollbar min-h-0 flex-1 overflow-y-auto px-5 pb-4">
+          <div
+            ref={scrollRef}
+            onScroll={saveScroll}
+            className="no-scrollbar min-h-0 flex-1 overflow-y-auto px-5 pb-4"
+          >
           <div className="flex gap-2">
             {gridColumns.map((col, ci) => (
               <div key={ci} className="flex min-w-0 flex-1 flex-col gap-2">

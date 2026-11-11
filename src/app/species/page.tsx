@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Check, Search, X } from "lucide-react";
+import EmptyState from "@/components/empty-state";
 import { pets } from "@/lib/data";
 import {
   COMMON_SPECIES,
@@ -138,12 +139,10 @@ export default function SpeciesPage() {
         ))}
 
         {groups.length === 0 && (
-          <div className="pt-16 text-center">
-            <p className="text-body text-ink-soft">没有找到「{q}」这个分类</p>
-            <p className="mt-1 text-note text-ink-mute">
-              试试「鹦鹉」「爬宠」「兔子」
-            </p>
-          </div>
+          <EmptyState
+            title={`没有找到「${q}」`}
+            description="试试「鹦鹉」「爬宠」「兔子」"
+          />
         )}
 
         <p className="mt-8 px-2 text-center text-cap leading-relaxed text-ink-mute">

@@ -4,6 +4,7 @@ import { useMemo, useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, ChevronRight, MapPin, PawPrint, Search, X } from "lucide-react";
+import EmptyState from "@/components/empty-state";
 import { meetups, pets } from "@/lib/data";
 import { fmtMeetupShort } from "@/lib/date";
 import {
@@ -192,24 +193,21 @@ export default function SearchPage() {
 
       {/* 没结果 */}
       {q && total === 0 && (
-        <div className="px-5 pt-16 text-center">
-          <PawPrint size={26} strokeWidth={1.6} className="mx-auto text-ink-mute/70" />
-          <p className="mt-3 text-body-lg font-medium text-ink-soft">
-            没有找到「{query}」
-          </p>
-          <p className="mt-1 text-note text-ink-mute">换个词试试看</p>
-          <div className="mt-5 flex flex-wrap justify-center gap-2">
-            {HOT.slice(0, 4).map((t) => (
-              <button
-                key={t}
-                onClick={() => setQuery(t)}
-                className="rounded-full bg-surface px-3.5 py-[7px] text-note font-medium text-ink-soft shadow-soft"
-              >
-                {t}
-              </button>
-            ))}
-          </div>
-        </div>
+        <EmptyState
+          icon={<PawPrint size={20} strokeWidth={1.8} />}
+          title={`没有找到「${query}」`}
+          description="换个词试试，或者从这些开始"
+        >
+          {HOT.slice(0, 4).map((t) => (
+            <button
+              key={t}
+              onClick={() => setQuery(t)}
+              className="tap rounded-full bg-surface px-3.5 py-[7px] text-note font-medium text-ink-soft shadow-soft"
+            >
+              {t}
+            </button>
+          ))}
+        </EmptyState>
       )}
     </div>
   );

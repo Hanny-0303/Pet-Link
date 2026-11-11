@@ -7,6 +7,7 @@ import { meetups as seedMeetups } from "@/lib/data";
 import { fmtMeetup } from "@/lib/date";
 import { useAppStore } from "@/components/store";
 import PickerSheet from "@/components/picker-sheet";
+import EmptyState from "@/components/empty-state";
 import { Check } from "lucide-react";
 import { KIND_LABEL, type MeetupKind } from "@/lib/types";
 
@@ -180,12 +181,17 @@ export default function MeetupsPage() {
         })}
 
         {list.length === 0 && (
-          <div className="rounded-block border border-dashed border-line py-14 text-center">
-            <p className="text-body text-ink-mute">这一类暂时还没有局</p>
-            <Link href="/meetups/new" className="mt-2 inline-block text-body font-medium text-accent">
-              发起一个 →
+          <EmptyState
+            title="这一类暂时还没有局"
+            description="第一个发起的人，往往能聚起一片人"
+          >
+            <Link
+              href="/meetups/new"
+              className="tap rounded-full bg-brand px-4 py-2 text-body font-semibold text-on-brand"
+            >
+              发起一个局
             </Link>
-          </div>
+          </EmptyState>
         )}
       </div>
 

@@ -7,7 +7,7 @@ import { useAppStore } from "@/components/store";
 import { todayInSH } from "@/lib/date";
 import { KIND_LABEL, SIZE_LABEL, type MeetupKind, type Size } from "@/lib/types";
 
-const COVERS = ["/img/dog-6.jpg", "/img/dog-1.jpg", "/img/dog-16.jpg", "/img/dog-14.jpg"];
+const COVERS = ["/img/dog-6.webp", "/img/dog-1.webp", "/img/dog-16.webp", "/img/dog-14.webp"];
 
 export default function NewMeetupPage() {
   const router = useRouter();

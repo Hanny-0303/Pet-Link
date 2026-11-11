@@ -120,7 +120,7 @@ export default function MeetupsPage() {
               className="block select-none overflow-hidden rounded-block bg-surface shadow-card tap-soft"
             >
               <div className="relative aspect-[16/9] overflow-hidden bg-line">
-                <img
+                <img loading="lazy" decoding="async"
                   src={m.cover}
                   alt={m.title}
                   className="h-full w-full object-cover"

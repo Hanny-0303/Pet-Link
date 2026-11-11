@@ -55,7 +55,7 @@ export default function PetDetailPage() {
   return (
     <div className="rise pb-16">
       <div className="relative aspect-[4/5] overflow-hidden bg-line">
-        <img src={pet.photos[0]} alt={pet.name} className="h-full w-full object-cover" />
+        <img loading="lazy" decoding="async" src={pet.photos[0]} alt={pet.name} className="h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20" />
 
         <button
@@ -221,7 +221,7 @@ export default function PetDetailPage() {
                   href={`/meetups/${m.id}`}
                   className="flex items-center gap-3 rounded-card bg-surface p-2.5 shadow-card"
                 >
-                  <img src={m.cover} alt="" className="h-12 w-12 rounded-xl object-cover" />
+                  <img loading="lazy" decoding="async" src={m.cover} alt="" className="h-12 w-12 rounded-xl object-cover" />
                   <div className="min-w-0 flex-1">
                     <p className="line-clamp-1 text-body font-medium">{m.title}</p>
                     <p className="mt-0.5 text-cap text-accent">{fmtMeetupShort(m.startAt)}</p>

@@ -58,7 +58,7 @@ export default function PostDetailPage() {
             }`}
           >
             {post.images.map((src, i) => (
-              <img
+              <img loading="lazy" decoding="async"
                 key={i}
                 src={src}
                 alt=""

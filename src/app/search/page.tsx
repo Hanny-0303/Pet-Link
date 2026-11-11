@@ -129,7 +129,7 @@ export default function SearchPage() {
                   href={`/pets/${p.id}`}
                   className="flex items-center gap-3 px-5 py-2.5 active:bg-white/10"
                 >
-                  <img
+                  <img loading="lazy" decoding="async"
                     src={p.photos[0]}
                     alt={p.name}
                     className="h-14 w-14 shrink-0 rounded-card object-cover"
@@ -166,7 +166,7 @@ export default function SearchPage() {
                   href={`/meetups/${m.id}`}
                   className="flex items-center gap-3 px-5 py-2.5 active:bg-white/10"
                 >
-                  <img
+                  <img loading="lazy" decoding="async"
                     src={m.cover}
                     alt={m.title}
                     className="h-14 w-14 shrink-0 rounded-card object-cover"

@@ -88,7 +88,7 @@ export default function MePage() {
               href={`/pets/${myPet.id}`}
               className="mt-2 flex items-center gap-3 rounded-block bg-surface p-4 shadow-card"
             >
-              <img
+              <img loading="lazy" decoding="async"
                 src={myPet.photos[0]}
                 alt={myPet.name}
                 className="h-16 w-16 rounded-card object-cover"
@@ -137,7 +137,7 @@ export default function MePage() {
                   href={`/meetups/${m.id}`}
                   className="flex items-center gap-3 rounded-card bg-surface p-2.5 shadow-card"
                 >
-                  <img src={m.cover} alt="" className="h-12 w-12 rounded-xl object-cover" />
+                  <img loading="lazy" decoding="async" src={m.cover} alt="" className="h-12 w-12 rounded-xl object-cover" />
                   <div className="min-w-0 flex-1">
                     <p className="line-clamp-1 text-body font-medium">{m.title}</p>
                     <p className="mt-0.5 text-cap text-accent">

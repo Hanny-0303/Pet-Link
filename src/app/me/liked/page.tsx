@@ -42,7 +42,7 @@ export default function GreetedPetsPage() {
               href={`/pets/${p.id}`}
               className="flex items-center gap-3 border-b border-line/70 py-3 last:border-0"
             >
-              <img
+              <img loading="lazy" decoding="async"
                 src={p.photos[0]}
                 alt={p.name}
                 className="h-14 w-14 shrink-0 rounded-card object-cover"

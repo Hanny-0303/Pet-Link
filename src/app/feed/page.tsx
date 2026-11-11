@@ -95,7 +95,7 @@ export default function FeedPage() {
                 }`}
               >
                 {post.images.map((src, i) => (
-                  <img
+                  <img loading="lazy" decoding="async"
                     key={i}
                     src={src}
                     alt=""

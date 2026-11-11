@@ -312,7 +312,7 @@ function PetSlide({
         >
           {pet.photos.map((src, i) => (
             <div key={i} className="h-full w-full shrink-0 snap-center">
-              <img
+              <img loading="lazy" decoding="async"
                 src={src}
                 alt={`${pet.name} 照片 ${i + 1}`}
                 className="h-full w-full object-cover"
@@ -443,7 +443,7 @@ function PetTile({
       style={{ animationDelay: `${delay}ms` }}
     >
       <div className="relative w-full" style={{ paddingBottom: "125%" }}  /* 4:5，和宠物主页统一 */>
-        <img
+        <img loading="lazy" decoding="async"
           src={pet.photos[0]}
           alt={pet.name}
           className="absolute inset-0 h-full w-full object-cover"

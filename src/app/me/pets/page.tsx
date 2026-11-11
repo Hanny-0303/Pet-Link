@@ -34,7 +34,7 @@ export default function MyPetsPage() {
             href={`/pets/${p.id}`}
             className="flex items-center gap-3 rounded-block bg-surface p-4 shadow-card"
           >
-            <img
+            <img loading="lazy" decoding="async"
               src={p.photos[0]}
               alt={p.name}
               className="h-20 w-20 shrink-0 rounded-card object-cover"

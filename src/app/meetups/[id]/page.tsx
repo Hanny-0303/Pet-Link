@@ -67,7 +67,7 @@ export default function MeetupDetailPage() {
     <div className="rise pb-44">
       {/* 封面 */}
       <div className="relative aspect-[4/3] overflow-hidden bg-line">
-        <img src={meetup.cover} alt={meetup.title} className="h-full w-full object-cover" />
+        <img loading="lazy" decoding="async" src={meetup.cover} alt={meetup.title} className="h-full w-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/25" />
 
         <div className="absolute inset-x-0 top-0 flex items-center justify-between p-4 pt-5">
